@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/discord-login', loginRouter);
+app.use('/login', loginRouter);
 
 app.use('*', express.static(frontEnd));
 
@@ -47,4 +47,4 @@ app.use(function(err, req, res, next) {
 var http = require('http');
 module.exports = app;
 var server = http.createServer(app);
-server.listen(4000);
+server.listen(9090);

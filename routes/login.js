@@ -15,11 +15,11 @@ const User = sequelize.import('../models/User');
 
 const CLIENT_ID = "379731370735566849";
 const CLIENT_SECRET = "OZooKYkRhbFahfetM5Qi6gUA08xQU3sS";
-const redirect = encodeURIComponent('http://127.0.0.1:4000/discord-login/callback');
+const redirect = encodeURIComponent('http://159.89.36.167/:9090/login/callback');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=379731370735566849&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds%20email`);
+    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds%20email`);
 });
 
 router.get('/callback', async function(req, res, next) {
@@ -46,6 +46,7 @@ router.get('/callback', async function(req, res, next) {
     discord_id: `${user.id}`,
     email: `${user.email}`,
   });
+  res.redirect(`/dash`);
 });
 
 
