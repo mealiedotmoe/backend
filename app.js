@@ -42,7 +42,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-var http = require('http');
 module.exports = app;
-var server = http.createServer(app);
-server.listen(9090);
+

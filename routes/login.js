@@ -15,7 +15,7 @@ const User = sequelize.import('../models/User');
 
 const CLIENT_ID = "379731370735566849";
 const CLIENT_SECRET = "OZooKYkRhbFahfetM5Qi6gUA08xQU3sS";
-const redirect = encodeURIComponent('http://www.animeirl.xyz:9090/api/discord/login/callback');
+const redirect = encodeURIComponent('https://www.animeirl.xyz:9090/api/discord/login/callback');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -34,7 +34,7 @@ router.get('/callback', async function(req, res, next) {
       },
     });
   const json = await response.json();
-  const temp_user = await fetch('http://discordapp.com/api/users/@me', 
+  const temp_user = await fetch('https://discordapp.com/api/users/@me', 
     {
       method: 'GET',
       headers: {
@@ -44,6 +44,7 @@ router.get('/callback', async function(req, res, next) {
       console.error(`Unable to get user: ${err}`);
     });
   var discord_user = temp_user.json();
+  console.log(discord_user);
   var user = await User.upsert({
     username: `${discord_user.username}`,
     discord_id: `${discord_user.id}`,
@@ -59,8 +60,8 @@ router.get('/callback', async function(req, res, next) {
     "isAdmin": `${user.is_admin}`,
   };
   var token = jwt.sign(claims, 'tokengoeshere');
-  res.cookie('user', token, {httpOnly: true});
-  res.redirect('http://animeirl.xyz/dash');
+  res.cookie('user', token, {secure: true});
+  res.redirect('https://animeirl.xyz/dash');
 });
 
 
