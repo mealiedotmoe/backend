@@ -13,10 +13,9 @@ const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
 });
 const User = sequelize.import('../models/User');
 
-
 const CLIENT_ID = "379731370735566849";
 const CLIENT_SECRET = "OZooKYkRhbFahfetM5Qi6gUA08xQU3sS";
-const redirect = encodeURIComponent('http://159.89.36.167/:9090/login/callback');
+const redirect = encodeURIComponent('http://www.animeirl.xyz:9090/login/callback');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -42,7 +41,7 @@ router.get('/callback', async function(req, res, next) {
         Authorization: `Bearer ${json.access_token}`
       }
     }).json;
-  user = User.upsert({
+  user = await User.upsert({
     username: `${discord_user.username}`,
     discord_id: `${discord_user.id}`,
     discord_token: `${discord_user.access_token}`,
@@ -55,8 +54,8 @@ router.get('/callback', async function(req, res, next) {
     "isAdmin": `${user.is_admin}`,
   };
   var token = jwt.sign(claims, 'tokengoeshere');
-  res.cookie('user', 'token', {httpOnly: true});
-  res.redirect('/dash');
+  res.cookie('user', token, {httpOnly: true});
+  res.redirect('https://animeirl.xyz/callback/');
 });
 
 
