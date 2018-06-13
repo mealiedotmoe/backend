@@ -34,13 +34,16 @@ router.get('/callback', async function(req, res, next) {
       },
     });
   const json = await response.json();
-  const discord_user = await fetch('http://discordapp.com/api/users/@me', 
+  const temp_user = await fetch('http://discordapp.com/api/users/@me', 
     {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${json.access_token}`
       }
-    }).json;
+    }).catch(err => {
+      console.error(`Unable to get user: ${err}`);
+    });
+  var discord_user = temp_user.json();
   var user = await User.upsert({
     username: `${discord_user.username}`,
     discord_id: `${discord_user.id}`,
