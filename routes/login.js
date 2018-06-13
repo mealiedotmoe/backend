@@ -60,7 +60,7 @@ router.get('/callback', async function(req, res, next) {
   };
   var token = jwt.sign(claims, 'tokengoeshere');
   res.cookie('user', token, {httpOnly: true});
-  res.redirect('https://animeirl.xyz/callback/');
+  res.redirect('https://animeirl.xyz/dash');
 });
 
 
