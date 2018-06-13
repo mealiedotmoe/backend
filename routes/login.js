@@ -41,7 +41,7 @@ router.get('/callback', async function(req, res, next) {
         Authorization: `Bearer ${json.access_token}`
       }
     }).json;
-  user = await User.upsert({
+  var user = await User.upsert({
     username: `${discord_user.username}`,
     discord_id: `${discord_user.id}`,
     discord_token: `${discord_user.access_token}`,
