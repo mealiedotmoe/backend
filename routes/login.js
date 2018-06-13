@@ -46,6 +46,8 @@ router.get('/callback', async function(req, res, next) {
     discord_id: `${discord_user.id}`,
     discord_token: `${discord_user.access_token}`,
     email: `${discord_user.email}`,
+  }).catch(err => {
+    console.error(`Unable to store user: ${err}`);
   });
   var claims = {
     "sub": `${user.id}`,
