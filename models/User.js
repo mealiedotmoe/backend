@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user', {
       type: DataTypes.STRING,
       primaryKey: true,
     },
+    discord_token:{
+      type: DataTypes.STRING,
+    },
     email: {
       type: DataTypes.STRING,
     },

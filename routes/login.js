@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var jwt = require('jsonwebtoken');
 const btoa = require('btoa');
 const fetch = require('node-fetch');
 
@@ -34,19 +35,28 @@ router.get('/callback', async function(req, res, next) {
       },
     });
   const json = await response.json();
-  const user = await fetch('http://discordapp.com/api/users/@me', 
+  const discord_user = await fetch('http://discordapp.com/api/users/@me', 
     {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${json.access_token}`
       }
     }).json;
-  User.create({
-    username: `${user.username}`,
-    discord_id: `${user.id}`,
-    email: `${user.email}`,
+  user = User.upsert({
+    username: `${discord_user.username}`,
+    discord_id: `${discord_user.id}`,
+    discord_token: `${discord_user.access_token}`,
+    email: `${discord_user.email}`,
   });
-  res.redirect(`/dash`);
+  var claims = {
+    "sub": `${user.id}`,
+    "exp": Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+    "username": `${user.username}`,
+    "isAdmin": `${user.is_admin}`,
+  };
+  var token = jwt.sign(claims, 'tokengoeshere');
+  res.cookie('user', 'token', {httpOnly: true});
+  res.redirect('/dash');
 });
 
 
