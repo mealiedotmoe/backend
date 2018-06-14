@@ -52,9 +52,9 @@ router.get('/callback', async function(req, res, next) {
   }).catch(err => {
     console.error(`Unable to store user: ${err}`);
   });
-  user = await db_user.user.dataValues;
+  user = await db_user.dataValues;
   var claims = {
-    "sub": `${user.id}`,
+    "sub": `${user.discord_id}`,
     "exp": Math.floor(Date.now() / 1000) + (60 * 60 * 24),
     "username": `${user.username}`,
     "isAdmin": `${user.is_admin}`,
