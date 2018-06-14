@@ -19,8 +19,8 @@ app.set('port', port);
  * Get Private Key and Certificate for SSL
  */
 const fs = require('fs')
-var privateKey = fs.readFileSync( '/etc/letsencrypt/live/www.animeirl.xyz/privkey.pem');
-var certificate = fs.readFileSync('/etc/letsencrypt/live/www.animeirl.xyz/fullchain.pem');
+var privateKey = fs.readFileSync( 'privkey.pem');
+var certificate = fs.readFileSync('fullchain.pem');
 
 /**
  * Create HTTP server.
