@@ -20,8 +20,8 @@ app.set('port', port);
  */
 
 const fs = require('fs')
-var privateKey = fs.readFileSync( './bin/privkey.pem');
-var certificate = fs.readFileSync('./bin/fullchain.pem');
+var privateKey = fs.readFileSync( '/etc/letsencrypt/live/www.animeirl.xyz/privkey.pem');
+var certificate = fs.readFileSync('/etc/letsencrypt/live/www.animeirl.xyz/fullchain.pem');
 
 /**
  * Create HTTP server.
