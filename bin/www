@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('mealie-backend:server');
 var https = require('https');
+var fs = require('fs');
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +20,7 @@ app.set('port', port);
  * Get Private Key and Certificate for SSL
  */
 
-const fs = require('fs')
+
 var privateKey = fs.readFileSync( '/etc/letsencrypt/live/www.animeirl.xyz/privkey.pem');
 var certificate = fs.readFileSync('/etc/letsencrypt/live/www.animeirl.xyz/fullchain.pem');
 
