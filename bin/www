@@ -6,7 +6,7 @@
 
 var app = require('../app');
 var debug = require('debug')('mealie-backend:server');
-var http = require('http');
+var https = require('https');
 
 /**
  * Get port from environment and store in Express.
@@ -27,7 +27,7 @@ var certificate = fs.readFileSync('/etc/letsencrypt/live/www.animeirl.xyz/fullch
  * Create HTTP server.
  */
 
-var server = http.createServer({
+var server = https.createServer({
   key: privateKey,
   cert: certificate,
 }, app);
