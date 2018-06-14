@@ -58,6 +58,7 @@ router.get('/callback', async function(req, res, next) {
     "username": `${user.username}`,
     "isAdmin": `${user.is_admin}`,
   };
+  console.log(`discord response: ${discord_user},\n Claim: ${claims}`);
   var token = jwt.sign(claims, 'tokengoeshere');
   res.cookie('user', token, {secure: true});
   res.redirect('https://www.animeirl.xyz/callback');
