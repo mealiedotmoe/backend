@@ -46,22 +46,19 @@ router.get('/callback', async function(req, res, next) {
   var discord_user = await temp_user.json();
   var db_user = await User.upsert({
     username: `${discord_user.username}`,
-    discord_id: `${discord_user.discord_id}`,
+    discord_id: `${discord_user.id.toString()}`,
     discord_token: `${discord_user.access_token}`,
     email: `${discord_user.email}`,
   }, {returning: true}).catch(err => {
     console.error(`Unable to store user: ${err}`);
   });
-  user = await db_user.dataValues;
+  user = await db_user[0].dataValues;
   var claims = {
     "sub": `${user.discord_id}`,
     "exp": Math.floor(Date.now() / 1000) + (60 * 60 * 24),
     "username": `${user.username}`,
-    "isAdmin": `${user.is_admin}`,
+    "isAdmin": `${user.admin}`,
   };
-  console.log(db_user);
-  console.log(user);
-  console.log(claims);
   var token = jwt.sign(claims, 'tokengoeshere');
   res.cookie('user', token, {secure: true});
   res.redirect('https://www.animeirl.xyz/callback');
