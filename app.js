@@ -7,8 +7,6 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 
-const frontEnd = path.resolve('../Jpk/dist');
-
 var app = express();
 
 // view engine setup
@@ -23,8 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/discord/login', loginRouter);
-
-app.use('*', express.static(frontEnd));
 
 
 // catch 404 and forward to error handler
