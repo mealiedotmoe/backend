@@ -43,7 +43,7 @@ router.get('/callback', async function(req, res, next) {
     }).catch(err => {
       console.error(`Unable to get user: ${err}`);
     });
-  var discord_user = temp_user.json();
+  var discord_user = await temp_user.json();
   console.log(discord_user);
   var user = await User.upsert({
     username: `${discord_user.username}`,
