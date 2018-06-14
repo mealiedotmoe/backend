@@ -46,10 +46,10 @@ router.get('/callback', async function(req, res, next) {
   var discord_user = await temp_user.json();
   var db_user = await User.upsert({
     username: `${discord_user.username}`,
-    discord_id: `${discord_user.id}`,
+    discord_id: `${discord_user.discord_id}`,
     discord_token: `${discord_user.access_token}`,
     email: `${discord_user.email}`,
-  }).catch(err => {
+  }, {returning: true}).catch(err => {
     console.error(`Unable to store user: ${err}`);
   });
   user = await db_user.dataValues;
