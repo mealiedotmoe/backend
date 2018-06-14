@@ -15,7 +15,7 @@ const User = sequelize.import('../models/User');
 
 const CLIENT_ID = "379731370735566849";
 const CLIENT_SECRET = "OZooKYkRhbFahfetM5Qi6gUA08xQU3sS";
-const redirect = encodeURIComponent('https://www.animeirl.xyz:9090/api/discord/login/callback');
+const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/login/callback');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
