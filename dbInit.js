@@ -8,6 +8,9 @@ const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
 });
 
 sequelize.import('models/User');
+sequelize.import('models/Question');
+sequelize.import('models/Choice');
+sequelize.import('models/Vote');
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 
