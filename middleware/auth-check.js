@@ -12,7 +12,7 @@ const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
 const Users = sequelize.import('../models/User');
 
 module.exports = (req, res, next) => {
-    if (req.headers.authorization) {
+    if (!req.headers.authorization) {
         return res.status(401).end();
     }
 

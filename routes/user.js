@@ -10,7 +10,7 @@ const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
 });
 const Users = sequelize.import('../models/User');
 
-/* GET all questions */
+/* GET all users */
 router.get('/', function(req, res, next) {
     res.redirect('/dash');
 });
@@ -20,7 +20,7 @@ router.get('/:id', function(req, res, next){
         if (! user) {
             res.status(404).send("Can't Find Question");
         }
-        res.status(200).send(user);
+        res.status(200).send(JSON.stringify(user));
     })
 });
 
