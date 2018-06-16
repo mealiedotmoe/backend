@@ -3,7 +3,7 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 const btoa = require('btoa');
 const fetch = require('node-fetch');
-
+const jwtSecret = 'yourtokenhere';
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
   host: 'localhost',
@@ -59,7 +59,7 @@ router.get('/callback', async function(req, res, next) {
     "username": `${user.username}`,
     "isAdmin": `${user.admin}`,
   };
-  var token = jwt.sign(claims, 'tokengoeshere');
+  var token = jwt.sign(claims, jwtSecret);
   res.cookie('user', token, {secure: true});
   res.redirect('https://www.animeirl.xyz/callback');
 });

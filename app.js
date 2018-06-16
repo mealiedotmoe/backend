@@ -5,8 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var helmet = require('helmet');
 
+var authCheckMiddleware = require('./middleware/auth-check');
+
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
+var userRouter = require('./routes/user');
 
 var app = express();
 
@@ -22,8 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/user', authCheckMiddleware);
+app.use('/user', userRouter)
 app.use('/discord/login', loginRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
