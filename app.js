@@ -25,8 +25,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/user', authCheckMiddleware);
-app.use('/user', userRouter)
+app.use('/users', authCheckMiddleware);
+app.use('/users', userRouter)
 app.use('/discord/login', loginRouter);
 
 // catch 404 and forward to error handler

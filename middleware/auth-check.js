@@ -23,7 +23,7 @@ module.exports = (req, res, next) => {
 
         const userId = decoded.sub;
 
-        return Users.findById(userId).then(user =>{
+        return Users.findOne({ where: {discord_id: userID }}).then(user =>{
             if (!user) {
                 return res.status(401).end();
             }
