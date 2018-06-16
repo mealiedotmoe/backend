@@ -15,13 +15,9 @@ router.get('/', function(req, res, next) {
     res.redirect('/dash');
 });
 
-router.get('/:id', function(req, res, next){
-    Users.findById(req.params.id).then(user => {
-        if (! user) {
-            res.status(404).send("Can't Find Question");
-        }
-        res.status(200).send(JSON.stringify(user));
-    })
+router.get('/me', function(req, res, next){
+    if (!req.user) { return res.status(404).send('No user found') };
+    res.status(200).send(JSON.stringify(req.user));
 });
 
 module.exports = router;

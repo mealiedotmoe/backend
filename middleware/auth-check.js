@@ -23,13 +23,14 @@ module.exports = (req, res, next) => {
 
         const userId = decoded.sub;
 
-        return Users.findById(userId, (userErr, user) =>{
-            if (userErr || !user) {
+        return Users.findById(userId).then(user =>{
+            if (!user) {
                 return res.status(401).end();
             }
-
             req.user = user;
             return next();
+        }).catch(err => {
+            return res.status(401).end();
         });
     });
 };
