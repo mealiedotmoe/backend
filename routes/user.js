@@ -15,12 +15,10 @@ router.get('/', function(req, res, next) {
     var userList = []
     if (!req.user.admin) { res.status(401).end(); }
     Users.all().then(users =>{
-        users.forEach(user => {
-            userList.push(user.getInfo())
-        });
+        res.status(200).send(users);
     });
-    res.status(200).send(JSON.stringify(userList));
 });
+    
 
 router.get('/me', function(req, res, next){
     if (!req.user) { return res.status(404).send('No user found') };
