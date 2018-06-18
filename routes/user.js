@@ -20,8 +20,8 @@ router.get('/', function(req, res, next) {
             console.log(user.getInfo());
             userJson[user.discord_id] = user.getInfo();
         })
-        console.log(`UsersJson: ${usersJson}`)
-        res.status(200).send(usersJson);
+        console.log(`UsersJson: ${userJson}`)
+        res.status(200).send(userJson);
     });
 });
     
