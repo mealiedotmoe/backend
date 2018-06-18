@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
             userList.push(user.getInfo());
         });
         console.log(`UsersJson: ${userList}`)
-        res.status(200).json(userList);
+        res.json(userList);
     });
 });
     
