@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
     Users.all().forEach(user => {
         userList.push(user.getInfo())
     })
-    res.status(200).send(JSON.stringify(userList));
+    res.status(200).send(await JSON.stringify(userList));
 });
 
 router.get('/me', function(req, res, next){
