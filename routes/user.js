@@ -12,9 +12,9 @@ const Users = sequelize.import('../models/User');
 
 /* GET all users */
 router.get('/', function(req, res, next) {
-    var userList = []
     if (!req.user.admin) { res.status(401).end(); }
     Users.all().then(users =>{
+        console.log(`Users: ${users}`)
         res.status(200).send(users);
     });
 });
