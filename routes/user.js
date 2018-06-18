@@ -21,7 +21,8 @@ router.get('/', function(req, res, next) {
             userList.push(user.getInfo());
         });
         console.log(`UsersJson: ${JSON.stringify(userList)}`)
-        res.status(200).send(JSON.stringify(userList));
+
+        res.status(200).json(userList);
     });
 });
     
