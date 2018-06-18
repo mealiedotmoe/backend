@@ -14,10 +14,12 @@ const Users = sequelize.import('../models/User');
 router.get('/', function(req, res, next) {
     var userList = []
     if (!req.user.admin) { res.status(401).end(); }
-    Users.all().forEach(user => {
-        userList.push(user.getInfo())
-    })
-    res.status(200).send(await JSON.stringify(userList));
+    Users.all().then(users =>{
+        users.forEach(user => {
+            userList.push(user.getInfo())
+        });
+    });
+    res.status(200).send(JSON.stringify(userList));
 });
 
 router.get('/me', function(req, res, next){
