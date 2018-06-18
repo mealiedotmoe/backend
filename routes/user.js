@@ -18,10 +18,10 @@ router.get('/', function(req, res, next) {
         userList = []
         users.forEach(user => {
             console.log(user.getInfo());
-            userJson.push(user.getInfo());
+            userList.push(user.getInfo());
         });
         console.log(`UsersJson: ${JSON.stringify(userList)}`)
-        res.status(200).send(JSON.stringify(userJson));
+        res.status(200).send(JSON.stringify(userList));
     });
 });
     
