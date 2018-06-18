@@ -15,7 +15,9 @@ router.get('/', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
     Users.all().then(users =>{
         console.log(`Users: ${users}`)
-        res.status(200).send(users);
+        usersJson = JSON.stringify(users);
+        console.log(`UsersJson: ${usersJson}`)
+        res.status(200).send(usersJson);
     });
 });
     
