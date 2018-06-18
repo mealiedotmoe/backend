@@ -12,12 +12,17 @@ const Users = sequelize.import('../models/User');
 
 /* GET all users */
 router.get('/', function(req, res, next) {
-    res.redirect('/dash');
+    var userList = []
+    if (!req.user.admin) { res.status(401).end(); }
+    Users.all().forEach(user => {
+        userList.push(user.getInfo())
+    })
+    res.status(200).send(JSON.stringify(userList));
 });
 
 router.get('/me', function(req, res, next){
     if (!req.user) { return res.status(404).send('No user found') };
-    res.status(200).send(JSON.stringify(req.user));
+    res.status(200).send(req.user.getInfo());
 });
 
 module.exports = router;

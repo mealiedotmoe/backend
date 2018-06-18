@@ -1,4 +1,5 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('user', {
+module.exports = function(sequelize, DataTypes) { 
+  var User = sequelize.define('user', {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -31,3 +32,15 @@ module.exports = (sequelize, DataTypes) => sequelize.define('user', {
   }, {
     timestamps: false,
   });
+  User.Instance.prototype.getInfo = function() {
+    return JSON.stringify({
+      'username': this.username,
+      'id': this.discord_id,
+      'email': this.email,
+      'experience': this.experience,
+      'level': this.level,
+      'admin': this.admin,
+    });
+  }
+  return User;
+}
