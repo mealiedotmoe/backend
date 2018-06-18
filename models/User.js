@@ -35,7 +35,6 @@ module.exports = function(sequelize, DataTypes) {
   User.prototype.getInfo = function() {
     return JSON.stringify({
       'username': this.username,
-      'id': this.discord_id,
       'email': this.email,
       'experience': this.experience,
       'level': this.level,

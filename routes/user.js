@@ -15,7 +15,11 @@ router.get('/', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
     Users.all().then(users =>{
         console.log(`Users: ${users}`)
-        usersJson = JSON.stringify(users);
+        userJson = {}
+        users.forEach(user => {
+            console.log(user.getInfo());
+            userJson[user.discord_id] = user.getInfo();
+        })
         console.log(`UsersJson: ${usersJson}`)
         res.status(200).send(usersJson);
     });
