@@ -13,6 +13,7 @@ var loginRouter = require('./routes/login');
 var userRouter = require('./routes/user');
 
 var app = express();
+app.use(cors());
 app.options('*', cors());
 
 // view engine setup
