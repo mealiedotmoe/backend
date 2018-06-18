@@ -17,11 +17,9 @@ router.get('/', function(req, res, next) {
         console.log(`Users: ${users}`)
         userList = []
         users.forEach(user => {
-            console.log(user.getInfo());
             userList.push(user.getInfo());
         });
-        console.log(`UsersJson: ${JSON.stringify(userList)}`)
-
+        console.log(`UsersJson: ${userList}`)
         res.status(200).json(userList);
     });
 });
