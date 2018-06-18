@@ -32,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     timestamps: false,
   });
-  User.Instance.prototype.getInfo = function() {
+  User.prototype.getInfo = function() {
     return JSON.stringify({
       'username': this.username,
       'id': this.discord_id,
