@@ -14,12 +14,12 @@ const Users = sequelize.import('../models/User');
 router.get('/', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
     Users.all().then(users =>{
-        console.log(`Users: ${users}`)
         userList = []
         users.forEach(user => {
             userList.push(user.getInfo());
         });
-        console.log(`UsersJson: ${userList}`)
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json(userList);
     });
 });
