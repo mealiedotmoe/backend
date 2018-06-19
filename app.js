@@ -11,6 +11,7 @@ var authCheckMiddleware = require('./middleware/auth-check');
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 var userRouter = require('./routes/user');
+var pollRouter = require('./routes/polls');
 
 var app = express();
 app.use(cors());
@@ -29,7 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', authCheckMiddleware);
-app.use('/users', userRouter)
+app.use('/users', userRouter);
+app.use('/polls', pollRouter);
 app.use('/discord/login', loginRouter);
 
 // catch 404 and forward to error handler
