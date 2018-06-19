@@ -40,7 +40,7 @@ router.post('/', async function(req, res, next) {
     })
 });
 
-router.get('/questions/:id', function(req, res, next){
+router.get('/polls/:id', function(req, res, next){
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
@@ -49,7 +49,7 @@ router.get('/questions/:id', function(req, res, next){
     })
 });
 
-router.post('/questions/:id', function(req, res, next){
+router.post('/polls/:id', function(req, res, next){
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
@@ -62,7 +62,7 @@ router.post('/questions/:id', function(req, res, next){
     })
 });
 
-router.get('/questions/:id/results', function(req, res, next) {
+router.get('/polls/:id/results', function(req, res, next) {
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
