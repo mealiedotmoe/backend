@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
 const btoa = require('btoa');
 const fetch = require('node-fetch');
+const {Users, Questions, Choices, Votes} = require('../dbObjects');
 
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
@@ -12,11 +13,6 @@ const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
   logging: false,
   operatorsAliases: false,
 });
-
-const Users = sequelize.import('../models/User');
-const Questions = sequelize.import('../models/Question');
-const Choices = sequelize.import('../models/Choice');
-const Votes = sequelize.import('../models/Vote');
 
 const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/login/callback');
 
