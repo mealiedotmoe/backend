@@ -31,6 +31,7 @@ function getUser(req) {
         const userId = decoded.sub;
         console.log(userId)
         return Users.findById(userId).then(user => {
+            console.log(user)
             return user;
         }).catch(err => { return false; })
     })
