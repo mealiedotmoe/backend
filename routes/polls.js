@@ -52,7 +52,7 @@ router.post('/', async function(req, res, next) {
         text: req.body.pollName,
         multiple_options: req.body.enableMultipleOptions,
     }).then(newQuestion => {
-        newQuestion.setUser(user);
+        newQuestion.addUser(user);
         req.body.choices.forEach((choice) => {
             Choices.create({
                 text: choice.text,
