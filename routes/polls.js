@@ -25,9 +25,7 @@ async function getUser(req) {
     return await jwt.verify(token, jwtSecret, (err, decoded) =>{
         if(err) { return false; }
         const userId = decoded.sub;
-        console.log(userId)
         return Users.findById(userId).then(user => {
-            console.log(user)
             return user;
         }).catch(err => { return false; })
     })
