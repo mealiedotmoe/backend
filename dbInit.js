@@ -7,10 +7,15 @@ const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
   operatorsAliases: false,
 });
 
-sequelize.import('models/User');
-sequelize.import('models/Question');
-sequelize.import('models/Choice');
-sequelize.import('models/Vote');
+var Users = sequelize.import('models/User');
+var Questions = sequelize.import('models/Question');
+var Choices = sequelize.import('models/Choice');
+var Votes = sequelize.import('models/Vote');
+
+Questions.belongsTo(Users, {as: 'User'});
+Questions.hasMany(Choices, {as: 'Choices'});
+Choices.hasMany(Votes, {as: 'Votes'});
+Votes.belongsTo(Users, {as: 'Users'})
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 

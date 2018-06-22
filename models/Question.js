@@ -7,11 +7,4 @@ module.exports = (sequelize, DataTypes) => sequelize.define('question', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
-  }, {
-    classMethods: {
-        associate: function(models) {
-            question.hasMany(models.Choice, {as: 'choices'});
-            question.hasOne(models.User);
-        }
-    }
 });
