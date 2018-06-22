@@ -47,8 +47,7 @@ router.get('/', function(req, res, next) {
 /* POST to create new question */
 router.post('/', async function(req, res, next) {
     var user = await getUser(req);
-    console.log(await user)
-    if (!await user) { return res.status(401).send('You must be logged in to use this feature').end(); }
+    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.create({
         text: req.body.pollName,
         multiple_options: req.body.enableMultipleOptions,
