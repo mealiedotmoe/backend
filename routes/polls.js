@@ -30,7 +30,7 @@ async function getUser(req) {
         if(err) { return false; }
         const userId = decoded.sub;
         console.log(userId)
-        Users.findById(userId).then(user => {
+        return Users.findById(userId).then(user => {
             console.log(user)
             return user;
         }).catch(err => { return false; })
