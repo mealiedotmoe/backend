@@ -51,7 +51,7 @@ router.post('/', async function(req, res, next) {
         newQuestion.setUser(user);
         req.body.choices.forEach((choice) => {
             Choices.create({
-                text: choice.text,
+                text: choice.value,
             }).then(choice => {
                 newQuestion.addChoices(choice)
             });
