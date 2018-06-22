@@ -72,7 +72,7 @@ router.get('/polls/:id', function(req, res, next){
     })
 });
 
-router.post('/polls/:id', function(req, res, next){
+router.post('/polls/:id', async function(req, res, next){
     var user = await getUser(req);
     if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.findById(req.params.id).then(question => {
