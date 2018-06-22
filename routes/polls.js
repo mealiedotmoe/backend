@@ -29,8 +29,8 @@ function getUser(req) {
     jwt.verify(token, jwtSecret, (err, decoded) =>{
         if(err) { return false; }
         const userId = decoded.sub;
+        console.log(userId)
         return Users.findById(userId).then(user => {
-            if (!user) { return false; }
             return user;
         }).catch(err => { return false; })
     })
@@ -46,6 +46,7 @@ router.get('/', function(req, res, next) {
 /* POST to create new question */
 router.post('/', async function(req, res, next) {
     user = getUser(req);
+    console.log(user)
     if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.create({
         text: req.body.pollName,
