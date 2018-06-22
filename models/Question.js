@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('question', {
     },
     author: {
         type: DataTypes.STRING,
-        allowNull: false,
     },
     multiple_options: {
         type: DataTypes.BOOLEAN,
