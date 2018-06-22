@@ -20,7 +20,7 @@ const Votes = sequelize.import('../models/Vote');
 
 const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/login/callback');
 
-function getUser(req) {
+async function getUser(req) {
     if (!req.headers.authorization) {
         return false;
     }
