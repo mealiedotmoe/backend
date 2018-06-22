@@ -10,4 +10,8 @@ module.exports = (sequelize, DataTypes) => sequelize.define('question', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    admin_abuse: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    }
 });

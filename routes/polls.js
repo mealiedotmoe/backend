@@ -65,20 +65,29 @@ router.get('/polls/:id', function(req, res, next){
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        res.send(question);
+        question.getChoices().then(allChoices => {
+            question.choices = allChoices;
+            res.send(question);
+        });
     })
 });
 
 router.post('/polls/:id', function(req, res, next){
+    var user = await getUser(req);
+    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        Vote.create({
-            choiceId: question.id,
-            user: req.body.user,
-        })
-        res.redirect(`questions/${req.params.id}/results`);
+        Choices.findById(req.body.choiceId).then(choice =>{
+            if (!choice) {return res.status(500).send("Couldn't find choice")}
+            Vote.create({
+            }).then(vote => {
+                vote.setUser(user);
+                vote.setChoice(choice)
+            });
+            res.redirect(`questions/${req.params.id}/results`);
+        });
     })
 });
 
