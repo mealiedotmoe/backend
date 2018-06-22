@@ -53,12 +53,13 @@ router.post('/', async function(req, res, next) {
         multiple_options: req.body.enableMultipleOptions,
         userId: user.get('id'),
     }).then(newQuestion => {
-        newQuestion.addUser(user);
+        newQuestion.setUser(user);
         req.body.choices.forEach((choice) => {
             Choices.create({
                 text: choice.text,
-                questionId: newQuestion.get('id'),
-            })
+            }).then(choice => {
+                newQuestion.addChoices(choice)
+            });
         });
         res.send(newQuestion);
     });
