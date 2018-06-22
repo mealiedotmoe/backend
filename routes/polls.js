@@ -46,7 +46,7 @@ router.get('/', function(req, res, next) {
 
 /* POST to create new question */
 router.post('/', async function(req, res, next) {
-    user = await getUser(req);
+    var user = await getUser(req);
     console.log(user)
     if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.create({
