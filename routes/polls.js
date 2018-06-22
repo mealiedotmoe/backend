@@ -49,11 +49,11 @@ router.post('/', async function(req, res, next) {
     var user = await getUser(req);
     if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.create({
-        text: req.json.pollName,
-        multiple_options: req.json.enableMultipleOptions,
+        text: req.body.pollName,
+        multiple_options: req.body.enableMultipleOptions,
     }).then(newQuestion => {
         newQuestion.setUser(user);
-        req.json.choices.forEach((choice) => {
+        req.body.choices.forEach((choice) => {
             Choices.create({
                 text: choice.text,
             }).then(choice => {
