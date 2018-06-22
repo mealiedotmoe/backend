@@ -46,9 +46,9 @@ router.get('/', function(req, res, next) {
 
 /* POST to create new question */
 router.post('/', async function(req, res, next) {
-    await getUser(req).then(user => {
-    console.log(user)
-    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
+    var user = await getUser(req);
+    console.log(await user)
+    if (!await user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.create({
         text: req.body.pollName,
         multiple_options: req.body.enableMultipleOptions,
@@ -63,7 +63,7 @@ router.post('/', async function(req, res, next) {
         });
         res.send(newQuestion);
     });
-})});
+});
 
 router.get('/polls/:id', function(req, res, next){
     Questions.findById(req.params.id).then(question => {
