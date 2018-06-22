@@ -26,7 +26,7 @@ async function getUser(req) {
     }
     const token = req.headers.authorization.split(' ')[1];
 
-    jwt.verify(token, jwtSecret, (err, decoded) =>{
+    return await jwt.verify(token, jwtSecret, (err, decoded) =>{
         if(err) { return false; }
         const userId = decoded.sub;
         console.log(userId)
