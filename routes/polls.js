@@ -52,7 +52,7 @@ router.get('/', async function(req, res, next) {
             array[index].responses = await getResponses(question);
             console.log(`row: ${question}`)
         });
-        res.send(JSON.stringify(questions));
+        res.send(JSON.stringify(await questions));
     });
 });
 
