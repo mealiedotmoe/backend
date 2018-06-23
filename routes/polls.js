@@ -76,19 +76,19 @@ router.post('/', async function(req, res, next) {
     });
 });
 
-router.get('/polls/:id', function(req, res, next){
+router.get('/:id', function(req, res, next){
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
         question.getChoices().then(allChoices => {
-            question.choices = allChoices;
+            question.dataValues.choices = allChoices;
             res.send(question);
         });
     })
 });
 
-router.post('/polls/:id', async function(req, res, next){
+router.post('/:id', async function(req, res, next){
     var user = await getUser(req);
     if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.findById(req.params.id).then(question => {
@@ -107,7 +107,7 @@ router.post('/polls/:id', async function(req, res, next){
     })
 });
 
-router.get('/polls/:id/results', function(req, res, next) {
+router.get(':id/results', function(req, res, next) {
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
