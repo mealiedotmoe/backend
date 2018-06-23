@@ -118,10 +118,11 @@ router.get('/:id/results', function(req, res, next) {
                 return choice
             })
             Promise.all(choices).then(choicesDone => {
-                console.log(choicesDone)
                 question.dataValues.choices = choicesDone;
+                console.log(question)
+                res.send(question);
             })
-            res.send(question);
+            
         });
     })
 });
