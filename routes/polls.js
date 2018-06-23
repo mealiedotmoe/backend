@@ -36,11 +36,9 @@ async function getResponses(question) {
     var choicesList = await question.getChoices();
     choicesList.forEach(async choice => {
         var votes = await choice.getVotes();
-        console.log(votes)
         responses.push(votes)
     })
-    console.log(responses)
-    return JSON.stringify(responses)
+    return responses
   }
 
 /* GET all questions */
