@@ -47,10 +47,11 @@ async function getResponses(question) {
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
         console.log(questions)
-        questions['rows'] = questions['rows'].map(async question => {
+        questions['rows'] = questions['rows'].map(async question => {/*
             question.author = JSON.stringify(await question.getUser());
             question.responses = await getResponses(question);
-            return question;
+            return question;*/
+            return question
         });
         res.send(JSON.stringify(questions));
     });
