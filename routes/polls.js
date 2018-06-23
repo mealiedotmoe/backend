@@ -34,7 +34,7 @@ async function getUser(req) {
 /* GET all questions */
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
-        questions.forEach(question => {
+        questions['rows'].forEach(question => {
             question.author = await question.getUser();
             question.responses = await question.getResponses();
         })
