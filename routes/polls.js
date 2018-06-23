@@ -34,7 +34,6 @@ async function getUser(req) {
 async function getResponses(question) {
     responses = []
     var choicesList = await question.getChoices();
-    console.log(choicesList)
     choicesList.forEach(async choice => {
         var votes = await choice.getVotes
         responses.push(votes)
@@ -48,6 +47,7 @@ router.get('/', async function(req, res, next) {
         questions['rows'].forEach(async question => {
             question.author = await question.getUser();
             question.responses = await getResponses(question);
+            console.log(question)
         })
         res.send(JSON.stringify(questions));
     });
