@@ -27,4 +27,5 @@ module.exports = function(sequelize, DataTypes){
             "responses": responses
         })
     }
+    return Question;
 };
