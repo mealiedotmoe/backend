@@ -17,17 +17,4 @@ Questions.hasMany(Choices, {as: 'Choices'});
 Choices.hasMany(Votes, {as: 'Votes'});
 Votes.belongsTo(Users, {as: 'Users'});
 
-Question.prototype.getResponses = async function() {
-  responses = []
-  var choicesList = await this.getChoices();
-  console.log(choicesList)
-  choicesList.forEach(async choice => {
-      var votes = await choice.getVotes
-      responses.push(votes)
-  })
-  return JSON.stringify({
-      "responses": responses
-  })
-}
-
 module.exports = {Users, Questions, Choices, Votes}
