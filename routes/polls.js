@@ -107,11 +107,16 @@ router.post('/:id', async function(req, res, next){
     })
 });
 
-router.get(':id/results', function(req, res, next) {
+router.get('/:id/results', function(req, res, next) {
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
+        var choices = await question.getChoices()
+        choices.forEach(choice => {
+            var voteCount = await Votes.count({ where: {id: choice.id }})
+            question.dataValues.votes[choice.id] = voteCount;
+        });
         res.send(question);
     })
 });
