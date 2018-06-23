@@ -1,4 +1,4 @@
-module.exports = function(sequelize, DataTypes){ 
+module.exports = async function(sequelize, DataTypes){ 
     var Question = sequelize.define('question', {
         text: {
         type: DataTypes.STRING,
