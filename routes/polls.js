@@ -49,7 +49,8 @@ router.get('/', async function(req, res, next) {
         console.log(questions)
         questions['rows'] = questions['rows'].map(async question => {
             question.createdAt = Date.UTC(question.createdAt);
-            question.author = await question.getUser().getInfo();
+            var tempUser = await question.getUser();
+            question.author = tempUser.getInfo();
             question.responses = await getResponses(question);
             return question;
         });
