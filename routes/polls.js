@@ -35,8 +35,8 @@ async function getUser(req) {
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
         questions['rows'].forEach(question => {
-            question.author = await question.getUser();
-            question.responses = await question.getResponses();
+            question.author = question.getUser();
+            question.responses = question.getResponses();
         })
         res.send(JSON.stringify(questions));
     });
