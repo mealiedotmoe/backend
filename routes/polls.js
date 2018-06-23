@@ -36,6 +36,7 @@ async function getResponses(question) {
     var choicesList = await question.getChoices();
     choicesList.forEach(async choice => {
         var votes = await choice.getVotes();
+        console.log(votes)
         responses.push(votes)
     })
     console.log(responses)
@@ -45,11 +46,11 @@ async function getResponses(question) {
 /* GET all questions */
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
-        questions['rows'].forEach(async question => {
+        questions['rows'] = questions['rows'].map(async question => {
             question.author = JSON.stringify(await question.getUser());
             question.responses = await getResponses(question);
-            console.log(question)
-        })
+            return question;
+        });
         res.send(JSON.stringify(questions));
     });
 });
