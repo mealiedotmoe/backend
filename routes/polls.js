@@ -44,12 +44,10 @@ async function getResponses(question) {
 /* GET all questions */
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
-        console.log(questions)
         questions['rows'] = questions['rows'].map(async question => {
             var tempUser = await question.getUser();
             question.author = tempUser.getInfo();
             question.dataValues.responses = await getResponses(question);
-            console.log(question)
             return question;
         });
         Promise.all(questions['rows']).then(questions => res.send(JSON.stringify(questions)));
@@ -119,7 +117,6 @@ router.get('/:id/results', function(req, res, next) {
             })
             Promise.all(choices).then(choicesDone => {
                 question.dataValues.choices = choicesDone;
-                console.log(question)
                 res.send(question);
             })
             
