@@ -16,12 +16,12 @@ module.exports = function(sequelize, DataTypes){
             defaultValue: false,
         }
     });
-    Question.prototype.getResponses = function() {
+    Question.prototype.getResponses = async function() {
         responses = []
-        var choicesList = this.getChoices();
+        var choicesList = await this.getChoices();
         console.log(choicesList)
         choicesList.forEach(choice => {
-            var votes = choice.getVotes
+            var votes = await choice.getVotes
             responses.push(votes)
         })
         return JSON.stringify({
