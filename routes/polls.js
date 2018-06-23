@@ -48,10 +48,10 @@ router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
         console.log(questions)
         questions['rows'] = questions['rows'].map(async question => {
-            question.createdAt = Date.UTC(question.createdAt);
             var tempUser = await question.getUser();
             question.author = tempUser.getInfo();
             question.responses = await getResponses(question);
+            console.log(question)
             return question;
         });
         Promise.all(questions['rows']).then(questions => res.send(JSON.stringify(questions)));
