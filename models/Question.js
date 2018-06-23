@@ -16,7 +16,7 @@ module.exports = async function(sequelize, DataTypes){
             defaultValue: false,
         }
     });
-    Question.prototype.getResponses = async function() {
+    Question.getResponses = async function() {
         responses = []
         var choicesList = await this.getChoices();
         console.log(choicesList)
