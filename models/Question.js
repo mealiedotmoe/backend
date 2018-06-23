@@ -19,6 +19,7 @@ module.exports = function(sequelize, DataTypes){
     Question.prototype.getResponses = function() {
         responses = []
         var choicesList = this.getChoices();
+        console.log(choicesList)
         choicesList.forEach(choice => {
             var votes = choice.getVotes
             responses.push(votes)
