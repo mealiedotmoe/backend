@@ -112,12 +112,12 @@ router.get('/:id/results', function(req, res, next) {
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        question.getChoices().then()
-        choices.forEach(async choice => {
-            
-            question.dataValues.votes[choice.id] = await Votes.count({ where: {id: choice.id }})
+        question.getChoices().then(choices => {
+            choices.forEach(async choice => {
+                question.dataValues.votes[choice.id] = await Votes.count({ where: {id: choice.id }})
+            });
+            res.send(question);
         });
-        res.send(question);
     })
 });
 
