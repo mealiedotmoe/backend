@@ -35,7 +35,7 @@ async function getResponses(question) {
     responses = []
     var choicesList = await question.getChoices();
     choicesList.forEach(async choice => {
-        var votes = await choice.getVotes
+        var votes = await choice.getVotes();
         responses.push(votes)
     })
     console.log(responses)
