@@ -38,6 +38,7 @@ async function getResponses(question) {
         var votes = await choice.getVotes
         responses.push(votes)
     })
+    console.log(responses)
     return JSON.stringify(responses)
   }
 
@@ -45,7 +46,7 @@ async function getResponses(question) {
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
         questions['rows'].forEach(async question => {
-            question.author = await question.getUser();
+            question.author = JSON.stringify(await question.getUser());
             question.responses = await getResponses(question);
             console.log(question)
         })
