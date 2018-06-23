@@ -53,7 +53,7 @@ router.get('/', async function(req, res, next) {
             return question;*/
             return question
         });
-        Promise.all(questions).then(questions => res.send(JSON.stringify(questions)));
+        Promise.all(questions['rows']).then(questions => res.send(JSON.stringify(questions)));
     });
 });
 
