@@ -20,7 +20,7 @@ module.exports = async function(sequelize, DataTypes){
         responses = []
         var choicesList = await this.getChoices();
         console.log(choicesList)
-        choicesList.forEach(choice => {
+        choicesList.forEach(async choice => {
             var votes = await choice.getVotes
             responses.push(votes)
         })
