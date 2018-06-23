@@ -12,7 +12,7 @@ var Questions = sequelize.import('models/Question');
 var Choices = sequelize.import('models/Choice');
 var Votes = sequelize.import('models/Vote');
 
-Questions.belongsTo(Users, {as: 'User', targetKey: 'discord_id'});
+Questions.belongsTo(Users, {foreignKey: 'author'});
 Questions.hasMany(Choices, {as: 'Choices'});
 Choices.hasMany(Votes, {as: 'Votes'});
 Votes.belongsTo(Users, {as: 'Users'});
