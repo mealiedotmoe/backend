@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) =>
         type: DataTypes.STRING,
         allowNull: false,
         },
-        UserDiscordId: {
+        author: {
             type: DataTypes.STRING,
         },
         multiple_options: {
