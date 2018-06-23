@@ -117,9 +117,9 @@ router.get('/:id/results', function(req, res, next) {
             choices.forEach(async choice => {
                 choice.dataValues.votes = await Votes.count({ where: {id: choice.id }});
                 allChoices.push(choice);
-                console.log(allChoices)
             });
             question.dataValues.choices = allChoices;
+            console.log(question)
             res.send(question);
         });
     })
