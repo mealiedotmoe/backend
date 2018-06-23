@@ -31,12 +31,23 @@ async function getUser(req) {
     })
 }
 
+async function getResponses(question) {
+    responses = []
+    var choicesList = await question.getChoices();
+    console.log(choicesList)
+    choicesList.forEach(async choice => {
+        var votes = await choice.getVotes
+        responses.push(votes)
+    })
+    return JSON.stringify(responses)
+  }
+
 /* GET all questions */
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
         questions['rows'].forEach(async question => {
             question.author = await question.getUser();
-            question.responses = await question.getResponses();
+            question.responses = await getResponses(question);
         })
         res.send(JSON.stringify(questions));
     });
