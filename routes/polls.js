@@ -50,7 +50,7 @@ router.get('/', async function(req, res, next) {
         questions['rows'] = questions['rows'].map(async question => {
             var tempUser = await question.getUser();
             question.author = tempUser.getInfo();
-            question.responses = await getResponses(question);
+            question.dataValues.responses = await getResponses(question);
             console.log(question)
             return question;
         });
