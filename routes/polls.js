@@ -113,16 +113,15 @@ router.get('/:id/results', function(req, res, next) {
             res.status(500).send("Can't Find Question");
         }
         question.getChoices().then(choices => {
-            allChoices = []
-            choices.forEach(async choice => {
+            choices = choices.map(async choice => {
                 choice.dataValues.votes = await Votes.count({ where: {id: choice.id }});
-                allChoices.push(choice);
-            }).then(() =>{
-                console.log(allChoices)
-                console.log(question)
-                res.send(question);
-            });
-            
+                return choice
+            })
+            Promise.all(choices).then(choicesDone => {
+                console.log(choicesDone)
+                question.dataValues.choices = choicesDone;
+            })
+            res.send(question);
         });
     })
 });
