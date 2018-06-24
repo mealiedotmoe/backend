@@ -136,7 +136,7 @@ router.get('/:id/results', function(req, res, next) {
         }
         question.getChoices().then(choices => {
             choices = choices.map(async choice => {
-                choice.dataValues.votes = await Votes.count({ where: {id: choice.id }});
+                choice.dataValues.votes = await Votes.count({ where: {choiceId: choice.id }});
                 return choice
             })
             Promise.all(choices).then(choicesDone => {
