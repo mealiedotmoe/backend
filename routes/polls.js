@@ -95,23 +95,26 @@ router.post('/:id', async function(req, res, next){
             Choices.findById(req.body.choices[0]).then(choice =>{
                 if (!choice) {return res.status(500).send("Couldn't find choice")}
                 Votes.create({
+                    choiceId: choice.id
                 }).then(vote => {
                     vote.setUser(user);
-                    vote.setChoice(choice);
+                    choice.addVotes(vote);
                 });
-                res.redirect(`questions/${req.params.id}/results`);
+                res.status(200).end();
             });
         } else {
             req.body.choices.forEach(id =>{
                 Choices.findById(id).then(choice =>{
                     if (!choice) {return res.status(500).send("Couldn't find choice")}
-                    Vote.create({}).then(vote => {
+                    Vote.create({
+                        choiceId: choice.id
+                    }).then(vote => {
                         vote.setUser(user);
-                        vote.setChoice(choice);
+                        choice.addVotes(vote);
                     });
                 }
             )});  
-            res.redirect(`questions/${req.params.id}/results`);
+            res.status(200).end();
         }
     })
 });
