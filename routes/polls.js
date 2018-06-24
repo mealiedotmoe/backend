@@ -32,12 +32,12 @@ async function getUser(req) {
 async function getResponses(question) {
     responses = 0
     var choicesList = await question.getChoices();
-    choicesList.map(async choice => {
+    newArray = choicesList.map(async choice => {
         var votes = await Votes.count({ where: {choiceId: choice.id }});
         console.log(votes)
         return votes
     })
-    Promise.all(choicesList).then(choicesAll =>{
+    Promise.all(newArray).then(choicesAll =>{
         choicesAll.forEach(amount => {
             console.log(amount)
             responses += amount
