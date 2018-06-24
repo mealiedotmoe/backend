@@ -44,7 +44,7 @@ router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
         questions['rows'] = questions['rows'].map(async question => {
             var tempUser = await question.getUser();
-            question.author = tempUser.getInfo();
+            question.author = tempUser.getCleanInfo();
             question.dataValues.responses = await getResponses(question);
             return question;
         });
