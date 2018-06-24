@@ -92,7 +92,7 @@ router.post('/:id', async function(req, res, next){
             res.status(500).send("Can't Find Question");
         }
         if (!question.multiple_options) {
-            Choices.findById(req.body.choiceId[0]).then(choice =>{
+            Choices.findById(req.body.choices[0]).then(choice =>{
                 if (!choice) {return res.status(500).send("Couldn't find choice")}
                 Vote.create({
                 }).then(vote => {
@@ -102,7 +102,7 @@ router.post('/:id', async function(req, res, next){
                 res.redirect(`questions/${req.params.id}/results`);
             });
         } else {
-            req.body.choiceId.forEach(id =>{
+            req.body.choices.forEach(id =>{
                 Choices.findById(id).then(choice =>{
                     if (!choice) {return res.status(500).send("Couldn't find choice")}
                     Vote.create({}).then(vote => {
