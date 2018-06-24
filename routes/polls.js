@@ -34,16 +34,16 @@ async function getResponses(question) {
     var choicesList = await question.getChoices();
     newArray = choicesList.map(async choice => {
         var votes = await Votes.count({ where: {choiceId: choice.id }});
-        console.log(votes)
         return votes
     })
     Promise.all(newArray).then(choicesAll =>{
         choicesAll.forEach(amount => {
-            console.log(amount)
             responses += amount
         });
-        return responses;
-    })
+        console.log(responses)
+    });
+    console.log(responses)
+    return responses
   }
 
 /* GET all questions */
