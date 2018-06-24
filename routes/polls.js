@@ -94,7 +94,7 @@ router.post('/:id', async function(req, res, next){
         if (!question.multiple_options) {
             Choices.findById(req.body.choices[0]).then(choice =>{
                 if (!choice) {return res.status(500).send("Couldn't find choice")}
-                Vote.create({
+                Votes.create({
                 }).then(vote => {
                     vote.setUser(user);
                     vote.setChoice(choice)
