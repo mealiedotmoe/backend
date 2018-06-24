@@ -97,7 +97,7 @@ router.post('/:id', async function(req, res, next){
                 Votes.create({
                 }).then(vote => {
                     vote.setUser(user);
-                    vote.setChoice(choice)
+                    vote.setChoice(choice);
                 });
                 res.redirect(`questions/${req.params.id}/results`);
             });
@@ -107,7 +107,7 @@ router.post('/:id', async function(req, res, next){
                     if (!choice) {return res.status(500).send("Couldn't find choice")}
                     Vote.create({}).then(vote => {
                         vote.setUser(user);
-                        vote.setChoice(choice)
+                        vote.setChoice(choice);
                     });
                 }
             )});  
