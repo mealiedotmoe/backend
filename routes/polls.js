@@ -106,7 +106,7 @@ router.post('/:id', async function(req, res, next){
             req.body.choices.forEach(id =>{
                 Choices.findById(id).then(choice =>{
                     if (!choice) {return res.status(500).send("Couldn't find choice")}
-                    Vote.create({
+                    Votes.create({
                         choiceId: choice.id
                     }).then(vote => {
                         vote.setUser(user);
@@ -119,7 +119,7 @@ router.post('/:id', async function(req, res, next){
     })
 });
 
-router.post('/:id/edit', async function(req, res, next){
+router.put('/:id', async function(req, res, next){
     var user = await getUser(req);
     if (!user && !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
     Questions.findById(req.params.id).then(question => {
