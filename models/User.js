@@ -42,5 +42,11 @@ module.exports = function(sequelize, DataTypes) {
       'admin': this.admin,
     };
   }
+  User.prototype.getCleanInfo = function() {
+    return {
+      'username': this.username,
+      'id': this.discord_id,
+    };
+  }
   return User;
 }
