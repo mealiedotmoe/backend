@@ -30,11 +30,11 @@ async function getUser(req) {
 }
 
 async function getResponses(question) {
-    responses = []
+    responses = 0
     var choicesList = await question.getChoices();
     choicesList.forEach(async choice => {
-        var votes = await choice.getVotes();
-        responses.push(votes)
+        var votes = await Votes.count({ where: {choiceId: choice.id }});
+        responses += votes
     })
     return responses
   }
