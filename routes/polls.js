@@ -35,15 +35,15 @@ async function getResponses(question) {
     newArray = choicesList.map(async choice => {
         var votes = await Votes.count({ where: {choiceId: choice.id }});
         return votes
-    })
-    Promise.all(newArray).then(choicesAll =>{
+    });
+    return Promise.all(newArray).then(choicesAll =>{
         choicesAll.forEach(amount => {
             responses += amount
         });
         console.log(responses)
+        return responses
     });
-    console.log(responses)
-    return responses
+    
   }
 
 /* GET all questions */
