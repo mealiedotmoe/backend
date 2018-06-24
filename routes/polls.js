@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
-const btoa = require('btoa');
-const fetch = require('node-fetch');
 const {Users, Questions, Choices, Votes} = require('../dbObjects');
 
 const Sequelize = require('sequelize');
@@ -93,16 +91,39 @@ router.post('/:id', async function(req, res, next){
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        Choices.findById(req.body.choiceId).then(choice =>{
-            if (!choice) {return res.status(500).send("Couldn't find choice")}
-            Vote.create({
-            }).then(vote => {
-                vote.setUser(user);
-                vote.setChoice(choice)
+        if (!question.multiple_options) {
+            Choices.findById(req.body.choiceId[0]).then(choice =>{
+                if (!choice) {return res.status(500).send("Couldn't find choice")}
+                Vote.create({
+                }).then(vote => {
+                    vote.setUser(user);
+                    vote.setChoice(choice)
+                });
+                res.redirect(`questions/${req.params.id}/results`);
             });
+        } else {
+            req.body.choiceId.forEach(id =>{
+                Choices.findById(id).then(choice =>{
+                    if (!choice) {return res.status(500).send("Couldn't find choice")}
+                    Vote.create({}).then(vote => {
+                        vote.setUser(user);
+                        vote.setChoice(choice)
+                    });
+                }
+            )});  
             res.redirect(`questions/${req.params.id}/results`);
-        });
+        }
     })
+});
+
+router.post('/:id/edit', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user && !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Questions.findById(req.params.id).then(question => {
+        if (! question) {
+            res.status(500).send("Can't Find Question");
+        }
+    });
 });
 
 router.get('/:id/results', function(req, res, next) {
