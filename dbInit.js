@@ -11,6 +11,8 @@ var Users = sequelize.import('models/User');
 var Questions = sequelize.import('models/Question');
 var Choices = sequelize.import('models/Choice');
 var Votes = sequelize.import('models/Vote');
+var FaqInfo = sequelize.import('models/FaqInfo');
+var Markdown = sequelize.import('models/Markdown');
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 
