@@ -49,6 +49,9 @@ router.post('/', async function(req, res, next) {
     }).then(newMarkdown => {
         newMarkdown.setUser(user);
         res.status(201).send(newMarkdown);
+    }).catch(err => {
+        res.status(500).end()
+        console.error(err)
     });
 });
 
