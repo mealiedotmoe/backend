@@ -37,6 +37,7 @@ app.use('/users', userRouter);
 app.use('/polls', pollRouter);
 app.use('/discord/login', loginRouter);
 app.use('/info', infoRouter);
+app.use('/faq', faqRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
