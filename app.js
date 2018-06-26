@@ -14,6 +14,7 @@ var userRouter = require('./routes/user');
 var pollRouter = require('./routes/polls');
 
 var infoRouter = require('./routes/info');
+var faqRouter = require('./routes/faq');
 
 var app = express();
 app.use(cors());
