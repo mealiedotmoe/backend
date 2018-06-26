@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) =>
         slug: {
             type: DataTypes.STRING,
             allowNull: false,
+            primaryKey: true,
         },
         author: {
             type: DataTypes.STRING,
@@ -18,4 +19,4 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING,
             allowNull: false,
         }
-    });
+});
