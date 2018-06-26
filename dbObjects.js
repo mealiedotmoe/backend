@@ -21,6 +21,6 @@ Choices.hasMany(Votes, {as: 'Votes'});
 Votes.belongsTo(Users, {as: 'User', foreignKey: 'userId'});
 
 FaqInfo.belongsTo(Users, {as: 'User', foreignKey: 'author'});
-Markdown.belongsTo(Users, {as: 'Users', foreignKey: 'author'});
+Markdown.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 
 module.exports = {Users, Questions, Choices, Votes, FaqInfo, Markdown}
