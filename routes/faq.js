@@ -43,8 +43,8 @@ router.post('/', async function(req, res, next) {
     var user = await getUser(req);
     if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     FaqInfo.create({
-        title: req.body.infoTitle,
-        content: req.body.infoContent,
+        title: req.body.faqTitle,
+        content: req.body.faqContent,
     }).then(newFaqInfo => {
         newFaqInfo.setUser(user);
         res.status(201).send(newFaqInfo);
@@ -68,8 +68,8 @@ router.put('/:id', async function(req, res, next){
             res.status(500).send("Can't Find Info");
         }
         faqinfo.update({
-            title: req.body.title,
-            content: req.body.content,
+            title: req.body.faqTitle,
+            content: req.body.faqContent,
         }).then(updatedMarkdown => {
             res.status(200).send(updatedMarkdown);
         }).catch(err => { res.status(500).end()});
