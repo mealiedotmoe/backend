@@ -73,9 +73,9 @@ router.put('/:slug', async function(req, res, next){
             res.status(500).send("Can't Find Question");
         }
         markdown.update({
-            title: req.body.title,
-            slug: req.body.slug,
-            content: req.body.content,
+            title: req.body.infoTitle,
+            slug: req.body.infoSlug,
+            content: req.body.infoContent,
         }).then(updatedMarkdown => {
             res.status(200).send(updatedMarkdown);
         }).catch(err => { 
