@@ -78,7 +78,9 @@ router.put('/:slug', async function(req, res, next){
             content: req.body.content,
         }).then(updatedMarkdown => {
             res.status(200).send(updatedMarkdown);
-        }).catch(err => { res.status(500).end()});
+        }).catch(err => { 
+            console.error(err);
+            res.status(500).end()});
     });
 });
 
