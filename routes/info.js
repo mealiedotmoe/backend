@@ -76,6 +76,7 @@ router.put('/:slug', async function(req, res, next){
             title: req.body.infoTitle,
             slug: req.body.infoSlug,
             content: req.body.infoContent,
+            last_edit: user.id,
         }).then(updatedMarkdown => {
             res.status(200).send(updatedMarkdown);
         }).catch(err => { 
