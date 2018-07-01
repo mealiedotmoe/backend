@@ -128,11 +128,33 @@ router.post('/:id', async function(req, res, next){
 
 router.put('/:id', async function(req, res, next){
     var user = await getUser(req);
-    if (!user && !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
+        question.update({
+            text: req.body.pollTitle,
+            multiple_options: req.body.pollMultipleOptions,
+            admin_abuse: req.body.adminAbuse,
+        }).then(updatedPoll => {
+            res.status(200).send(updatedPoll);
+        }).catch(err => { res.status(500).status.end() });
+    });
+});
+
+router.put('/choice/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Choices.findById(req.params.id).then(choice => {
+        if (!choice) {
+            res.status(500).send("Can't Find choice");
+        }
+        choice.update({
+            text: req.body.choiceTitle,
+        }).then(updatedChoice => {
+            res.status(200).send(updatedChoice);
+        }).catch(err => { res.status(500).status.end() });
     });
 });
 
