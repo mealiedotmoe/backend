@@ -140,7 +140,7 @@ router.put('/:id', async function(req, res, next){
         }).then(updatedPoll => {
             res.status(200).send(updatedPoll);
         }).catch(err => { res.status(500).status.end() });
-    });
+    }).catch(err => { res.status(500).status.end() });
 });
 
 router.put('/choice/:id', async function(req, res, next){
@@ -155,7 +155,7 @@ router.put('/choice/:id', async function(req, res, next){
         }).then(updatedChoice => {
             res.status(200).send(updatedChoice);
         }).catch(err => { res.status(500).status.end() });
-    });
+    }).catch(err => { res.status(500).status.end() });;
 });
 
 router.get('/:id/results', function(req, res, next) {
