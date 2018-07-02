@@ -150,6 +150,26 @@ router.put('/:id', async function(req, res, next){
     });
 });
 
+router.delete('/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Questions.findById(req.params.id).then(question => {
+        if (! question) {
+            res.status(500).send("Can't Find Question");
+        }
+        console.log(req.body);
+        question.delete().then(() => {
+            res.status(200).end();
+        }).catch(err => { 
+            console.log(err);
+            res.status(500).end() 
+        });
+    }).catch(err => { 
+        console.log(err);
+        res.status(500).end() 
+    });
+});
+
 router.put('/choice/:id', async function(req, res, next){
     var user = await getUser(req);
     if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
@@ -161,6 +181,26 @@ router.put('/choice/:id', async function(req, res, next){
             text: req.body.choiceTitle,
         }).then(updatedChoice => {
             res.status(200).send(updatedChoice);
+        }).catch(err => { 
+            console.log(err);
+            res.status(500).end() 
+        });
+    }).catch(err => { 
+        console.log(err);
+        res.status(500).end() 
+    });
+});
+
+router.delete('/choice/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Choices.findById(req.params.id).then(question => {
+        if (! question) {
+            res.status(500).send("Can't Find Question");
+        }
+        console.log(req.body);
+        choices.delete().then(() => {
+            res.status(200).end();
         }).catch(err => { 
             console.log(err);
             res.status(500).end() 
