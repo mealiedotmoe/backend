@@ -139,7 +139,10 @@ router.put('/:id', async function(req, res, next){
             admin_abuse: req.body.adminAbuse,
         }).then(updatedPoll => {
             res.status(200).send(updatedPoll);
-        }).catch(err => { res.status(500).status.end() });
+        }).catch(err => { 
+            console.log(err);
+            res.status(500).end() 
+        });
     }).catch(err => { 
         console.log(err);
         res.status(500).end() 
@@ -157,7 +160,10 @@ router.put('/choice/:id', async function(req, res, next){
             text: req.body.choiceTitle,
         }).then(updatedChoice => {
             res.status(200).send(updatedChoice);
-        }).catch(err => { res.status(500).status.end() });
+        }).catch(err => { 
+            console.log(err);
+            res.status(500).end() 
+        });
     }).catch(err => { 
         console.log(err);
         res.status(500).end() 
