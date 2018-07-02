@@ -133,6 +133,7 @@ router.put('/:id', async function(req, res, next){
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
+        console.log(req.body);
         question.update({
             text: req.body.pollTitle,
             multiple_options: req.body.pollMultipleOptions,
