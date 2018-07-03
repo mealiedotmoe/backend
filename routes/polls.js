@@ -29,23 +29,6 @@ async function getUser(req) {
     })
 }
 
-async function getResponses(question) {
-    responses = 0
-    var choicesList = await question.getChoices();
-    newArray = choicesList.map(async choice => {
-        var votes = await Votes.count({ where: {choiceId: choice.id }});
-        return votes
-    });
-    return Promise.all(newArray).then(choicesAll =>{
-        choicesAll.forEach(amount => {
-            responses += amount
-        });
-        console.log(responses)
-        return responses
-    });
-    
-  }
-
 /* GET all questions */
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
@@ -101,13 +84,23 @@ router.post('/:id', async function(req, res, next){
         if (!question.multiple_options) {
             Choices.findById(req.body.choices[0]).then(choice =>{
                 if (!choice) {return res.status(500).send("Couldn't find choice")}
+                allResponses = question.responses;
+                if (allResponses.includes(`${user.id}`)) {
+                    res.status(500).send('User already voted');
+                }
                 Votes.create({
                     choiceId: choice.id
                 }).then(vote => {
                     vote.setUser(user);
                     choice.addVotes(vote);
                 });
-                res.status(200).end();
+                allResponses.push(user.id);
+                question.update(
+                    {responses: allResponses}
+                ).then(() =>{
+                    res.status(200).end();
+                });
+                
             });
         } else {
             req.body.choices.forEach(id =>{
@@ -194,12 +187,12 @@ router.put('/choice/:id', async function(req, res, next){
 router.delete('/choice/:id', async function(req, res, next){
     var user = await getUser(req);
     if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
-    Choices.findById(req.params.id).then(question => {
-        if (! question) {
-            res.status(500).send("Can't Find Question");
+    Choices.findById(req.params.id).then(choice => {
+        if (!choice) {
+            res.status(500).send("Can't Find Choice");
         }
         console.log(req.body);
-        choices.delete().then(() => {
+        choice.delete().then(() => {
             res.status(200).end();
         }).catch(err => { 
             console.log(err);

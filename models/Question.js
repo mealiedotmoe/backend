@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        responses: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            defaultValue: [],
+        },
         admin_abuse: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
