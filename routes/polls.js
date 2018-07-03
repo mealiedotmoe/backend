@@ -32,13 +32,9 @@ async function getUser(req) {
 /* GET all questions */
 router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
-        questions['rows'] = questions['rows'].map(async question => {
-            var tempUser = await question.getUser();
-            question.author = tempUser.getCleanInfo();
-            question.dataValues.responses = await getResponses(question);
-            return question;
-        });
-        Promise.all(questions['rows']).then(questions => res.send(JSON.stringify(questions)));
+        var tempUser = await question.getUser();
+        question.author = tempUser.getCleanInfo();
+        res.send(JSON.stringify(questions));
     });
 });
 
