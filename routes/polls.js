@@ -84,7 +84,7 @@ router.post('/:id', async function(req, res, next){
             Choices.findById(req.body.choices[0]).then(choice =>{
                 if (!choice) {return res.status(500).send("Couldn't find choice")}
                 allResponses = question.responses;
-                if (allResponses.includes(`${user.id}`)) {
+                if (allResponses.includes(`${user.discord_id}`)) {
                     res.status(500).send('User already voted');
                 }
                 Votes.create({
@@ -94,7 +94,7 @@ router.post('/:id', async function(req, res, next){
                     choice.addVotes(vote);
                 });
                 console.log(allResponses);
-                allResponses.push(user.id);
+                allResponses.push(user.discord_id);
                 console.log(allResponses);
                 question.update(
                     {responses: allResponses}
