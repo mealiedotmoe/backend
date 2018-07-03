@@ -8,15 +8,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/history', async function(req, res, next) {
-    const musicHistory = await fetch('http://144.217.162.175:1356/history',
-    {
-      method: 'GET'
-    }).catch(err => {
-      console.error(`Unable to get user: ${err}`);
+    const musicHistory = await fetch('http://144.217.162.175:1356/history').catch(err => {
+      console.error(`Unable to get history: ${err}`);
     });
     if(!musicHistory) res.status(500).end();
+    const jsonResponse = await musicHistory.json();
     console.log(musicHistory);
-    res.status(200).send(musicHistory.json);
+    res.status(200).send(jsonResponse['history']);
 });
 
 module.exports = router;
