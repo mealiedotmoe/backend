@@ -93,9 +93,7 @@ router.post('/:id', async function(req, res, next){
                     vote.setUser(user);
                     choice.addVotes(vote);
                 });
-                console.log(allResponses);
                 allResponses.push(user.discord_id);
-                console.log(allResponses);
                 question.update(
                     {responses: allResponses}
                 ).then(() =>{
@@ -104,6 +102,10 @@ router.post('/:id', async function(req, res, next){
                 
             });
         } else {
+            allResponses = question.responses;
+            if (allResponses.includes(`${user.discord_id}`)) {
+                res.status(500).send('User already voted');
+            }
             req.body.choices.forEach(id =>{
                 Choices.findById(id).then(choice =>{
                     if (!choice) {return res.status(500).send("Couldn't find choice")}
@@ -114,8 +116,13 @@ router.post('/:id', async function(req, res, next){
                         choice.addVotes(vote);
                     });
                 }
-            )});  
-            res.status(200).end();
+            )});
+            allResponses.push(user.discord_id);
+            question.update(
+                {responses: allResponses}
+            ).then(() =>{
+                res.status(200).end();
+            });
         }
     })
 });
