@@ -93,7 +93,9 @@ router.post('/:id', async function(req, res, next){
                     vote.setUser(user);
                     choice.addVotes(vote);
                 });
+                console.log(allResponses);
                 allResponses.push(user.id);
+                console.log(allResponses);
                 question.update(
                     {responses: allResponses}
                 ).then(() =>{
