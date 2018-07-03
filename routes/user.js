@@ -18,8 +18,6 @@ router.get('/', function(req, res, next) {
         users.forEach(user => {
             userList.push(JSON.stringify(user.getInfo()));
         });
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.json(userList);
     });
 });
