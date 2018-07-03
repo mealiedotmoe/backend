@@ -15,6 +15,7 @@ router.get('/history', async function(req, res, next) {
       console.error(`Unable to get user: ${err}`);
     });
     if(!musicHistory) res.status(500).end();
+    console.log(musicHistory);
     res.status(200).send(musicHistory.json);
 });
 
