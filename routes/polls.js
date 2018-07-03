@@ -31,7 +31,7 @@ async function getUser(req) {
 
 /* GET all questions */
 router.get('/', async function(req, res, next) {
-    Questions.findAndCountAll().then(questions => {
+    Questions.findAndCountAll().then(async questions => {
         var tempUser = await question.getUser();
         question.author = tempUser.getCleanInfo();
         res.send(JSON.stringify(questions));
