@@ -1,0 +1,92 @@
+var express = require('express');
+var router = express.Router();
+var jwt = require('jsonwebtoken');
+const jwtSecret = 'yourtokenhere';
+const {Users, Events} = require('../dbObjects');
+
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
+    host: 'localhost',
+    dialect: 'postgres',
+    logging: false,
+    operatorsAliases: false,
+});
+
+async function getUser(req) {
+    if (!req.headers.authorization) {
+        return false;
+    }
+    const token = req.headers.authorization.split(' ')[1];
+
+    return await jwt.verify(token, jwtSecret, (err, decoded) =>{
+        if(err) { return false; }
+        const userId = decoded.sub;
+        return Users.findById(userId).then(user => {
+            return user;
+        }).catch(err => { return false; })
+    })
+}
+
+router.get('/', async function(req, res, next) {
+    var user = await getUser(req);
+    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    Events.all().then(allEvents => {
+        res.status(200).send(allEvents);
+    }).catch(err => {
+        res.status(500).end()
+    })
+});
+
+router.post('/', async function(req, res, next) {
+    var user = await getUser(req);
+    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
+    Events.create({
+        title: req.body.eventTitle,
+        date: req.body.eventDate,
+        type: req.body.eventType,
+        description: req.body.eventDescription,
+    }).then(newEvents => {
+        newEvents.setUser(user);
+        res.status(201).send(newEvents);
+    });
+});
+
+router.get('/id/:id', function(req, res, next){
+    Events.findById(req.params.id).then(eventInfo => {
+        if (! eventInfo) {
+            res.status(500).send("Can't Find info");
+        }
+        res.status(200).send(eventInfo);
+    })
+});
+
+router.get('/date/:date', function(req, res, next){
+    Events.findAll({where: {
+        date: req.params.date
+    }}).then(eventInfo => {
+        if (! eventInfo) {
+            res.status(500).send("Can't Find info");
+        }
+        res.status(200).send(eventInfo);
+    })
+});
+
+router.put('/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    Events.findById(req.params.id).then(eventInfo => {
+        if (! eventInfo) {
+            res.status(500).send("Can't Find Info");
+        }
+        eventInfo.update({
+            title: req.body.eventTitle,
+            date: req.body.eventDate,
+            type: req.body.eventType,
+            description: req.body.eventDescription,
+        }).then(updatedMarkdown => {
+            res.status(200).send(updatedMarkdown);
+        }).catch(err => { res.status(500).end()});
+    });
+});
+
+module.exports = router;

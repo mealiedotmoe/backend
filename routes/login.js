@@ -4,6 +4,8 @@ var jwt = require('jsonwebtoken');
 const btoa = require('btoa');
 const fetch = require('node-fetch');
 const jwtSecret = 'yourtokenhere';
+
+
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
   host: 'localhost',

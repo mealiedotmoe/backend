@@ -22,6 +22,23 @@ router.get('/', function(req, res, next) {
     });
 });
     
+router.put('/:id', function(req, res, next) {
+    if (!req.user.admin) { res.status(401).end(); }
+    Users.findById(req.params.id).then(user => {
+        if (!user) { res.status(500).send('Can not find user.')}
+        user.update({
+            admin: req.body.userAdmin,
+        }).then(updatedUser => {
+            res.status(200).send(updatedUser);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).end()
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    })
+}) ;
 
 router.get('/me', function(req, res, next){
     if (!req.user) { return res.status(404).send('No user found') };

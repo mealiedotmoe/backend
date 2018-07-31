@@ -13,6 +13,7 @@ var Choices = sequelize.import('models/Choice');
 var Votes = sequelize.import('models/Vote');
 
 var FaqInfo = sequelize.import('models/FaqInfo');
+var Events = sequelize.import('models/Event');
 var Markdown = sequelize.import('models/Markdown');
 
 Questions.belongsTo(Users, {as: 'User', foreignKey: 'author'});
@@ -21,6 +22,7 @@ Choices.hasMany(Votes, {as: 'Votes'});
 Votes.belongsTo(Users, {as: 'User', foreignKey: 'userId'});
 
 FaqInfo.belongsTo(Users, {as: 'User', foreignKey: 'author'});
+Events.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 Markdown.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 
 module.exports = {Users, Questions, Choices, Votes, FaqInfo, Markdown}
