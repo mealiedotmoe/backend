@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b4d2daca-bd06-4102-b480-d1868d04be2b" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/dbInit.js" beforeDir="false" afterPath="$PROJECT_DIR$/dbInit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbObjects.js" beforeDir="false" afterPath="$PROJECT_DIR$/dbObjects.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,11 +24,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dbInit.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="dbInit.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/dbInit.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="460">
-                  <caret line="20" column="33" lean-forward="true" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+                <state relative-caret-position="345">
+                  <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
                 </state>
               </provider>
             </entry>
@@ -75,7 +74,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dbObjects.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="dbObjects.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/dbObjects.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="621">
@@ -118,8 +117,8 @@
           <file leaf-file-name="Event.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/models/Event.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="460">
-                  <caret line="20" column="10" lean-forward="true" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+                <state relative-caret-position="207">
+                  <caret line="9" column="10" lean-forward="true" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
                 </state>
               </provider>
             </entry>
@@ -165,8 +164,8 @@
         <option value="$PROJECT_DIR$/routes/events.js" />
         <option value="$PROJECT_DIR$/routes/user.js" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/dbInit.js" />
         <option value="$PROJECT_DIR$/dbObjects.js" />
+        <option value="$PROJECT_DIR$/dbInit.js" />
       </list>
     </option>
   </component>
@@ -264,12 +263,12 @@
       <workItem from="1532680113740" duration="60000" />
       <workItem from="1532680191189" duration="107000" />
       <workItem from="1532706907089" duration="7522000" />
-      <workItem from="1533024266351" duration="693000" />
+      <workItem from="1533024266351" duration="838000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12993000" />
+    <option name="totallyTimeSpent" value="13138000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -576,13 +575,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/Event.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="20" column="10" lean-forward="true" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/events.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
@@ -604,10 +596,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dbInit.js">
+    <entry file="file://$PROJECT_DIR$/models/Event.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="20" column="33" lean-forward="true" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+        <state relative-caret-position="207">
+          <caret line="9" column="10" lean-forward="true" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -615,6 +607,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="621">
           <caret line="27" column="77" selection-start-line="27" selection-start-column="77" selection-end-line="27" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbInit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
         </state>
       </provider>
     </entry>

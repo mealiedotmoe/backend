@@ -13,7 +13,7 @@ var Choices = sequelize.import('models/Choice');
 var Votes = sequelize.import('models/Vote');
 var FaqInfo = sequelize.import('models/FaqInfo');
 var Markdown = sequelize.import('models/Markdown');
-var Events = sequelize.import('models/Events')
+var Events = sequelize.import('models/Event');
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 
