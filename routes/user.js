@@ -41,7 +41,7 @@ router.put('/:id', function(req, res, next) {
 }) ;
 
 router.get('/me', function(req, res, next){
-    if (!req.user) { return res.status(404).send('No user found') };
+    if (!req.user) { return res.status(404).send('No user found') }
     res.status(200).send(req.user.getInfo());
 });
 
