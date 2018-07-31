@@ -25,4 +25,4 @@ FaqInfo.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 Events.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 Markdown.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 
-module.exports = {Users, Questions, Choices, Votes, FaqInfo, Markdown}
+module.exports = {Users, Questions, Choices, Votes, FaqInfo, Markdown, Events}

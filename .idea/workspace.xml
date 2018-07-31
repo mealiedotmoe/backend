@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d2daca-bd06-4102-b480-d1868d04be2b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dbInit.js" beforeDir="false" afterPath="$PROJECT_DIR$/dbInit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dbObjects.js" beforeDir="false" afterPath="$PROJECT_DIR$/dbObjects.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,11 +16,20 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="767">
+                <state relative-caret-position="514">
                   <caret line="43" column="33" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="dbInit.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/dbInit.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="460">
+                  <caret line="20" column="33" lean-forward="true" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
                 </state>
               </provider>
             </entry>
@@ -67,11 +75,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dbObjects.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="dbObjects.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/dbObjects.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="184">
-                  <caret line="8" selection-start-line="8" selection-end-line="8" />
+                <state relative-caret-position="621">
+                  <caret line="27" column="77" selection-start-line="27" selection-start-column="77" selection-end-line="27" selection-end-column="77" />
                 </state>
               </provider>
             </entry>
@@ -90,15 +98,6 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="391">
                   <caret line="17" column="18" lean-forward="true" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="info.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/routes/info.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="690">
-                  <caret line="30" column="46" selection-start-line="30" selection-start-column="46" selection-end-line="30" selection-end-column="46" />
                 </state>
               </provider>
             </entry>
@@ -163,10 +162,11 @@
       <list>
         <option value="$PROJECT_DIR$/routes/login.js" />
         <option value="$PROJECT_DIR$/models/Event.js" />
-        <option value="$PROJECT_DIR$/dbObjects.js" />
         <option value="$PROJECT_DIR$/routes/events.js" />
         <option value="$PROJECT_DIR$/routes/user.js" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/dbInit.js" />
+        <option value="$PROJECT_DIR$/dbObjects.js" />
       </list>
     </option>
   </component>
@@ -186,7 +186,7 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="4" />
     <option name="y" value="22" />
     <option name="width" value="1891" />
@@ -264,12 +264,12 @@
       <workItem from="1532680113740" duration="60000" />
       <workItem from="1532680191189" duration="107000" />
       <workItem from="1532706907089" duration="7522000" />
-      <workItem from="1533024266351" duration="42000" />
+      <workItem from="1533024266351" duration="693000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12342000" />
+    <option name="totallyTimeSpent" value="12993000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -309,13 +309,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/polls.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -573,13 +566,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dbObjects.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -613,8 +599,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="767">
+        <state relative-caret-position="514">
           <caret line="43" column="33" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbInit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="20" column="33" lean-forward="true" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbObjects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="27" column="77" selection-start-line="27" selection-start-column="77" selection-end-line="27" selection-end-column="77" />
         </state>
       </provider>
     </entry>
