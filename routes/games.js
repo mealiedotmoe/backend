@@ -32,12 +32,8 @@ router.get('/', async function(req, res, next) {
             game.users = await subList.map(async sub => {
                 let subUser = await Users.findById(sub.user_id);
                 return subUser.getCleanInfo();
-            }).catch(err => {
-                console.log(err);
             });
-            game.genre = await game.getGenre().catch(err => {
-                console.log(err);
-            });
+            game.genre = await game.getGenre();
         });
         Promise.all(newAllGames).then(finalAllGames =>{
             res.status(200).send(finalAllGames);
