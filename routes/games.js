@@ -35,7 +35,9 @@ router.get('/', async function(req, res, next) {
             });
             game.genre = await game.getGenre();
         });
-        res.status(200).send(newAllGames);
+        Promise.all(newAllGames).then(finalAllGames =>{
+            res.status(200).send(finalAllGames);
+        })
     }).catch(err => {
         console.log(err);
         res.status(500).end()
