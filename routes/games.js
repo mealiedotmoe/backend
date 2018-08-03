@@ -22,8 +22,8 @@ async function getUser(req) {
 router.get('/', async function(req, res, next) {
     let user = await getUser(req);
     if (!user) { return res.status(403).send('You must be logged in to an account to use this feature').end(); }
-    Games.all().then(allGames => {
-        allGames = allGames.map(async game => {
+    Games.all().then(async allGames => {
+        allGames = await allGames.map(async game => {
             let subList = await Subscriptions.findAll({
                 where: {
                     game_id: game.id,
