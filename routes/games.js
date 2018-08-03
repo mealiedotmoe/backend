@@ -122,3 +122,5 @@ router.put('/:id', async function(req, res, next){
         }).catch(err => { res.status(500).end()});
     });
 });
+
+module.exports = router;
