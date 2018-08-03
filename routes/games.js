@@ -33,7 +33,7 @@ router.get('/', async function(req, res, next) {
                 let subUser = await Users.findById(sub.user_id);
                 return subUser.getCleanInfo();
             });
-            game.genre = await game.getGenre().name;
+            game.genre = await game.getGenre();
         });
         res.status(200).send(allGames);
     }).catch(err => {
