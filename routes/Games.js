@@ -28,7 +28,8 @@ async function getUser(req) {
 }
 
 router.get('/', async function(req, res, next) {
-    var user = await getUser(req);
+    let user = await getUser(req);
+    if (!user) { return res.status(403).send('You must be logged in to an account to use this feature').end(); }
     Games.all().then(allGames => {
         allGames = allGames.map(async game => {
             let userList = await game.getUsers();
@@ -55,10 +56,39 @@ router.post('/', async function(req, res, next) {
         },
     });
     Games.create({
-        title: req.body.eventTitle,
+        title: req.body.gameTitle,
     }).then(newGame => {
         newGame.setGenre(gameGenre);
         res.status(201).send(newGame);
+    });
+});
+
+router.post('/genres/', async function(req, res, next) {
+    let user = await getUser(req);
+    if (!user || !user.admin ) {
+        return res.status(401).send('You must be logged in to an admin account to use this feature').end();
+    }
+    Genres.create({
+        name: req.body.genreName,
+    }).then(newGame => {
+        res.status(201).send(newGame);
+    });
+});
+
+router.put('/genres/:id', async function(req, res, next) {
+    let user = await getUser(req);
+    if (!user || !user.admin ) {
+        return res.status(401).send('You must be logged in to an admin account to use this feature').end();
+    }
+    Games.findById(req.params.id).then( genreInfo => {
+        if (!genreInfo) {
+            res.status(500).send("Can't Find Genre");
+        }
+         genreInfo.update({
+            title: req.body.genreName,
+        }).then(updatedGenre => {
+            res.status(200).send(updatedGenre);
+        }).catch(err => { res.status(500).end()});
     });
 });
 
