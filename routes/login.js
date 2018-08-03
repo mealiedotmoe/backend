@@ -4,16 +4,7 @@ var jwt = require('jsonwebtoken');
 const btoa = require('btoa');
 const fetch = require('node-fetch');
 const jwtSecret = 'yourtokenhere';
-
-
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
-});
-const User = sequelize.import('../models/User');
+const { Users } = require('../dbObjects');
 
 const CLIENT_ID = "379731370735566849";
 const CLIENT_SECRET = "OZooKYkRhbFahfetM5Qi6gUA08xQU3sS";
@@ -46,7 +37,7 @@ router.get('/callback', async function(req, res, next) {
       console.error(`Unable to get user: ${err}`);
     });
   var discord_user = await temp_user.json();
-  var db_user = await User.upsert({
+  var db_user = await Users.upsert({
     username: `${discord_user.username}`,
     discord_id: `${discord_user.id.toString()}`,
     discord_token: `${discord_user.access_token}`,

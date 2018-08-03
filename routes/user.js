@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const {Users, Games, Genres, Subscriptions} = require('../dbObjects');
+const {Users, Games, Subscriptions} = require('../dbObjects');
 
-/* GET all users */
 router.get('/', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
     Users.all().then(users =>{

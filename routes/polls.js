@@ -4,16 +4,6 @@ var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
 const {Users, Questions, Choices, Votes} = require('../dbObjects');
 
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
-});
-
-const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/login/callback');
-
 async function getUser(req) {
     if (!req.headers.authorization) {
         return false;

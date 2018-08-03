@@ -4,14 +4,6 @@ var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
 const {Users, FaqInfo} = require('../dbObjects');
 
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
-});
-
 async function getUser(req) {
     if (!req.headers.authorization) {
         return false;
