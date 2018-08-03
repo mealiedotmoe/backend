@@ -66,17 +66,16 @@ router.post('/:id/games/:game', async function(req, res, next) {
 });
 
 router.get('/me/games', async function(req, res, next) {
-    let user = req.user;
-    if (!user) { return res.status(500).send('Can not find user.').end() }
-    user.games = await Subscriptions.findAll({
+    if (!req.user) { return res.status(500).send('Can not find user.').end() }
+    req.user.games = await Subscriptions.findAll({
         where: {
-            user_id: user.discord_id
+            user_id: req.user.discord_id
         }
     }).catch(err => {
         console.log(err);
         res.status(500).end()
     });
-    res.status(200).send(user).end();
+    res.status(200).send(req.user).end();
 });
 
 router.post('/me/games/:game', async function(req, res, next) {
