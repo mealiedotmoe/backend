@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
     Users.findById(req.params.id).then(user => {
-        if (!user) { res.status(500).send('Can not find user.').end() }
+        if (!user) { return res.status(500).send('Can not find user.').end() }
         user.update({
             admin: req.body.userAdmin,
         }).then(updatedUser => {
@@ -33,7 +33,7 @@ router.put('/:id', function(req, res, next) {
 
 router.get('/:id/games', function(req, res, next) {
     Users.findById(req.params.id).then(async user => {
-        if (!user) { res.status(500).send('Can not find user.').end() }
+        if (!user) { return res.status(500).send('Can not find user.').end() }
         user.games = await Subscriptions.findAll({
             where: {
                 user_id: user.discord_id
@@ -67,7 +67,7 @@ router.post('/:id/games/:game', async function(req, res, next) {
 
 router.get('/me/games', async function(req, res, next) {
     let user = req.user;
-    if (!user) { res.status(500).send('Can not find user.').end() }
+    if (!user) { return res.status(500).send('Can not find user.').end() }
     user.games = await Subscriptions.findAll({
         where: {
             user_id: user.discord_id
