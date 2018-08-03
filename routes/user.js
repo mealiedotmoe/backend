@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
     Users.findById(req.params.id).then(user => {
-        if (!user) { res.status(500).send('Can not find user.')}
+        if (!user) { res.status(500).send('Can not find user.').end() }
         user.update({
             admin: req.body.userAdmin,
         }).then(updatedUser => {
@@ -33,7 +33,7 @@ router.put('/:id', function(req, res, next) {
 
 router.get('/:id/games', function(req, res, next) {
     Users.findById(req.params.id).then(async user => {
-        if (!user) { res.status(500).send('Can not find user.')}
+        if (!user) { res.status(500).send('Can not find user.').end() }
         user.games = await Subscriptions.findAll({
             where: {
                 user_id: user.discord_id
@@ -52,8 +52,8 @@ router.post('/:id/games/:game', async function(req, res, next) {
     }
     let foundGame = await Games.findById(req.params.game);
     let targetUser = await Users.findById(req.params.id);
-    if (!foundGame) { return res.status(404).send('Game not found') }
-    if (!targetUser) { return res.status(404).send('User not found') }
+    if (!foundGame) { return res.status(404).send('Game not found').end() }
+    if (!targetUser) { return res.status(404).send('User not found').end() }
     Subscriptions.create().then(sub => {
         sub.setUser(targetUser);
         sub.setGame(foundGame);
@@ -67,7 +67,7 @@ router.post('/:id/games/:game', async function(req, res, next) {
 
 router.get('/me/games', async function(req, res, next) {
     let user = req.user;
-    if (!user) { res.status(500).send('Can not find user.')}
+    if (!user) { res.status(500).send('Can not find user.').end() }
     user.games = await Subscriptions.findAll({
         where: {
             user_id: user.discord_id
