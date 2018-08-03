@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
-const {Users, Games, Genres} = require('../dbObjects');
+const {Users, Games, Genres, Subscriptions} = require('../dbObjects');
 
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
@@ -32,9 +32,14 @@ router.get('/', async function(req, res, next) {
     if (!user) { return res.status(403).send('You must be logged in to an account to use this feature').end(); }
     Games.all().then(allGames => {
         allGames = allGames.map(async game => {
-            let userList = await game.getUsers();
-            game.users = userList.map(user => {
-                return user.getCleanInfo();
+            let subList = await Subscriptions.findAll({
+                where: {
+                    game_id: game.id,
+                }
+            });
+            game.users = subList.map(async sub => {
+                let subUser = await Users.findById(sub.user_id);
+                return subUser.getCleanInfo();
             });
             game.genre = await game.getGenre().name;
         });
@@ -43,6 +48,16 @@ router.get('/', async function(req, res, next) {
         console.log(err);
         res.status(500).end()
     })
+});
+
+router.get('/list', async function(req, res, next) {
+    let user = await getUser(req);
+    if (!user) { return res.status(403).send('You must be logged in to an account to use this feature').end(); }
+    let gamesList = Games.all().catch(err => {
+        console.log(err);
+        res.status(500).end();
+    });
+    res.status(200).send(gamesList).end();
 });
 
 router.post('/', async function(req, res, next) {

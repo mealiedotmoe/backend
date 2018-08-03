@@ -1,14 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
-});
-const Users = sequelize.import('../models/User');
+const {Users, Games, Genres, Subscriptions} = require('../dbObjects');
 
 /* GET all users */
 router.get('/', function(req, res, next) {
@@ -38,7 +30,70 @@ router.put('/:id', function(req, res, next) {
         console.log(err);
         res.status(500).end()
     })
-}) ;
+});
+
+router.get('/:id/games', function(req, res, next) {
+    Users.findById(req.params.id).then(async user => {
+        if (!user) { res.status(500).send('Can not find user.')}
+        user.games = await Subscriptions.findAll({
+            where: {
+                user_id: user.discord_id
+            }
+        });
+        res.status(200).send(user).end();
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+});
+
+router.post('/:id/games/:game', async function(req, res, next) {
+    if (!req.user || !req.user.admin) {
+        return res.status(403).send('You need to be logged into an admin account to use this feature')
+    }
+    let foundGame = await Games.findById(req.params.game);
+    let targetUser = await Users.findById(req.params.id);
+    if (!foundGame) { return res.status(404).send('Game not found') }
+    if (!targetUser) { return res.status(404).send('User not found') }
+    Subscriptions.create().then(sub => {
+        sub.setUser(targetUser);
+        sub.setGame(foundGame);
+    }).then(createdSub => {
+        res.status(200).send(createdSub).end();
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+});
+
+router.get('/me/games', async function(req, res, next) {
+    let user = req.user;
+    if (!user) { res.status(500).send('Can not find user.')}
+    user.games = await Subscriptions.findAll({
+        where: {
+            user_id: user.discord_id
+        }
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+    res.status(200).send(user).end();
+});
+
+router.post('/me/games/:game', async function(req, res, next) {
+    if (!req.user) { return res.status(404).send('No user found') }
+    let foundGame = await Games.findById(req.params.game);
+    if (!foundGame) { return res.status(404).send('Game not found') }
+    Subscriptions.create().then(sub => {
+        sub.setUser(req.user);
+        sub.setGame(foundGame);
+    }).then(createdSub => {
+        res.status(200).send(createdSub).end();
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+});
 
 router.get('/me', function(req, res, next){
     if (!req.user) { return res.status(404).send('No user found') }
