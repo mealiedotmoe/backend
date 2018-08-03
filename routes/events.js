@@ -29,7 +29,7 @@ async function getUser(req) {
 
 router.get('/', async function(req, res, next) {
     var user = await getUser(req);
-    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
     Events.all().then(allEvents => {
         res.status(200).send(allEvents);
     }).catch(err => {
@@ -73,7 +73,7 @@ router.get('/date/:date', function(req, res, next){
 
 router.put('/:id', async function(req, res, next){
     var user = await getUser(req);
-    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
     Events.findById(req.params.id).then(eventInfo => {
         if (! eventInfo) {
             res.status(500).send("Can't Find Info");
