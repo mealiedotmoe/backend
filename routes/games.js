@@ -65,6 +65,10 @@ router.post('/', async function(req, res, next) {
             name: req.body.genreName,
         },
     });
+    // If gameGenre was newly created, select only game genre object
+    if (gameGenre[1]) {
+        gameGenre = gameGenre[0];
+    }
     Games.create({
         title: req.body.gameTitle,
     }).then(newGame => {
