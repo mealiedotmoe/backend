@@ -7,10 +7,13 @@ const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
   operatorsAliases: false,
 });
 
-sequelize.import('models/User');
-sequelize.import('models/Question');
-sequelize.import('models/Choice');
-sequelize.import('models/Vote');
+var Users = sequelize.import('models/User');
+var Questions = sequelize.import('models/Question');
+var Choices = sequelize.import('models/Choice');
+var Votes = sequelize.import('models/Vote');
+var FaqInfo = sequelize.import('models/FaqInfo');
+var Markdown = sequelize.import('models/Markdown');
+var Events = sequelize.import('models/Event');
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 

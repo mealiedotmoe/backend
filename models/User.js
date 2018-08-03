@@ -33,14 +33,20 @@ module.exports = function(sequelize, DataTypes) {
     timestamps: false,
   });
   User.prototype.getInfo = function() {
-    return JSON.stringify({
+    return {
       'username': this.username,
       'id': this.discord_id,
       'email': this.email,
       'experience': this.experience,
       'level': this.level,
       'admin': this.admin,
-    });
+    };
+  }
+  User.prototype.getCleanInfo = function() {
+    return {
+      'username': this.username,
+      'id': this.discord_id,
+    };
   }
   return User;
 }

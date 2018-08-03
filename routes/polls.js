@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-const btoa = require('btoa');
-const fetch = require('node-fetch');
+const jwtSecret = 'yourtokenhere';
+const {Users, Questions, Choices, Votes} = require('../dbObjects');
 
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
@@ -11,63 +11,223 @@ const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
   logging: false,
   operatorsAliases: false,
 });
-const Questions = sequelize.import('../models/Question');
-const Choices = sequelize.import('../models/Choice');
-const Votes = sequelize.import('../models/Vote');
 
 const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/login/callback');
 
+async function getUser(req) {
+    if (!req.headers.authorization) {
+        return false;
+    }
+    const token = req.headers.authorization.split(' ')[1];
+
+    return await jwt.verify(token, jwtSecret, (err, decoded) =>{
+        if(err) { return false; }
+        const userId = decoded.sub;
+        return Users.findById(userId).then(user => {
+            return user;
+        }).catch(err => { return false; })
+    })
+}
+
 /* GET all questions */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
     Questions.findAndCountAll().then(questions => {
-        res.send(JSON.stringify(questions));
+        questions['rows'] = questions['rows'].map(async question => {
+            var tempUser = await question.getUser();
+            question.author = tempUser.getCleanInfo();
+            return question;
+        });
+        Promise.all(questions['rows']).then(questions => res.send(JSON.stringify(questions)));
     });
 });
 
 /* POST to create new question */
 router.post('/', async function(req, res, next) {
+    var user = await getUser(req);
+    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.create({
-        text: req.body.questionText,
-        multiple_options: req.body.multiple_options,
+        text: req.body.pollName,
+        multiple_options: req.body.enableMultipleAnswers,
     }).then(newQuestion => {
-        req.body.newChoices.forEach((choice) => {
+        newQuestion.setUser(user);
+        req.body.choices.forEach((choice) => {
             Choices.create({
-                questionId: newQuestion.id,
-                text: choice.text,
+                text: choice.value,
+            }).then(choice => {
+                newQuestion.addChoices(choice)
             });
         });
         res.send(newQuestion);
-    })
+    });
 });
 
-router.get('/polls/:id', function(req, res, next){
+router.get('/:id', function(req, res, next){
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        res.send(question);
+        question.getChoices().then(allChoices => {
+            question.dataValues.choices = allChoices;
+            res.send(question);
+        });
     })
 });
 
-router.post('/polls/:id', function(req, res, next){
+router.post('/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        Vote.create({
-            choiceId: question.id,
-            user: req.body.user,
-        })
-        res.redirect(`questions/${req.params.id}/results`);
+        if (!question.multiple_options) {
+            Choices.findById(req.body.choices[0]).then(choice =>{
+                if (!choice) {return res.status(500).send("Couldn't find choice")}
+                allResponses = question.responses;
+                if (allResponses.includes(`${user.discord_id}`)) {
+                    res.status(500).send('User already voted');
+                }
+                Votes.create({
+                    choiceId: choice.id
+                }).then(vote => {
+                    vote.setUser(user);
+                    choice.addVotes(vote);
+                });
+                allResponses.push(user.discord_id);
+                question.update(
+                    {responses: allResponses}
+                ).then(() =>{
+                    res.status(200).end();
+                });
+                
+            });
+        } else {
+            allResponses = question.responses;
+            if (allResponses.includes(`${user.discord_id}`)) {
+                res.status(500).send('User already voted');
+            }
+            req.body.choices.forEach(id =>{
+                Choices.findById(id).then(choice =>{
+                    if (!choice) {return res.status(500).send("Couldn't find choice")}
+                    Votes.create({
+                        choiceId: choice.id
+                    }).then(vote => {
+                        vote.setUser(user);
+                        choice.addVotes(vote);
+                    });
+                }
+            )});
+            allResponses.push(user.discord_id);
+            question.update(
+                {responses: allResponses}
+            ).then(() =>{
+                res.status(200).end();
+            });
+        }
     })
 });
 
-router.get('/polls/:id/results', function(req, res, next) {
+router.put('/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
     Questions.findById(req.params.id).then(question => {
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        res.send(question);
+        console.log(req.body);
+        question.update({
+            text: req.body.pollTitle,
+            multiple_options: req.body.pollMultipleOptions,
+            admin_abuse: req.body.adminAbuse,
+        }).then(updatedPoll => {
+            res.status(200).send(updatedPoll);
+        }).catch(err => { 
+            console.log(err);
+            res.status(500).end() 
+        });
+    }).catch(err => { 
+        console.log(err);
+        res.status(500).end() 
+    });
+});
+
+router.delete('/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Questions.findById(req.params.id).then(question => {
+        if (! question) {
+            res.status(500).send("Can't Find Question");
+        }
+        console.log(req.body);
+        question.delete().then(() => {
+            res.status(200).end();
+        }).catch(err => { 
+            console.log(err);
+            res.status(500).end() 
+        });
+    }).catch(err => { 
+        console.log(err);
+        res.status(500).end() 
+    });
+});
+
+router.put('/choice/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Choices.findById(req.params.id).then(choice => {
+        if (!choice) {
+            res.status(500).send("Can't Find choice");
+        }
+        choice.update({
+            text: req.body.choiceTitle,
+        }).then(updatedChoice => {
+            res.status(200).send(updatedChoice);
+        }).catch(err => { 
+            console.log(err);
+            res.status(500).end() 
+        });
+    }).catch(err => { 
+        console.log(err);
+        res.status(500).end() 
+    });
+});
+
+router.delete('/choice/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Choices.findById(req.params.id).then(choice => {
+        if (!choice) {
+            res.status(500).send("Can't Find Choice");
+        }
+        console.log(req.body);
+        choice.delete().then(() => {
+            res.status(200).end();
+        }).catch(err => { 
+            console.log(err);
+            res.status(500).end() 
+        });
+    }).catch(err => { 
+        console.log(err);
+        res.status(500).end() 
+    });
+});
+
+router.get('/:id/results', function(req, res, next) {
+    Questions.findById(req.params.id).then(question => {
+        if (! question) {
+            res.status(500).send("Can't Find Question");
+        }
+        question.getChoices().then(choices => {
+            choices = choices.map(async choice => {
+                choice.dataValues.votes = await Votes.count({ where: {choiceId: choice.id }});
+                return choice
+            })
+            Promise.all(choices).then(choicesDone => {
+                question.dataValues.choices = choicesDone;
+                res.send(question);
+            })
+            
+        });
     })
 });
 

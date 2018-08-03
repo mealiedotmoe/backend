@@ -4,6 +4,8 @@ var jwt = require('jsonwebtoken');
 const btoa = require('btoa');
 const fetch = require('node-fetch');
 const jwtSecret = 'yourtokenhere';
+
+
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
   host: 'localhost',
@@ -56,6 +58,7 @@ router.get('/callback', async function(req, res, next) {
   var claims = {
     "sub": `${user.discord_id}`,
     "exp": Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+    "avatarURL": `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.png`,
     "username": `${user.username}`,
     "isAdmin": `${user.admin}`,
   };

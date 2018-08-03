@@ -13,6 +13,11 @@ var loginRouter = require('./routes/login');
 var userRouter = require('./routes/user');
 var pollRouter = require('./routes/polls');
 
+var infoRouter = require('./routes/info');
+var faqRouter = require('./routes/faq');
+var musicRouter = require('./routes/music');
+var eventsRouter = require('./routes/events');
+
 var app = express();
 app.use(cors());
 app.options('*', cors());
@@ -33,6 +38,10 @@ app.use('/users', authCheckMiddleware);
 app.use('/users', userRouter);
 app.use('/polls', pollRouter);
 app.use('/discord/login', loginRouter);
+app.use('/info', infoRouter);
+app.use('/faq', faqRouter);
+app.use('/music', musicRouter);
+app.use('/events', eventsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
