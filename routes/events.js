@@ -72,7 +72,7 @@ router.get('/date/:date', function(req, res, next){
 });
 
 router.put('/:id', async function(req, res, next){
-    var user = await getUser(req);
+    let user = await getUser(req);
     if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
     Events.findById(req.params.id).then(eventInfo => {
         if (! eventInfo) {
@@ -83,8 +83,8 @@ router.put('/:id', async function(req, res, next){
             date: req.body.eventDate,
             type: req.body.eventType,
             description: req.body.eventDescription,
-        }).then(updatedMarkdown => {
-            res.status(200).send(updatedMarkdown);
+        }).then(updatedEvent => {
+            res.status(200).send(updatedEvent);
         }).catch(err => { res.status(500).end()});
     });
 });
