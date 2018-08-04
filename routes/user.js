@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 router.get('/me/games', async function(req, res, next) {
     if (!req.user) { return res.status(403).send('User not logged in').end() }
     let retUser = req.user.getCleanInfo();
-    retUser.games = await Subscriptions.findAll({
+    let allGames = await Subscriptions.findAll({
         where: {
             user_id: req.user.discord_id
         }
@@ -24,6 +24,14 @@ router.get('/me/games', async function(req, res, next) {
         console.log(err);
         res.status(500).end()
     });
+    retUser.games = await Promise.all(allGames.map(game => {
+        let gameObj = Games.findById(game.game_id);
+        let retObj = {};
+        retObj['id'] = gameObj['id'];
+        retObj['title'] = gameObj['title'];
+        retObj['frequency'] = game['frequency'];
+        return retObj;
+    }));
     res.status(200).send(retUser).end();
 });
 
