@@ -66,7 +66,7 @@ router.post('/:id/games/:game', async function(req, res, next) {
 });
 
 router.get('/me/games', async function(req, res, next) {
-    if (!req.user) { return res.status(500).send('Can not find user.').end() }
+    if (!req.user) { return res.status(403).send('User not logged in').end() }
     req.user.games = await Subscriptions.findAll({
         where: {
             user_id: req.user.discord_id
