@@ -60,6 +60,8 @@ typings/
 # next.js build output
 .next
 
+# JetBrains crap
+.idea
 # vuepress build output
 .vuepress/dist
 

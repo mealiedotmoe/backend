@@ -13,7 +13,6 @@ router.get('/history', async function(req, res, next) {
     });
     if(!musicHistory) res.status(500).end();
     const jsonResponse = await musicHistory.json();
-    console.log(musicHistory);
     res.status(200).send(jsonResponse['history']);
 });
 

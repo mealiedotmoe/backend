@@ -4,14 +4,6 @@ var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
 const {Users, FaqInfo} = require('../dbObjects');
 
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
-});
-
 async function getUser(req) {
     if (!req.headers.authorization) {
         return false;
@@ -41,7 +33,7 @@ router.get('/', async function(req, res, next) {
 /* POST to create new faqinfo */
 router.post('/', async function(req, res, next) {
     var user = await getUser(req);
-    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
+    if (!user && !user.admin) { return res.status(401).send('You must be logged in to an admin account to use this feature').end(); }
     FaqInfo.create({
         title: req.body.faqTitle,
         content: req.body.faqContent,

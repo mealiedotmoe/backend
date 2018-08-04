@@ -3,14 +3,8 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
 const {Users, Events} = require('../dbObjects');
-
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-    host: 'localhost',
-    dialect: 'postgres',
-    logging: false,
-    operatorsAliases: false,
-});
+const Webhook = require("webhook-discord");
+const Hook = new Webhook("https://discordapp.com/api/webhooks/440763216235200512/AOeGEaaTX9dPPYG3hZdFhwaq9NbVzFJj0OlNrFj3EjOXumo5wEJgao9KAlAWdbimHv_J");
 
 async function getUser(req) {
     if (!req.headers.authorization) {
@@ -29,7 +23,7 @@ async function getUser(req) {
 
 router.get('/', async function(req, res, next) {
     var user = await getUser(req);
-    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
     Events.all().then(allEvents => {
         res.status(200).send(allEvents);
     }).catch(err => {
@@ -47,6 +41,7 @@ router.post('/', async function(req, res, next) {
         description: req.body.eventDescription,
     }).then(newEvents => {
         newEvents.setUser(user);
+        Hook.custom("Events", newEvents.description, newEvents.title, "#aec6cf", req.body.postImage);
         res.status(201).send(newEvents);
     });
 });
@@ -72,8 +67,8 @@ router.get('/date/:date', function(req, res, next){
 });
 
 router.put('/:id', async function(req, res, next){
-    var user = await getUser(req);
-    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    let user = await getUser(req);
+    if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
     Events.findById(req.params.id).then(eventInfo => {
         if (! eventInfo) {
             res.status(500).send("Can't Find Info");
@@ -83,8 +78,8 @@ router.put('/:id', async function(req, res, next){
             date: req.body.eventDate,
             type: req.body.eventType,
             description: req.body.eventDescription,
-        }).then(updatedMarkdown => {
-            res.status(200).send(updatedMarkdown);
+        }).then(updatedEvent => {
+            res.status(200).send(updatedEvent);
         }).catch(err => { res.status(500).end()});
     });
 });

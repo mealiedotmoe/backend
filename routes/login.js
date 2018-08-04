@@ -4,16 +4,7 @@ var jwt = require('jsonwebtoken');
 const btoa = require('btoa');
 const fetch = require('node-fetch');
 const jwtSecret = 'yourtokenhere';
-
-
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
-});
-const User = sequelize.import('../models/User');
+const { Users } = require('../dbObjects');
 
 const CLIENT_ID = "379731370735566849";
 const CLIENT_SECRET = "OZooKYkRhbFahfetM5Qi6gUA08xQU3sS";
@@ -21,9 +12,10 @@ const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/log
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds%20email`);
+    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds%20`);
 });
 
+router.put('/reauth/:id')
 router.get('/callback', async function(req, res, next) {
   if (!req.query.code) throw new Error('NoCodeProvided');
   const code = req.query.code;
@@ -46,7 +38,7 @@ router.get('/callback', async function(req, res, next) {
       console.error(`Unable to get user: ${err}`);
     });
   var discord_user = await temp_user.json();
-  var db_user = await User.upsert({
+  var db_user = await Users.upsert({
     username: `${discord_user.username}`,
     discord_id: `${discord_user.id.toString()}`,
     discord_token: `${discord_user.access_token}`,
@@ -57,7 +49,7 @@ router.get('/callback', async function(req, res, next) {
   user = await db_user[0].dataValues;
   var claims = {
     "sub": `${user.discord_id}`,
-    "exp": Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+    "exp": `${discord_user.expires_in}`,
     "avatarURL": `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.png`,
     "username": `${user.username}`,
     "isAdmin": `${user.admin}`,

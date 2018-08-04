@@ -4,16 +4,6 @@ var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
 const {Users, Questions, Choices, Votes} = require('../dbObjects');
 
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
-});
-
-const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/login/callback');
-
 async function getUser(req) {
     if (!req.headers.authorization) {
         return false;
@@ -158,7 +148,6 @@ router.delete('/:id', async function(req, res, next){
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        console.log(req.body);
         question.delete().then(() => {
             res.status(200).end();
         }).catch(err => { 
