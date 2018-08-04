@@ -34,7 +34,7 @@ router.post('/me/games/:gameId', async function(req, res, next) {
     Subscriptions.create({
         frequency: req.body.gameFrequency,
     }).then(sub => {
-        sub.setUser(req.user);
+        sub.setUser(req.user.discord_id);
         sub.setGame(foundGame);
     }).then(createdSub => {
         res.status(200).send(createdSub).end();
@@ -93,7 +93,7 @@ router.post('/:id/games/:gameId', async function(req, res, next) {
     Subscriptions.create({
         frequency: req.body.gameFrequency,
     }).then(sub => {
-        sub.setUser(targetUser);
+        sub.setUser(targetUser.discord_id);
         sub.setGame(foundGame);
     }).then(createdSub => {
         res.status(200).send(createdSub).end();
