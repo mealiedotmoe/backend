@@ -3,6 +3,8 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 const jwtSecret = 'yourtokenhere';
 const {Users, Events} = require('../dbObjects');
+const Webhook = require("webhook-discord");
+const Hook = new Webhook("https://discordapp.com/api/webhooks/440763216235200512/AOeGEaaTX9dPPYG3hZdFhwaq9NbVzFJj0OlNrFj3EjOXumo5wEJgao9KAlAWdbimHv_J");
 
 async function getUser(req) {
     if (!req.headers.authorization) {
@@ -39,6 +41,7 @@ router.post('/', async function(req, res, next) {
         description: req.body.eventDescription,
     }).then(newEvents => {
         newEvents.setUser(user);
+        Hook.custom("Events", newEvents.description, newEvents.title, "#aec6cf", req.body.postImage);
         res.status(201).send(newEvents);
     });
 });

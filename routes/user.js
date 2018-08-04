@@ -13,6 +13,11 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/me', function(req, res, next){
+    if (!req.user) { return res.status(404).send('No user found') }
+    res.status(200).send(req.user.getInfo());
+});
+
 router.get('/me/games', async function(req, res, next) {
     if (!req.user) { return res.status(403).send('User not logged in').end() }
     let retUser = req.user.getCleanInfo();
@@ -52,9 +57,21 @@ router.post('/me/games/:gameId', async function(req, res, next) {
     });
 });
 
-router.get('/me', function(req, res, next){
-    if (!req.user) { return res.status(404).send('No user found') }
-    res.status(200).send(req.user.getInfo());
+router.delete('/me/games/:gameId', async function(req, res, next){
+    if (!user) { return res.status(403).send('You must be logged in to use this feature').end(); }
+    Subscriptions.find({
+        where: {
+            game_id: req.params.gameId,
+            user_id: req.user.discord_id,
+        }
+    }).then(subInfo => {
+        if (! subInfo) {
+            res.status(500).send("Can't Find subscription");
+        }
+        subInfo.delete().then(() => {
+            res.status(200).end();
+        }).catch(err => { res.status(500).end()});
+    });
 });
     
 router.put('/:id', function(req, res, next) {

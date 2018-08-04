@@ -122,4 +122,30 @@ router.put('/:id', async function(req, res, next){
     });
 });
 
+router.delete('/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    Games.findById(req.params.id).then(gameInfo => {
+        if (! gameInfo) {
+            res.status(500).send("Can't Find Game");
+        }
+        gameInfo.delete().then(() => {
+            res.status(200).end();
+        }).catch(err => { res.status(500).end()});
+    });
+});
+
+router.delete('/genres/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    Genres.findById(req.params.id).then(genreInfo => {
+        if (! genreInfo) {
+            res.status(500).send("Can't Find Genre");
+        }
+        genreInfo.delete().then(() => {
+            res.status(200).end();
+        }).catch(err => { res.status(500).end()});
+    });
+});
+
 module.exports = router;

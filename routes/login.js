@@ -12,9 +12,10 @@ const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/log
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds%20email`);
+    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds%20`);
 });
 
+router.put('/reauth/:id')
 router.get('/callback', async function(req, res, next) {
   if (!req.query.code) throw new Error('NoCodeProvided');
   const code = req.query.code;

@@ -148,7 +148,6 @@ router.delete('/:id', async function(req, res, next){
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        console.log(req.body);
         question.delete().then(() => {
             res.status(200).end();
         }).catch(err => { 
