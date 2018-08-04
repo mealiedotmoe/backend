@@ -15,7 +15,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/me/games', async function(req, res, next) {
     if (!req.user) { return res.status(403).send('User not logged in').end() }
-    req.user.games = await Subscriptions.findAll({
+    let retUser = req.user.getCleanInfo();
+    retUser.games = await Subscriptions.findAll({
         where: {
             user_id: req.user.discord_id
         }
@@ -23,7 +24,7 @@ router.get('/me/games', async function(req, res, next) {
         console.log(err);
         res.status(500).end()
     });
-    res.status(200).send(req.user).end();
+    res.status(200).send(retUser).end();
 });
 
 router.post('/me/games/:game', async function(req, res, next) {
