@@ -27,7 +27,7 @@ router.get('/me/games', async function(req, res, next) {
     res.status(200).send(retUser).end();
 });
 
-router.post('/me/games/:game', async function(req, res, next) {
+router.post('/me/games/:gameId', async function(req, res, next) {
     if (!req.user) { return res.status(404).send('No user found') }
     let foundGame = await Games.findById(req.params.gameId);
     if (!foundGame) { return res.status(404).send('Game not found') }
@@ -82,7 +82,7 @@ router.get('/:id/games', function(req, res, next) {
     });
 });
 
-router.post('/:id/games/:game', async function(req, res, next) {
+router.post('/:id/games/:gameId', async function(req, res, next) {
     if (!req.user || !req.user.admin) {
         return res.status(403).send('You need to be logged into an admin account to use this feature')
     }
