@@ -37,8 +37,10 @@ router.get('/', async function(req, res, next) {
             console.log(allUsers);
             console.log('debug');
             Promise.all(allUsers).then(async theUsers => {
+                console.log(game);
                 game.users = theUsers;
                 game.genre = await game.getGenre();
+                console.log(game);
                 return game;
             });
         });
