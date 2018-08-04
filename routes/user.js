@@ -24,11 +24,11 @@ router.get('/me/games', async function(req, res, next) {
         console.log(err);
         res.status(500).end()
     });
-    retUser.games = await Promise.all(allGames.map(game => {
-        let gameObj = Games.findById(game.game_id);
+    retUser.games = await Promise.all(allGames.map(async game => {
+        let gameObj = await Games.findById(game.game_id);
         let retObj = {};
-        retObj['id'] = gameObj['dataValues']['id'];
-        retObj['title'] = gameObj['dataValues']['title'];
+        retObj['id'] = gameObj['id'];
+        retObj['title'] = gameObj['title'];
         retObj['frequency'] = game['frequency'];
         return retObj;
     }));
