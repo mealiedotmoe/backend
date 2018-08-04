@@ -60,9 +60,7 @@ router.post('/', async function(req, res, next) {
         },
     });
     // If gameGenre was newly created, select only game genre object
-    if (gameGenre[1]) {
-        gameGenre = gameGenre[0];
-    }
+    gameGenre = gameGenre[0];
     Games.create({
         title: req.body.gameTitle,
     }).then(newGame => {
