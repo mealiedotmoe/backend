@@ -29,11 +29,11 @@ router.get('/', async function(req, res, next) {
                 game_id: game.id,
             },
         });
-        game['users'] = await Promise.all(subList.map(async sub => {
+        game['dataValues']['users'] = await Promise.all(subList.map(async sub => {
             let subUser = await Users.findById(sub.user_id);
             return subUser.getCleanInfo();
         }));
-        game['genre'] = await Genres.findById(game.genre_id);
+        game['dataValues']['genre'] = await Genres.findById(game.genre_id);
         return game;
     }));
     res.status(200).send(gamesPlusSubs).end();
