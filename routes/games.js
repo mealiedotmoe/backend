@@ -22,30 +22,21 @@ async function getUser(req) {
 router.get('/', async function(req, res, next) {
     let user = await getUser(req);
     if (!user) { return res.status(403).send('You must be logged in to an account to use this feature').end(); }
-    Games.all().then(async allGames => {
-        let newAllGames = await allGames.map(async game => {
-            let subList = await Subscriptions.findAll({
-                where: {
-                    game_id: game.id,
-                }
-            });
-            let allUsers = await subList.map(async sub => {
-                let subUser = await Users.findById(sub.user_id);
-                return subUser.getCleanInfo();
-            });
-            Promise.all(allUsers).then(theUsers => {
-                game.users = theUsers;
-            });
-            game.genre = await Genres.findById(game.genre_id);
-            return game;
-        });
-        Promise.all(newAllGames).then(finalAllGames =>{
-            res.status(200).send(finalAllGames);
-        })
-    }).catch(err => {
-        console.log(err);
-        res.status(500).end()
+    let allGames = await Games.all();
+    let subList = await Subscriptions.findAll({
+        where: {
+            game_id: game.id,
+        },
     });
+    let gamesPlusSubs = await Promise.all(allGames.map(async game => {
+        game.users = await Promise.all(subList.map(async sub => {
+            let subUser = await Users.findById(sub.user_id);
+            return subUser.getCleanInfo();
+        }));
+        game.genre = await Genres.findById(game.genre_id);
+        return game;
+    }));
+    res.status(200).send(gamesPlusSubs).end();
 });
 
 router.get('/list', async function(req, res, next) {

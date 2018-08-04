@@ -48,7 +48,7 @@ router.get('/callback', async function(req, res, next) {
   user = await db_user[0].dataValues;
   var claims = {
     "sub": `${user.discord_id}`,
-    "exp": Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+    "exp": Math.floor(Date.now() / 1000) + (60 * 60 * 48),
     "avatarURL": `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.png`,
     "username": `${user.username}`,
     "isAdmin": `${user.admin}`,
