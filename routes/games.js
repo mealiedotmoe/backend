@@ -34,7 +34,9 @@ router.get('/', async function(req, res, next) {
                 return subUser.getCleanInfo();
             });
             game.genre = await game.getGenre();
-            return game;
+            Promise.all([game.users, game.genre]).then(game => {
+                return game;
+            });
         });
         Promise.all(newAllGames).then(finalAllGames =>{
             res.status(200).send(finalAllGames);
