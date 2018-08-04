@@ -33,13 +33,11 @@ router.get('/', async function(req, res, next) {
                 let subUser = await Users.findById(sub.user_id);
                 return subUser.getCleanInfo();
             });
-            return Promise.all(allUsers).then(async theUsers => {
-                console.log(game);
+            Promise.all(allUsers).then(theUsers => {
                 game.users = theUsers;
-                game.genre = await game.getGenre();
-                return game;
             });
-
+            game.genre = await Genres.findById(game.genre_id);
+            return game;
         });
         Promise.all(newAllGames).then(finalAllGames =>{
             res.status(200).send(finalAllGames);
