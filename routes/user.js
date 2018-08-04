@@ -29,9 +29,11 @@ router.get('/me/games', async function(req, res, next) {
 
 router.post('/me/games/:game', async function(req, res, next) {
     if (!req.user) { return res.status(404).send('No user found') }
-    let foundGame = await Games.findById(req.params.game);
+    let foundGame = await Games.findById(req.params.gameId);
     if (!foundGame) { return res.status(404).send('Game not found') }
-    Subscriptions.create().then(sub => {
+    Subscriptions.create({
+        frequency: req.body.gameFrequency,
+    }).then(sub => {
         sub.setUser(req.user);
         sub.setGame(foundGame);
     }).then(createdSub => {
@@ -84,11 +86,13 @@ router.post('/:id/games/:game', async function(req, res, next) {
     if (!req.user || !req.user.admin) {
         return res.status(403).send('You need to be logged into an admin account to use this feature')
     }
-    let foundGame = await Games.findById(req.params.game);
+    let foundGame = await Games.findById(req.params.gameId);
     let targetUser = await Users.findById(req.params.id);
     if (!foundGame) { return res.status(404).send('Game not found').end() }
     if (!targetUser) { return res.status(404).send('User not found').end() }
-    Subscriptions.create().then(sub => {
+    Subscriptions.create({
+        frequency: req.body.gameFrequency,
+    }).then(sub => {
         sub.setUser(targetUser);
         sub.setGame(foundGame);
     }).then(createdSub => {
