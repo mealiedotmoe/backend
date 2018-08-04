@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const jwtSecret = 'yourtokenhere';
+const {JWTSecret} = require('../config');
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
 
     const token = req.headers.authorization.split(' ')[1];
 
-    return jwt.verify(token, jwtSecret, (err, decoded) => {
+    return jwt.verify(token, JWTSecret, (err, decoded) => {
         if (err) { return res.status(401).end(); }
 
         const userId = decoded.sub;

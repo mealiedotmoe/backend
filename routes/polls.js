@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-const jwtSecret = 'yourtokenhere';
+const {JWTSecret} = require('../config');
 const {Users, Questions, Choices, Votes} = require('../dbObjects');
 
 async function getUser(req) {
@@ -10,7 +10,7 @@ async function getUser(req) {
     }
     const token = req.headers.authorization.split(' ')[1];
 
-    return await jwt.verify(token, jwtSecret, (err, decoded) =>{
+    return await jwt.verify(token, JWTSecret, (err, decoded) =>{
         if(err) { return false; }
         const userId = decoded.sub;
         return Users.findById(userId).then(user => {

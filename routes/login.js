@@ -3,7 +3,7 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 const btoa = require('btoa');
 const fetch = require('node-fetch');
-const jwtSecret = 'yourtokenhere';
+const {JWTSecret} = require('../config');
 const { Users } = require('../dbObjects');
 
 const CLIENT_ID = "379731370735566849";
@@ -54,7 +54,7 @@ router.get('/callback', async function(req, res, next) {
     "username": `${user.username}`,
     "isAdmin": `${user.admin}`,
   };
-  var token = jwt.sign(claims, jwtSecret);
+  var token = jwt.sign(claims, JWTSecret);
   res.cookie('user', token, {secure: true});
   res.redirect('https://www.animeirl.xyz/callback');
 });

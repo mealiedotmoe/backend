@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-const jwtSecret = 'yourtokenhere';
 const {Users, Events} = require('../dbObjects');
+const {EventHook, JWTSecret} = require('../config');
 const Webhook = require("webhook-discord");
-const Hook = new Webhook("https://discordapp.com/api/webhooks/440763216235200512/AOeGEaaTX9dPPYG3hZdFhwaq9NbVzFJj0OlNrFj3EjOXumo5wEJgao9KAlAWdbimHv_J");
+const Hook = new Webhook(EventHook);
 
 async function getUser(req) {
     if (!req.headers.authorization) {
@@ -12,7 +12,7 @@ async function getUser(req) {
     }
     const token = req.headers.authorization.split(' ')[1];
 
-    return await jwt.verify(token, jwtSecret, (err, decoded) =>{
+    return await jwt.verify(token, JWTSecret, (err, decoded) =>{
         if(err) { return false; }
         const userId = decoded.sub;
         return Users.findById(userId).then(user => {
