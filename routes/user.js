@@ -12,6 +12,39 @@ router.get('/', function(req, res, next) {
         res.json(userList);
     });
 });
+
+router.get('/me/games', async function(req, res, next) {
+    if (!req.user) { return res.status(403).send('User not logged in').end() }
+    req.user.games = await Subscriptions.findAll({
+        where: {
+            user_id: req.user.discord_id
+        }
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+    res.status(200).send(req.user).end();
+});
+
+router.post('/me/games/:game', async function(req, res, next) {
+    if (!req.user) { return res.status(404).send('No user found') }
+    let foundGame = await Games.findById(req.params.game);
+    if (!foundGame) { return res.status(404).send('Game not found') }
+    Subscriptions.create().then(sub => {
+        sub.setUser(req.user);
+        sub.setGame(foundGame);
+    }).then(createdSub => {
+        res.status(200).send(createdSub).end();
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+});
+
+router.get('/me', function(req, res, next){
+    if (!req.user) { return res.status(404).send('No user found') }
+    res.status(200).send(req.user.getInfo());
+});
     
 router.put('/:id', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
@@ -63,39 +96,6 @@ router.post('/:id/games/:game', async function(req, res, next) {
         console.log(err);
         res.status(500).end()
     });
-});
-
-router.get('/me/games', async function(req, res, next) {
-    if (!req.user) { return res.status(403).send('User not logged in').end() }
-    req.user.games = await Subscriptions.findAll({
-        where: {
-            user_id: req.user.discord_id
-        }
-    }).catch(err => {
-        console.log(err);
-        res.status(500).end()
-    });
-    res.status(200).send(req.user).end();
-});
-
-router.post('/me/games/:game', async function(req, res, next) {
-    if (!req.user) { return res.status(404).send('No user found') }
-    let foundGame = await Games.findById(req.params.game);
-    if (!foundGame) { return res.status(404).send('Game not found') }
-    Subscriptions.create().then(sub => {
-        sub.setUser(req.user);
-        sub.setGame(foundGame);
-    }).then(createdSub => {
-        res.status(200).send(createdSub).end();
-    }).catch(err => {
-        console.log(err);
-        res.status(500).end()
-    });
-});
-
-router.get('/me', function(req, res, next){
-    if (!req.user) { return res.status(404).send('No user found') }
-    res.status(200).send(req.user.getInfo());
 });
 
 module.exports = router;
