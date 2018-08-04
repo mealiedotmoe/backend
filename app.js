@@ -46,7 +46,7 @@ app.use('/faq', faqRouter);
 app.use('/music', musicRouter);
 app.use('/events', eventsRouter);
 app.use('/games', gamesRouter);
-app.use('/bot', botRouter);
+app.use('/bot', botRouter, authCheckMiddleware);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
