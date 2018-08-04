@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
+    host: 'localhost',
+    dialect: 'postgres',
+    logging: false,
+    operatorsAliases: false,
 });
 
 var Users = sequelize.import('models/User');
@@ -23,11 +23,12 @@ var Subscriptions = sequelize.import('models/Subscription');
 Subscriptions.belongsTo(Games, {as: 'Game', foreignKey: 'game_id'});
 Subscriptions.belongsTo(Users, {as: 'User', foreignKey: 'user_id'});
 
-Games.belongsTo(Genres, {as: 'Genre', foreignKey: 'genre_id'});
+Games.belongsTo(Genres, {as: 'Genre', foreignKey: 'genre_id', });
+Games.hasMany(Subscriptions, {onDelete: 'cascade', hooks: 'true'});
 
 Questions.belongsTo(Users, {as: 'User', foreignKey: 'author'});
-Questions.hasMany(Choices, {as: 'Choices'});
-Choices.hasMany(Votes, {as: 'Votes'});
+Questions.hasMany(Choices, {as: 'Choices', onDelete: 'cascade', hooks: 'true'});
+Choices.hasMany(Votes, {as: 'Votes', onDelete: 'cascade', hooks: 'true'});
 Votes.belongsTo(Users, {as: 'User', foreignKey: 'userId'});
 
 FaqInfo.belongsTo(Users, {as: 'User', foreignKey: 'author'});
