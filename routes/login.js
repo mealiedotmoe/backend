@@ -46,6 +46,7 @@ router.get('/callback', async function(req, res, next) {
     console.error(`Unable to store user: ${err}`);
   });
   user = await db_user[0].dataValues;
+  const date = new Date();
   let now = Number(Number((date.getTime() + date.getTimezoneOffset()*60*1000)/1000).toFixed(0));
   let token_exp = now + json.expires_in;
   var claims = {
