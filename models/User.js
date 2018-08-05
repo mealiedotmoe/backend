@@ -11,9 +11,6 @@ module.exports = function(sequelize, DataTypes) {
     discord_token:{
       type: DataTypes.STRING,
     },
-    email: {
-      type: DataTypes.STRING,
-    },
     experience: {
       type: DataTypes.INTEGER,
       defaultValue: 0,

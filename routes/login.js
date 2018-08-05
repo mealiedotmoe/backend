@@ -12,7 +12,7 @@ const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/log
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds%20`);
+    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds`);
 });
 
 router.put('/reauth/:id')
@@ -42,7 +42,6 @@ router.get('/callback', async function(req, res, next) {
     username: `${discord_user.username}`,
     discord_id: `${discord_user.id.toString()}`,
     discord_token: `${discord_user.access_token}`,
-    email: `${discord_user.email}`,
   }, {returning: true}).catch(err => {
     console.error(`Unable to store user: ${err}`);
   });
