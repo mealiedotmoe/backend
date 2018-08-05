@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/ping', function(req, res, next) {
-    if (!req.user || !req.user.admin) { return res.status(403).send('Admin account required') }
+    if (!req.user.admin) { return res.status(403).send('Admin account required') }
     const channel = client.channels.get('282640120388255744');
     if (!channel) { return res.status(500).send('Channel does not exist')}
     try {
