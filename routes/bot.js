@@ -29,4 +29,17 @@ router.post('/ping', function(req, res, next) {
     }
 });
 
+router.post('/iam/:roleName', function(req, res, next) {
+    try {
+        const guild = client.guilds.get('148606162810568704');
+        const role = guild.roles.find('name', req.params.roleName);
+        const user = guild.members.get(req.user.discord_id);
+        user.addRole(role, 'added from website');
+        res.status(200).send("okayhand");
+    }
+    catch (err) {
+        res.status(500).send(err)
+    }
+});
+
 module.exports = router;
