@@ -46,8 +46,7 @@ router.get('/callback', async function(req, res, next) {
     console.error(`Unable to store user: ${err}`);
   });
   user = await db_user[0].dataValues;
-  let token_exp = parseInt(discord_user.expires_in, 10);
-  console.log(token_exp);
+  let token_exp = parseInt(json.expires_in, 10);
   var claims = {
     "sub": `${user.discord_id}`,
     "exp": `${token_exp}`,
