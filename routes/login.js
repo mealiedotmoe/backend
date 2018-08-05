@@ -46,9 +46,11 @@ router.get('/callback', async function(req, res, next) {
     console.error(`Unable to store user: ${err}`);
   });
   user = await db_user[0].dataValues;
+  let now = Number(Number((date.getTime() + date.getTimezoneOffset()*60*1000)/1000).toFixed(0));
+  let token_exp = now + json.expires_in;
   var claims = {
     "sub": `${user.discord_id}`,
-    "exp": json.expires_in,
+    "exp": token_exp,
     "avatarURL": `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.png`,
     "username": `${user.username}`,
     "isAdmin": `${user.admin}`,
