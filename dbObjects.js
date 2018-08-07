@@ -24,7 +24,7 @@ Subscriptions.belongsTo(Games, {as: 'Game', foreignKey: 'game_id'});
 Subscriptions.belongsTo(Users, {as: 'User', foreignKey: 'user_id'});
 
 Games.belongsTo(Genres, {as: 'Genre', foreignKey: 'genre_id', });
-Games.hasMany(Subscriptions, {onDelete: 'cascade', hooks: 'true'});
+Games.hasMany(Subscriptions, {foreignKey: 'game_id', onDelete: 'cascade', hooks: 'true'});
 
 Questions.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 Questions.hasMany(Choices, {as: 'Choices', onDelete: 'cascade', hooks: 'true'});
