@@ -36,7 +36,6 @@ router.get('/', async function(req, res, next) {
             let subUser = await Users.findById(sub.user_id);
             return subUser.getCleanInfo();
         }));
-        game['dataValues']['genre'] = await Genres.findById(game.genre_id);
         return game;
     }));
     res.status(200).send(gamesPlusSubs).end();
