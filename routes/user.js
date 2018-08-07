@@ -29,6 +29,9 @@ router.get('/me/games', async function(req, res, next) {
         console.log(err);
         res.status(500).end()
     });
+    if (!allGames) {
+        res.status(200).send("{}").end();
+    }
     retUser.games = await Promise.all(allGames.map(async game => {
         let gameObj = await Games.findById(game.game_id);
         let retObj = {};

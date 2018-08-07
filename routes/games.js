@@ -24,7 +24,9 @@ router.get('/', async function(req, res, next) {
     if (!user) { return res.status(403).send('You must be logged in to an account to use this feature').end(); }
     let allGames = await Games.all();
     let allGenres = await Genres.all();
-    let gamesPlusSubs = await Promise.all(allGames.map(async game => {
+    let gamesPlusSubs = {};
+    gamesPlusSubs['genres'] = allGenres;
+    gamesPlusSubs['games'] = await Promise.all(allGames.map(async game => {
         let subList = await Subscriptions.findAll({
             where: {
                 game_id: game.id,
@@ -37,7 +39,6 @@ router.get('/', async function(req, res, next) {
         game['dataValues']['genre'] = await Genres.findById(game.genre_id);
         return game;
     }));
-    gamesPlusSubs['genres'] = allGenres;
     res.status(200).send(gamesPlusSubs).end();
 });
 
