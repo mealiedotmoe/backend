@@ -7,6 +7,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 const colorLevels = [
+    '-0-', //this is only here to make the earlier check work
     '-2-',
     '-5-',
     '-10-',
@@ -66,11 +67,16 @@ router.post('/colors/:number', async function(req, res, next) {
             return res.status(500).send('User not high enough level').end();
         }
         const guild = client.guilds.get('148606162810568704');
-        const role = guild.roles.find('name', `-${intNumber}-`);
         const user = guild.members.get(req.user.discord_id);
         const removeRoles = await Promise.all(colorLevels.map(async level =>{
+            if (level ==='-0-') { return }
             return guild.roles.find('name', level);
         }));
+        if (intNumber === 0) {
+            await user.removeRoles(removeRoles, 'Removing old color roles');
+            return res.status(200).send("ok_hand");
+        }
+        const role = guild.roles.find('name', `-${intNumber}-`);
         await user.removeRoles(removeRoles, 'Removing old color roles');
         await user.addRole(role, 'Adding new color role');
         res.status(200).send("ok_hand");
