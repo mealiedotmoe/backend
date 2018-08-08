@@ -46,6 +46,9 @@ router.post('/iam/', function(req, res, next) {
         const guild = client.guilds.get('148606162810568704');
         const role = guild.roles.find('name', req.body.roleName);
         const user = guild.members.get(req.user.discord_id);
+        if (user.roles.has(role.id)) {
+            return res.status(400).send('User already has role').end();
+        }
         user.addRole(role, 'added from website');
         res.status(200).send("okayhand");
     }
