@@ -8,6 +8,8 @@ var helmet = require('helmet');
 
 var authCheckMiddleware = require('./middleware/auth-check');
 
+var botRouter = require('./routes/bot');
+
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 var userRouter = require('./routes/user');
@@ -44,6 +46,8 @@ app.use('/faq', faqRouter);
 app.use('/music', musicRouter);
 app.use('/events', eventsRouter);
 app.use('/games', gamesRouter);
+app.use('/bot', authCheckMiddleware);
+app.use('/bot', botRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

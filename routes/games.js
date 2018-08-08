@@ -23,7 +23,10 @@ router.get('/', async function(req, res, next) {
     let user = await getUser(req);
     if (!user) { return res.status(403).send('You must be logged in to an account to use this feature').end(); }
     let allGames = await Games.all();
-    let gamesPlusSubs = await Promise.all(allGames.map(async game => {
+    let allGenres = await Genres.all();
+    let gamesPlusSubs = {};
+    gamesPlusSubs['genres'] = allGenres;
+    gamesPlusSubs['games'] = await Promise.all(allGames.map(async game => {
         let subList = await Subscriptions.findAll({
             where: {
                 game_id: game.id,
@@ -33,7 +36,6 @@ router.get('/', async function(req, res, next) {
             let subUser = await Users.findById(sub.user_id);
             return subUser.getCleanInfo();
         }));
-        game['dataValues']['genre'] = await Genres.findById(game.genre_id);
         return game;
     }));
     res.status(200).send(gamesPlusSubs).end();
@@ -67,6 +69,16 @@ router.post('/', async function(req, res, next) {
         newGame.setGenre(gameGenre);
         res.status(201).send(newGame);
     });
+});
+
+router.get('/genres/', async function(req, res, next) {
+    let user = await getUser(req);
+    if (!user) { return res.status(403).send('You must be logged in to an account to use this feature').end(); }
+    let genresList = await Genres.all().catch(err => {
+        console.log(err);
+        res.status(500).end();
+    });
+    res.status(200).send(genresList).end();
 });
 
 router.post('/genres/', async function(req, res, next) {
