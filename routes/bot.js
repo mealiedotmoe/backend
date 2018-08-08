@@ -58,10 +58,11 @@ router.post('/colors/:number', async function(req, res, next) {
         const userLevel = await snekfetch.get(
             `https://www.danbo.space/api/v1/servers/148606162810568704/user/${req.user.discord_id}`
         );
-        if (userLevel.statusCode !== 200) { return res.status(500).send("internal error").end(); }
+        if (userLevel.status !== 200) { return res.status(500).send("internal error").end(); }
         let userParse = JSON.parse(userLevel.text);
         let intNumber = parseInt(req.params.number);
-        if (userParse['user']['level'] < intNumber || intNumber > 30) {
+        if (!colorLevels.includes(`-${intNumber}-`)) { return res.status(500).send('Not a valid role').end(); }
+        if (userParse['user']['level'] < intNumber) {
             return res.status(500).send('User not high enough level').end();
         }
         const guild = client.guilds.get('148606162810568704');
@@ -75,6 +76,7 @@ router.post('/colors/:number', async function(req, res, next) {
         res.status(200).send("ok_hand");
     }
     catch (err) {
+        console.log(err);
         res.status(500).end();
     }
 });
