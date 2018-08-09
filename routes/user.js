@@ -108,6 +108,16 @@ router.put('/:id', function(req, res, next) {
     })
 });
 
+router.get('/:id', function(req, res, next) {
+    Users.findById(req.params.id).then(async user => {
+        if (!user) { return res.status(500).send('Can not find user.').end() }
+        res.status(200).send(user).end();
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+});
+
 router.get('/:id/games', function(req, res, next) {
     Users.findById(req.params.id).then(async user => {
         if (!user) { return res.status(500).send('Can not find user.').end() }
