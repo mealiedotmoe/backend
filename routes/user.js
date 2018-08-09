@@ -2,15 +2,15 @@ var express = require('express');
 var router = express.Router();
 const {Users, Games, Subscriptions} = require('../dbObjects');
 const fetch = require('snekfetch');
-const jwt = require('jsonwebtoken');
 
 const anilistQuery = `
-query ($id: Int) {
-  User(id: $id) {
-    id
-    name
-  }
-}`;
+{
+    Viewer {
+        id
+        name
+    }
+}
+`;
 const anilistClientId = 944;
 const anilistClientSecret = 'bB296CV9U1q93mYAwkB6EkB5wB5u1QvlyxC4Si96';
 
@@ -44,49 +44,24 @@ router.put('/me', function(req, res, next) {
 });
 
 router.get('/me/anilist', async function(req, res, next) {
-    const redirectUri = `https://www.animeirl.xyz/api/v1/${req.user.discord_id}/anilist/callback`;
-    res.redirect(`https://anilist.co/api/v2/oauth/authorize?client_id=${anilistClientId}&redirect_uri=${redirectUri}&response_type=code`);
-});
-
-router.get('/:id/anilist/callback', async function(req, res, next) {
-    const foundUser = await Users.findById(req.params.id);
-    if (!foundUser) { return res.status(404).send('user not found'); }
-    const resCode = req.query.code;
-    const options = {
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        query: {
-            'grant_type': 'authorization_code',
-            'client_id': `${anilistClientId}`,
-            'client_secret': `${anilistClientSecret}`,
-            'code': `${resCode}`,
-        }
-    };
-    let response = await fetch.Post('https://anilist.co/api/v2/oauth/token', opts=options);
-    if (!response.ok) { return res.send(500).send('oops error occured').end(); }
-    let parsedResp = JSON.parse(response.text);
-    const token = jwt.decode(parsedResp['access_token']);
-    const userId = token['payload']['sub']
     const optionsToken = {
         headers: {
+            'Authorization': 'Bearer ' +  req.body.accessToken,
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
         query: JSON.stringify({
             query: anilistQuery,
-            variables: {id: userId},
         })
-    }
+    };
     const anilistResp = await fetch.Post('https://graphql.anilist.co', opts=optionsToken);
     if (!anilistResp.ok) { return res.send(500).send('oops error occured').end(); }
-    parsedResp = JSON.parse(anilistResp.text);
-    const userName = parsedResp['data']['User']['name']
-    const updatedUser = await foundUser.update({
+    const parsedResp = JSON.parse(anilistResp.text);
+    const userName = parsedResp['data']['User']['name'];
+    const updatedUser = await req.user.update({
         anilist: `https://anilist.co/user/${userName}/`,
     });
-    return res.redirect('https://www.animeirl.xyz/profile/me');
+    return res.status(200).send(updatedUser).end();
 });
 
 router.get('/me/games', async function(req, res, next) {
