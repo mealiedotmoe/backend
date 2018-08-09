@@ -22,6 +22,7 @@ router.put('/me', function(req, res, next) {
     if (!req.user) { res.status(401).end(); }
     req.user.update({
         birthday: req.body.userBirthday,
+        waifu: req.body.userWaifu,
     }).then(updatedUser => {
         res.status(200).send(updatedUser);
     }).catch(err => {

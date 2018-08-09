@@ -14,6 +14,9 @@ module.exports = function(sequelize, DataTypes) {
     anilist: {
         type: DataTypes.STRING,
     },
+    waifu: {
+        type: DataTypes.STRING,
+    },
     discord_token:{
       type: DataTypes.STRING,
     },
