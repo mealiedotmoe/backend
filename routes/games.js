@@ -126,7 +126,7 @@ router.put('/:id', async function(req, res, next){
                 },
             });
             if (halfUpdated.getGenre() !== gameGenre) {
-                halfUpdated.setGenre(gameGenre);
+                halfUpdated.setGenre(gameGenre.id);
             }
         }).then(updatedGame => {
             res.status(200).send(updatedGame);
