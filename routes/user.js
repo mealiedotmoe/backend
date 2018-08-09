@@ -83,6 +83,7 @@ router.put('/:id', function(req, res, next) {
         if (!user) { return res.status(500).send('Can not find user.').end() }
         user.update({
             admin: req.body.userAdmin,
+            birthday: req.body.userBirthday,
         }).then(updatedUser => {
             res.status(200).send(updatedUser);
         }).catch(err => {
