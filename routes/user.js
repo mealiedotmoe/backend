@@ -18,6 +18,18 @@ router.get('/me', function(req, res, next){
     res.status(200).send(req.user.getInfo());
 });
 
+router.put('/me', function(req, res, next) {
+    if (!req.user) { res.status(401).end(); }
+    req.user.update({
+        birthday: req.body.userBirthday,
+    }).then(updatedUser => {
+        res.status(200).send(updatedUser);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+});
+
 router.get('/me/games', async function(req, res, next) {
     if (!req.user) { return res.status(403).send('User not logged in').end() }
     let retUser = req.user.getCleanInfo();
