@@ -86,7 +86,7 @@ router.get('/:id/anilist/callback', async function(req, res, next) {
     const updatedUser = await foundUser.update({
         anilist: `https://anilist.co/user/${userName}/`,
     });
-    return res.status(200).send(updatedUser).end();
+    return res.redirect('https://www.animeirl.xyz/profile/me');
 });
 
 router.get('/me/games', async function(req, res, next) {
