@@ -49,7 +49,7 @@ router.post('/me/anilist', async function(req, res, next) {
     if (!anilistResp) { return res.send(500).send('oops error occured').end(); }
     const parsedResp = await anilistResp.json();
     console.log(parsedResp);
-    const userName = parsedResp['data']['User']['name'];
+    const userName = parsedResp['data']['Viewer']['name'];
     const updatedUser = await req.user.update({
         anilist: `https://anilist.co/user/${userName}/`,
     });
