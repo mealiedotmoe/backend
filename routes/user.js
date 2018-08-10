@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const {Users, Games, Subscriptions} = require('../dbObjects');
-const fetch = require('snekfetch');
-
+const fetch = require('node-fetch');
 const anilistQuery = `
 {
     Viewer {
@@ -54,8 +53,9 @@ router.post('/me/anilist', async function(req, res, next) {
         })
     };
     const anilistResp = await fetch('https://graphql.anilist.co', optionsToken);
-    if (!anilistResp.ok) { return res.send(500).send('oops error occured').end(); }
-    const parsedResp = JSON.parse(anilistResp.text);
+    if (!anilistResp) { return res.send(500).send('oops error occured').end(); }
+    const parsedResp = await anilistResp.json();
+    console.log(parsedResp);
     const userName = parsedResp['data']['User']['name'];
     const updatedUser = await req.user.update({
         anilist: `https://anilist.co/user/${userName}/`,
