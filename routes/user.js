@@ -2,14 +2,7 @@ var express = require('express');
 var router = express.Router();
 const {Users, Games, Subscriptions} = require('../dbObjects');
 const fetch = require('node-fetch');
-const anilistQuery = `
-{
-    Viewer {
-        id
-        name
-    }
-}
-`;
+const anilistQuery = '{Viewer {id name}}';
 
 router.get('/', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
