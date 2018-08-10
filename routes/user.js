@@ -43,6 +43,7 @@ router.put('/me', function(req, res, next) {
 
 router.post('/me/anilist', async function(req, res, next) {
     const optionsToken = {
+        method: 'POST',
         headers: {
             'Authorization': 'Bearer ' +  req.body.accessToken,
             'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ router.post('/me/anilist', async function(req, res, next) {
             query: anilistQuery,
         })
     };
-    const anilistResp = await fetch.Post('https://graphql.anilist.co', opts=optionsToken);
+    const anilistResp = await fetch('https://graphql.anilist.co', optionsToken);
     if (!anilistResp.ok) { return res.send(500).send('oops error occured').end(); }
     const parsedResp = JSON.parse(anilistResp.text);
     const userName = parsedResp['data']['User']['name'];
