@@ -11,8 +11,6 @@ const anilistQuery = `
     }
 }
 `;
-const anilistClientId = 944;
-const anilistClientSecret = 'bB296CV9U1q93mYAwkB6EkB5wB5u1QvlyxC4Si96';
 
 router.get('/', function(req, res, next) {
     if (!req.user.admin) { res.status(401).end(); }
@@ -43,7 +41,7 @@ router.put('/me', function(req, res, next) {
     });
 });
 
-router.get('/me/anilist', async function(req, res, next) {
+router.post('/me/anilist', async function(req, res, next) {
     const optionsToken = {
         headers: {
             'Authorization': 'Bearer ' +  req.body.accessToken,
