@@ -41,7 +41,7 @@ router.post('/me/anilist', async function(req, res, next) {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
-        query: JSON.stringify({
+        body: JSON.stringify({
             query: anilistQuery,
         })
     };
