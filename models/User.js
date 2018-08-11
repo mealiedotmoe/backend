@@ -44,6 +44,7 @@ module.exports = function(sequelize, DataTypes) {
       'id': this.discord_id,
       'anilist': this.anilist,
       'birthday': this.birthday,
+      'waifu': this.waifu,
       'experience': this.experience,
       'level': this.level,
       'admin': this.admin,
@@ -55,6 +56,7 @@ module.exports = function(sequelize, DataTypes) {
       'id': this.discord_id,
       'anilist': this.anilist,
       'birthday': this.birthday,
+      'waifu': this.waifu,
     };
   }
   return User;
