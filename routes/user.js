@@ -100,16 +100,11 @@ router.post('/me/games/:gameId', async function(req, res, next) {
     });
 });
 
-router.put('/me/games/:gameId', async function(req, res, next) {
+router.put('/me/games/:id', async function(req, res, next) {
     if (!req.user) { return res.status(404).send('No user found') }
     let foundGame = await Games.findById(req.params.gameId);
     if (!foundGame) { return res.status(404).send('Game not found') }
-    Subscriptions.find({
-        where: {
-            game_id: req.params.gameId,
-            user_id: req.user.discord_id,
-        }
-    }).then(subInfo => {
+    Subscriptions.findById(req.params.id).then(subInfo => {
         if (! subInfo) {
             res.status(500).send("Can't Find subscription");
         }
@@ -121,14 +116,9 @@ router.put('/me/games/:gameId', async function(req, res, next) {
     });
 });
 
-router.delete('/me/games/:gameId', async function(req, res, next){
+router.delete('/me/games/:id', async function(req, res, next){
     if (!req.user) { return res.status(403).send('You must be logged in to use this feature').end(); }
-    Subscriptions.find({
-        where: {
-            game_id: req.params.gameId,
-            user_id: req.user.discord_id,
-        }
-    }).then(subInfo => {
+    Subscriptions.findById(req.params.id).then(subInfo => {
         if (! subInfo) {
             res.status(500).send("Can't Find subscription");
         }
