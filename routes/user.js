@@ -122,7 +122,7 @@ router.put('/me/games/:gameId', async function(req, res, next) {
 });
 
 router.delete('/me/games/:gameId', async function(req, res, next){
-    if (!user) { return res.status(403).send('You must be logged in to use this feature').end(); }
+    if (!req.user) { return res.status(403).send('You must be logged in to use this feature').end(); }
     Subscriptions.find({
         where: {
             game_id: req.params.gameId,
