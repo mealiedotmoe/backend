@@ -100,6 +100,27 @@ router.post('/me/games/:gameId', async function(req, res, next) {
     });
 });
 
+router.put('/me/games/:gameId', async function(req, res, next) {
+    if (!req.user) { return res.status(404).send('No user found') }
+    let foundGame = await Games.findById(req.params.gameId);
+    if (!foundGame) { return res.status(404).send('Game not found') }
+    Subscriptions.find({
+        where: {
+            game_id: req.params.gameId,
+            user_id: req.user.discord_id,
+        }
+    }).then(subInfo => {
+        if (! subInfo) {
+            res.status(500).send("Can't Find subscription");
+        }
+        subInfo.update({
+            frequency: req.body.gameFrequency,
+        }).then(updatedSub => {
+            res.status(200).send(updatedSub).end();
+        }).catch(err => { res.status(500).end()});
+    });
+});
+
 router.delete('/me/games/:gameId', async function(req, res, next){
     if (!user) { return res.status(403).send('You must be logged in to use this feature').end(); }
     Subscriptions.find({
@@ -179,6 +200,52 @@ router.post('/:id/games/:gameId', async function(req, res, next) {
     }).catch(err => {
         console.log(err);
         res.status(500).end()
+    });
+});
+
+router.put('/:id/games/:gameId', async function(req, res, next) {
+    if (!req.user || !req.user.admin) {
+        return res.status(403).send('You need to be logged into an admin account to use this feature')
+    }
+    let targetUser = await Users.findById(req.params.id);
+    if (!targetUser) { return res.status(404).send('User not found').end() }
+    let foundGame = await Games.findById(req.params.gameId);
+    if (!foundGame) { return res.status(404).send('Game not found') }
+    Subscriptions.find({
+        where: {
+            game_id: req.params.gameId,
+            user_id: targetUser.discord_id,
+        }
+    }).then(subInfo => {
+        if (! subInfo) {
+            res.status(500).send("Can't Find subscription");
+        }
+        subInfo.update({
+            frequency: req.body.gameFrequency,
+        }).then(updatedSub => {
+            res.status(200).send(updatedSub).end();
+        }).catch(err => { res.status(500).end()});
+    });
+});
+
+router.delete('/me/games/:gameId', async function(req, res, next){
+    if (!req.user || !req.user.admin) {
+        return res.status(403).send('You need to be logged into an admin account to use this feature')
+    }
+    let targetUser = await Users.findById(req.params.id);
+    if (!targetUser) { return res.status(404).send('User not found').end() }
+    Subscriptions.find({
+        where: {
+            game_id: req.params.gameId,
+            user_id: targetUser.discord_id,
+        }
+    }).then(subInfo => {
+        if (! subInfo) {
+            res.status(500).send("Can't Find subscription");
+        }
+        subInfo.delete().then(() => {
+            res.status(200).end();
+        }).catch(err => { res.status(500).end()});
     });
 });
 
