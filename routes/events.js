@@ -24,7 +24,7 @@ async function getUser(req) {
 router.get('/', async function(req, res, next) {
     var user = await getUser(req);
     if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
-    Events.all().then(allEvents => {
+    Events.all().then(async allEvents => {
         let allUsers = await Users.all()
         allUsers = Promise.all(allUsers.map(async user => {
             return user.getCleanInfo();
