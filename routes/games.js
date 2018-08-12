@@ -34,8 +34,8 @@ router.get('/', async function(req, res, next) {
         });
         game['dataValues']['users'] = await Promise.all(subList.map(async sub => {
             let subUser = await Users.findById(sub.user_id);
-            return subUser.getCleanInfo();
             subUser['dataValues']['gameFrequency'] = sub.frequency;
+            return subUser.getCleanInfo();
         }));
         return game;
     }));
