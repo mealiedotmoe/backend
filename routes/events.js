@@ -25,7 +25,8 @@ router.get('/', async function(req, res, next) {
     var user = await getUser(req);
     if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
     Events.all().then(allEvents => {
-        res.status(200).send(allEvents);
+        const allUsers = await Users.all()
+        res.status(200).send({'events': allEvents, 'users': allUsers};
     }).catch(err => {
         res.status(500).end()
     })
@@ -41,7 +42,9 @@ router.post('/', async function(req, res, next) {
         description: req.body.eventDescription,
     }).then(newEvents => {
         newEvents.setUser(user);
-        Hook.custom("Events", newEvents.description, newEvents.title, "#aec6cf", req.body.postImage);
+        if (req.body.postEvent) {
+            Hook.custom("Events", newEvents.description, newEvents.title, "#aec6cf", req.body.postImage);
+        }
         res.status(201).send(newEvents);
     });
 });

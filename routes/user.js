@@ -243,7 +243,7 @@ router.delete('/me/games/:gameId', async function(req, res, next){
         if (! subInfo) {
             res.status(500).send("Can't Find subscription");
         }
-        subInfo.delete().then(() => {
+        subInfo.destroy().then(() => {
             res.status(200).end();
         }).catch(err => { res.status(500).end()});
     });
