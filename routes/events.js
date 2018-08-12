@@ -29,7 +29,7 @@ router.get('/', async function(req, res, next) {
         allUsers = Promise.all(allUsers.map(async user => {
             return user.getCleanInfo();
         }));
-        res.status(200).send({'events': allEvents, 'users': allUsers};
+        res.status(200).send({'events': allEvents, 'users': allUsers});
     }).catch(err => {
         res.status(500).end()
     })
