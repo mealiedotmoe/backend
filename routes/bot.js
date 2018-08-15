@@ -66,6 +66,25 @@ router.post('/iam/', function(req, res, next) {
     }
 });
 
+router.get('/colors', async function(req, res, next) {
+    try {
+        const guild = client.guilds.get('148606162810568704');
+        const user = guild.members.get(req.params.id);
+        const removeRoles = await Promise.all(colorLevels.map(async level =>{
+            if (level ==='-0-') { return }
+            return guild.roles.find('name', level);
+        }));
+        const respJSON = {
+            'allColors': removeRoles,
+        }
+        res.status(200).send(respJSON);
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).end();
+    }
+});
+
 router.get('/colors/:id', async function(req, res, next) {
     try {
         const guild = client.guilds.get('148606162810568704');
@@ -73,7 +92,15 @@ router.get('/colors/:id', async function(req, res, next) {
         const colorRoles = await Promise.all(colorIds.map(async levelId => {
             return user.roles.get(levelId);
         }));
-        res.status(200).send(colorRoles);
+        const removeRoles = await Promise.all(colorLevels.map(async level =>{
+            if (level ==='-0-') { return }
+            return guild.roles.find('name', level);
+        }));
+        const respJSON = {
+            'allColors': removeRoles,
+            'userColors': colorRoles,
+        }
+        res.status(200).send(respJSON);
     }
     catch (err) {
         console.log(err);
