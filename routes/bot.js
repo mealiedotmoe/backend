@@ -71,7 +71,6 @@ router.get('/colors/:id', async function(req, res, next) {
         const guild = client.guilds.get('148606162810568704');
         const user = guild.members.get(req.user.discord_id);
         const colorRoles = await Promise.all(colorIds.map(async levelId => {
-            if (level ==='-0-') { return }
             if (!user.roles.has(levelId)) { return }
             return user.roles.get(levelId)
         }));
