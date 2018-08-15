@@ -71,7 +71,7 @@ router.get('/colors', async function(req, res, next) {
         const guild = client.guilds.get('148606162810568704');
         const removeRoles = await Promise.all(colorLevels.map(async level =>{
             if (level ==='-0-') { return }
-            let tempRole = guild.roles.find('name', level);
+            let tempRole = await guild.roles.find('name', level);
             return {
                 'id': tempRole['id'],
                 'name': tempRole['name'],
@@ -94,7 +94,7 @@ router.get('/colors/:id', async function(req, res, next) {
         const guild = client.guilds.get('148606162810568704');
         const user = guild.members.get(req.params.id);
         const colorRoles = await Promise.all(colorIds.map(async levelId => {
-            let tempRole = user.roles.get(levelId);
+            let tempRole = await user.roles.get(levelId);
             return {
                 'id': tempRole['id'],
                 'name': tempRole['name'],
@@ -103,7 +103,7 @@ router.get('/colors/:id', async function(req, res, next) {
         }));
         const removeRoles = await Promise.all(colorLevels.map(async level =>{
             if (level ==='-0-') { return }
-            let tempRole = guild.roles.find('name', level);
+            let tempRole = await guild.roles.find('name', level);
             return {
                 'id': tempRole['id'],
                 'name': tempRole['name'],
