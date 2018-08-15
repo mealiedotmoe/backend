@@ -17,13 +17,13 @@ const colorLevels = [
     '-30-',
 ];
 const colorIds = [
-    474097656088494080,
-    474097890113880064,
-    474098266603257858,
-    474098413852688384,
-    474098557037707264,
-    474098549370388480,
-    474098561194393600,
+    '474097656088494080',
+    '474097890113880064',
+    '474098266603257858',
+    '474098413852688384',
+    '474098557037707264',
+    '474098549370388480',
+    '474098561194393600',
 ];
 
 client.on('ready', () => {
@@ -71,9 +71,7 @@ router.get('/colors/:id', async function(req, res, next) {
         const guild = client.guilds.get('148606162810568704');
         const user = guild.members.get(req.params.id);
         const colorRoles = await Promise.all(colorIds.map(async levelId => {
-            const role = await user.roles.get(`${levelId}`);
-            if (!role) { return ''; }
-            return role
+            return user.roles.get(levelId);
         }));
         res.status(200).send(colorRoles);
     }
