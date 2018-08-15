@@ -69,9 +69,11 @@ router.post('/iam/', function(req, res, next) {
 router.get('/colors/:id', async function(req, res, next) {
     try {
         const guild = client.guilds.get('148606162810568704');
-        const user = guild.members.get(req.user.discord_id);
+        const user = guild.members.get(req.params.id);
         const colorRoles = await Promise.all(colorIds.map(async levelId => {
-            return await user.roles.get(`${levelId}`);
+            const role = await user.roles.get(`${levelId}`);
+            if (!role) { return ''; }
+            return role
         }));
         res.status(200).send(colorRoles);
     }
