@@ -76,7 +76,7 @@ router.get('/colors', async function(req, res, next) {
             return {
                 'id': tempRole['id'],
                 'name': tempRole['name'],
-                'color': tempRole['color'],
+                'color': tempRole['hexColor'],
             }
         }));
         const respJSON = {
@@ -100,7 +100,7 @@ router.get('/colors/:id', async function(req, res, next) {
             return {
                 'id': tempRole['id'],
                 'name': tempRole['name'],
-                'color': tempRole['color'],
+                'color': tempRole['hexColor'],
             }
         }));
         const removeRoles = await Promise.all(colorLevels.map(async level =>{
@@ -110,7 +110,7 @@ router.get('/colors/:id', async function(req, res, next) {
             return {
                 'id': tempRole['id'],
                 'name': tempRole['name'],
-                'color': tempRole['color'],
+                'color': tempRole['hexColor'],
             }
         }));
         const respJSON = {
