@@ -143,7 +143,7 @@ router.delete('/:id', async function(req, res, next){
         if (! gameInfo) {
             res.status(500).send("Can't Find Game");
         }
-        gameInfo.delete().then(() => {
+        gameInfo.destroy().then(() => {
             res.status(200).end();
         }).catch(err => { res.status(500).end()});
     });
@@ -156,7 +156,7 @@ router.delete('/genres/:id', async function(req, res, next){
         if (! genreInfo) {
             res.status(500).send("Can't Find Genre");
         }
-        genreInfo.delete().then(() => {
+        genreInfo.destroy().then(() => {
             res.status(200).end();
         }).catch(err => { res.status(500).end()});
     });
