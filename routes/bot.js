@@ -16,6 +16,15 @@ const colorLevels = [
     '-25-',
     '-30-',
 ];
+const colorIds = [
+    474097656088494080,
+    474097890113880064,
+    474098266603257858,
+    474098413852688384,
+    474098557037707264,
+    474098549370388480,
+    474098561194393600,
+];
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -56,6 +65,23 @@ router.post('/iam/', function(req, res, next) {
         res.status(500).end();
     }
 });
+
+router.get('/colors/:id', async function(req, res, next) {
+    try {
+        const guild = client.guilds.get('148606162810568704');
+        const user = guild.members.get(req.user.discord_id);
+        const colorRoles = await Promise.all(colorIds.map(async levelId => {
+            if (level ==='-0-') { return }
+            if (!user.roles.has(levelId)) { return }
+            return user.roles.get(levelId)
+        }));
+        res.status(200).send(colorRoles);
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).end();
+    }
+})
 
 router.post('/colors/:number', async function(req, res, next) {
     try {
