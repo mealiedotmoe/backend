@@ -71,7 +71,7 @@ router.get('/colors/:id', async function(req, res, next) {
         const guild = client.guilds.get('148606162810568704');
         const user = guild.members.get(req.user.discord_id);
         const colorRoles = await Promise.all(colorIds.map(async levelId => {
-            return user.roles.find('id', levelId)
+            return user.roles.(levelId);
         }));
         res.status(200).send(colorRoles);
     }
@@ -79,7 +79,7 @@ router.get('/colors/:id', async function(req, res, next) {
         console.log(err);
         return res.status(500).end();
     }
-})
+});
 
 router.post('/colors/:number', async function(req, res, next) {
     try {
