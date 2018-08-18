@@ -97,7 +97,7 @@ router.delete('/:id', async function(req, res, next){
         if (! event) {
             res.status(500).send("Can't Find event");
         }
-        event.delete().then(() => {
+        event.destroy().then(() => {
             res.status(200).end();
         }).catch(err => {
             console.log(err);
