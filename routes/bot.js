@@ -114,6 +114,10 @@ router.get('/colors/:id', async function(req, res, next) {
             }
         }));
         const respJSON = {
+            'user': {
+                'id': user['id'],
+                'avatarURL': user['avatarURL']
+            },
             'allColors': removeRoles,
             'userColors': colorRoles,
         }

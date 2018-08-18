@@ -90,4 +90,23 @@ router.put('/:id', async function(req, res, next){
     });
 });
 
+router.delete('/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Events.findById(req.params.id).then(event => {
+        if (! event) {
+            res.status(500).send("Can't Find event");
+        }
+        event.delete().then(() => {
+            res.status(200).end();
+        }).catch(err => {
+            console.log(err);
+            res.status(500).end()
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
+});
+
 module.exports = router;
