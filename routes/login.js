@@ -8,7 +8,7 @@ const { Users } = require('../dbObjects');
 
 const CLIENT_ID = "379731370735566849";
 const CLIENT_SECRET = "OZooKYkRhbFahfetM5Qi6gUA08xQU3sS";
-const redirect = encodeURIComponent('https://www.animeirl.xyz/api/v1/discord/login/callback');
+const redirect = encodeURIComponent('https://www.mealie.moe/api/v1/discord/login/callback');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -57,7 +57,7 @@ router.get('/callback', async function(req, res, next) {
   };
   var token = jwt.sign(claims, JWTSecret);
   res.cookie('user', token, {secure: true});
-  res.redirect('https://www.animeirl.xyz/callback');
+  res.redirect('https://www.mealie.moe/callback');
 });
 
 

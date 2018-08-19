@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
+const {dbCreds} = require('config');
 
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
+const sequelize = new Sequelize(dbCreds.database, dbCreds.user, dbCreds.pass, {
     host: 'localhost',
     dialect: 'postgres',
     logging: false,
