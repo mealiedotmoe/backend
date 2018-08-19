@@ -148,7 +148,7 @@ router.delete('/:id', async function(req, res, next){
         if (! question) {
             res.status(500).send("Can't Find Question");
         }
-        question.delete().then(() => {
+        question.destroy().then(() => {
             res.status(200).end();
         }).catch(err => { 
             console.log(err);
@@ -210,7 +210,7 @@ router.get('/:id/results', function(req, res, next) {
             choices = choices.map(async choice => {
                 choice.dataValues.votes = await Votes.count({ where: {choiceId: choice.id }});
                 return choice
-            })
+            });
             Promise.all(choices).then(choicesDone => {
                 question.dataValues.choices = choicesDone;
                 res.send(question);

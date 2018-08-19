@@ -23,9 +23,13 @@ async function getUser(req) {
 
 router.get('/', async function(req, res, next) {
     var user = await getUser(req);
-    if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
-    Events.all().then(allEvents => {
-        res.status(200).send(allEvents);
+    if (!user) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
+    Events.all().then(async allEvents => {
+        let allUsers = await Users.all();
+        allUsers = await Promise.all(allUsers.map(async user => {
+            return user.getCleanInfo();
+        }));
+        res.status(200).send({'events': allEvents, 'users': allUsers});
     }).catch(err => {
         res.status(500).end()
     })
@@ -41,7 +45,9 @@ router.post('/', async function(req, res, next) {
         description: req.body.eventDescription,
     }).then(newEvents => {
         newEvents.setUser(user);
-        Hook.custom("Events", newEvents.description, newEvents.title, "#aec6cf", req.body.postImage);
+        if (req.body.postEvent) {
+            Hook.custom("Events", newEvents.description, newEvents.title, "#aec6cf", req.body.postImage);
+        }
         res.status(201).send(newEvents);
     });
 });
@@ -81,6 +87,25 @@ router.put('/:id', async function(req, res, next){
         }).then(updatedEvent => {
             res.status(200).send(updatedEvent);
         }).catch(err => { res.status(500).end()});
+    });
+});
+
+router.delete('/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    Events.findById(req.params.id).then(event => {
+        if (! event) {
+            res.status(500).send("Can't Find event");
+        }
+        event.destroy().then(() => {
+            res.status(200).end();
+        }).catch(err => {
+            console.log(err);
+            res.status(500).end()
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
     });
 });
 
