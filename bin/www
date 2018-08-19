@@ -21,11 +21,11 @@ app.set('port', port);
  */
 
 
-var privateKey = fs.readFileSync( '/etc/letsencrypt/live/www.animeirl.xyz/privkey.pem');
-var certificate = fs.readFileSync('/etc/letsencrypt/live/www.animeirl.xyz/fullchain.pem');
+var privateKey = fs.readFileSync( '/etc/letsencrypt/live/mealie.moe/privkey.pem');
+var certificate = fs.readFileSync('/etc/letsencrypt/live/mealie.moe/fullchain.pem');
 
 /**
- * Create HTTP server.
+ * Create HTTPS server.
  */
 
 var server = https.createServer({
