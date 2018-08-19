@@ -59,5 +59,11 @@ module.exports = function(sequelize, DataTypes) {
       'waifu': this.waifu,
     };
   }
+  User.prototype.getMinInfo = function() {
+      return {
+          'username': this.username,
+          'id': this.discord_id,
+      };
+  }
   return User;
 }

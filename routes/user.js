@@ -15,6 +15,16 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/list', function(req, res, next) {
+    Users.all().then(users =>{
+        userList = [];
+        users.forEach(user => {
+            userList.push(JSON.stringify(user.getMinInfo()));
+        });
+        res.json(userList);
+    });
+});
+
 router.get('/me', function(req, res, next){
     if (!req.user) { return res.status(404).send('No user found') }
     res.status(200).send(req.user.getInfo());
@@ -169,13 +179,28 @@ router.get('/:id', function(req, res, next) {
 
 router.get('/:id/games', function(req, res, next) {
     Users.findById(req.params.id).then(async user => {
-        if (!user) { return res.status(500).send('Can not find user.').end() }
-        user.games = await Subscriptions.findAll({
+        if (!user) { return res.status(403).send('User not found').end() }
+        let retUser = user.getCleanInfo();
+        let allGames = await Subscriptions.findAll({
             where: {
                 user_id: user.discord_id
             }
+        }).catch(err => {
+            console.log(err);
+            res.status(500).end()
         });
-        res.status(200).send(user).end();
+        if (!allGames) {
+            res.status(200).send("{}").end();
+        }
+        retUser.games = await Promise.all(allGames.map(async game => {
+            let gameObj = await Games.findById(game.game_id);
+            let retObj = {};
+            retObj['id'] = gameObj['id'];
+            retObj['title'] = gameObj['title'];
+            retObj['frequency'] = game['frequency'];
+            return retObj;
+        }));
+        res.status(200).send(retUser).end();
     }).catch(err => {
         console.log(err);
         res.status(500).end()
