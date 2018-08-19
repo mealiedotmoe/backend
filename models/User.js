@@ -8,6 +8,15 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       primaryKey: true,
     },
+    birthday: {
+        type: DataTypes.DATE,
+    },
+    anilist: {
+        type: DataTypes.STRING,
+    },
+    waifu: {
+        type: DataTypes.STRING,
+    },
     discord_token:{
       type: DataTypes.STRING,
     },
@@ -33,7 +42,9 @@ module.exports = function(sequelize, DataTypes) {
     return {
       'username': this.username,
       'id': this.discord_id,
-      'email': this.email,
+      'anilist': this.anilist,
+      'birthday': this.birthday,
+      'waifu': this.waifu,
       'experience': this.experience,
       'level': this.level,
       'admin': this.admin,
@@ -43,7 +54,16 @@ module.exports = function(sequelize, DataTypes) {
     return {
       'username': this.username,
       'id': this.discord_id,
+      'anilist': this.anilist,
+      'birthday': this.birthday,
+      'waifu': this.waifu,
     };
+  }
+  User.prototype.getMinInfo = function() {
+      return {
+          'username': this.username,
+          'id': this.discord_id,
+      };
   }
   return User;
 }

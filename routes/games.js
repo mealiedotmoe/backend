@@ -33,8 +33,10 @@ router.get('/', async function(req, res, next) {
             },
         });
         game['dataValues']['users'] = await Promise.all(subList.map(async sub => {
-            let subUser = await Users.findById(sub.user_id);
-            return subUser.getCleanInfo();
+            const subUser = await Users.findById(sub.user_id);
+            let retUser = subUser.getCleanInfo();
+            retUser['frequency'] = sub.frequency;
+            return retUser;
         }));
         return game;
     }));
@@ -126,7 +128,7 @@ router.put('/:id', async function(req, res, next){
                 },
             });
             if (halfUpdated.getGenre() !== gameGenre) {
-                halfUpdated.setGenre(gameGenre);
+                halfUpdated.setGenre(gameGenre[0]);
             }
         }).then(updatedGame => {
             res.status(200).send(updatedGame);
@@ -141,7 +143,7 @@ router.delete('/:id', async function(req, res, next){
         if (! gameInfo) {
             res.status(500).send("Can't Find Game");
         }
-        gameInfo.delete().then(() => {
+        gameInfo.destroy().then(() => {
             res.status(200).end();
         }).catch(err => { res.status(500).end()});
     });
@@ -154,7 +156,7 @@ router.delete('/genres/:id', async function(req, res, next){
         if (! genreInfo) {
             res.status(500).send("Can't Find Genre");
         }
-        genreInfo.delete().then(() => {
+        genreInfo.destroy().then(() => {
             res.status(200).end();
         }).catch(err => { res.status(500).end()});
     });

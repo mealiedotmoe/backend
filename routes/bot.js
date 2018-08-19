@@ -16,6 +16,15 @@ const colorLevels = [
     '-25-',
     '-30-',
 ];
+const colorIds = [
+    '474097656088494080',
+    '474097890113880064',
+    '474098266603257858',
+    '474098413852688384',
+    '474098557037707264',
+    '474098549370388480',
+    '474098561194393600',
+];
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -54,6 +63,69 @@ router.post('/iam/', function(req, res, next) {
     }
     catch (err) {
         res.status(500).end();
+    }
+});
+
+router.get('/colors', async function(req, res, next) {
+    try {
+        const guild = client.guilds.get('148606162810568704');
+        const removeRoles = await Promise.all(colorLevels.map(async level =>{
+            if (level ==='-0-') { return }
+            let tempRole = await guild.roles.find('name', level);
+            if (!tempRole) { return }
+            return {
+                'id': tempRole['id'],
+                'name': tempRole['name'],
+                'color': tempRole['hexColor'],
+            }
+        }));
+        const respJSON = {
+            'allColors': removeRoles,
+        }
+        res.status(200).send(respJSON);
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).end();
+    }
+});
+
+router.get('/colors/:id', async function(req, res, next) {
+    try {
+        const guild = client.guilds.get('148606162810568704');
+        const user = guild.members.get(req.params.id);
+        const colorRoles = await Promise.all(colorIds.map(async levelId => {
+            let tempRole = await user.roles.get(levelId);
+            if (!tempRole) { return }
+            return {
+                'id': tempRole['id'],
+                'name': tempRole['name'],
+                'color': tempRole['hexColor'],
+            }
+        }));
+        const removeRoles = await Promise.all(colorLevels.map(async level =>{
+            if (level ==='-0-') { return }
+            let tempRole = await guild.roles.find('name', level);
+            if (!tempRole) { return }
+            return {
+                'id': tempRole['id'],
+                'name': tempRole['name'],
+                'color': tempRole['hexColor'],
+            }
+        }));
+        const respJSON = {
+            'user': {
+                'id': user['id'],
+                'avatarURL': user['user']['avatarURL']
+            },
+            'allColors': removeRoles,
+            'userColors': colorRoles,
+        }
+        res.status(200).send(respJSON);
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).end();
     }
 });
 
