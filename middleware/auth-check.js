@@ -1,15 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {JWTSecret} = require('../config');
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize('mealiedb', 'mealie', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: false,
-  operatorsAliases: false,
-});
-
-const Users = sequelize.import('../models/User');
+const {Users} = require('../dbObjects');
 
 module.exports = (req, res, next) => {
     if (!req.headers.authorization) {
