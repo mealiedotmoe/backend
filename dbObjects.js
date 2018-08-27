@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const {dbCreds} = require('config');
+const {dbCreds} = require('./config');
 
 const sequelize = new Sequelize(dbCreds.database, dbCreds.user, dbCreds.pass, {
     host: 'localhost',

@@ -20,6 +20,7 @@ var faqRouter = require('./routes/faq');
 var musicRouter = require('./routes/music');
 var eventsRouter = require('./routes/events');
 var gamesRouter = require('./routes/games');
+var paletteRouter = require('./routes/palette');
 
 var app = express();
 app.use(cors());
@@ -48,6 +49,7 @@ app.use('/events', eventsRouter);
 app.use('/games', gamesRouter);
 app.use('/bot', authCheckMiddleware);
 app.use('/bot', botRouter);
+app.use('/palette', paletteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,5 +66,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+if (!module.parent) {
+    app.listen(3000);
+}
+
 module.exports = app;
+
 
