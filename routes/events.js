@@ -46,7 +46,7 @@ router.post('/', async function(req, res, next) {
     }).then(newEvents => {
         newEvents.setUser(user);
         if (req.body.postEvent) {
-            Hook.custom("Events", newEvents.description, newEvents.title, "#aec6cf", req.body.postImage);
+            Hook.custom("Events", newEvents.description, `${newEvents.title} - ${newEvents.date}`, "#aec6cf", req.body.postImage);
         }
         res.status(201).send(newEvents);
     });
