@@ -60,5 +60,39 @@ router.get('/callback', async function(req, res, next) {
   res.redirect('https://www.mealie.moe/callback');
 });
 
+router.post('/', async function(req, res, next) {
+    const accessToken = await req.body.userToken;
+    const temp_user = await fetch('https://discordapp.com/api/users/@me',
+        {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).catch(err => {
+        console.error(`Unable to get user: ${err}`);
+    });
+    const discord_user = await temp_user.json();
+    const db_user = await Users.upsert({
+        username: `${discord_user.username}`,
+        discord_id: `${discord_user.id.toString()}`,
+        discord_token: `${discord_user.access_token}`,
+    }, {returning: true}).catch(err => {
+        console.error(`Unable to store user: ${err}`);
+    });
+    const user = await db_user[0].dataValues;
+    const date = new Date();
+    let now = Number(Number((date.getTime() + date.getTimezoneOffset()*60*1000)/1000).toFixed(0));
+    let token_exp = now + json.expires_in;
+    const claims = {
+        "sub": `${user.discord_id}`,
+        "exp": token_exp,
+        "avatarURL": `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.png`,
+        "username": `${user.username}`,
+        "isAdmin": `${user.admin}`,
+    };
+    const token = jwt.sign(claims, JWTSecret);
+    res.status(201).send({'jwt': token});
+});
+
 
 module.exports = router;
