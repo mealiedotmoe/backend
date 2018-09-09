@@ -82,7 +82,7 @@ router.post('/', async function(req, res, next) {
     const user = await db_user[0].dataValues;
     const date = new Date();
     let now = Number(Number((date.getTime() + date.getTimezoneOffset()*60*1000)/1000).toFixed(0));
-    let token_exp = now + json.expires_in;
+    let token_exp = now + req.body.expiresIn;
     const claims = {
         "sub": `${user.discord_id}`,
         "exp": token_exp,
