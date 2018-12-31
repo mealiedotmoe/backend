@@ -53,9 +53,10 @@ router.post('/', function(req, res, next) {
 
 
     const dataValues = req.body.colorValues;
+    ctx.fillStyle = 'rgba(0,0,0,0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = '42px Quicksand';
 
+    ctx.font = '42px Quicksand';
     let height = 50;
     let counter = 0;
     try {
@@ -67,6 +68,7 @@ router.post('/', function(req, res, next) {
             counter += 1;
             height += 50;
         });
+        ctx.font = '38px Quicksand';
         ctx.fillStyle = '#fff';
         ctx.fillText(bottomText, 30, 600);
     }
