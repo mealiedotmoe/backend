@@ -7,6 +7,8 @@ const canvasHeight = 650;
 
 const bottomText = 'https://mealie.moe/palette';
 
+Canvas.registerFont('../assets/fonts/Quicksand-Regular.ttf', {family: "Quicksand"});
+
 const colorNames = [
     'Clover',
     'Member',
@@ -53,7 +55,7 @@ router.post('/', function(req, res, next) {
 
     const dataValues = req.body.colorValues;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = '46px Roboto';
+    ctx.font = '42px Quicksand';
 
     let height = 50;
     let counter = 0;
