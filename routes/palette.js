@@ -7,7 +7,7 @@ const canvasHeight = 650;
 
 const bottomText = 'https://mealie.moe/palette';
 
-Canvas.registerFont('../assets/fonts/Quicksand-Regular.ttf', {family: "Quicksand"});
+Canvas.registerFont('./assets/fonts/Quicksand-Regular.ttf', {family: "Quicksand"});
 
 const colorNames = [
     'Clover',
