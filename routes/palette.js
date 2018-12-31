@@ -12,8 +12,7 @@ Canvas.registerFont('./assets/fonts/Quicksand-Regular.ttf', {family: "Quicksand"
 const colorNames = [
     'Clover',
     'Member',
-    'Active',
-    'Regular',
+    'Active', 'Regular',
     'Contributor',
     'Addicted',
     'Insomniac',
@@ -28,7 +27,7 @@ router.get('/', function(req, res, next) {
 const wrapText = function(ctx, text) {
     let max_width  = 500;
     let fontSize =  35;
-    ctx.font = '42px Roboto';
+    ctx.font = '42px Quicksand';
     let lines      =  [];
     let width = 0, i, j;
     let result;
@@ -69,7 +68,7 @@ router.post('/', function(req, res, next) {
             height += 50;
         });
         ctx.fillStyle = '#fff';
-        wrapText(ctx, bottomText);
+        ctx.fillText(bottomText, 30, 600);
     }
     catch(err){
         console.log(err);
