@@ -52,7 +52,6 @@ router.post('/', function(req, res, next) {
 
 
     const dataValues = req.body.colorValues;
-    ctx.fillStyle = '#2C2F33';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = '46px Roboto';
 
