@@ -18,6 +18,7 @@ var Events = sequelize.import('models/Event');
 var Games = sequelize.import('models/Game');
 var Subscriptions = sequelize.import('models/Subscription');
 var Genres = sequelize.import('models/GameGenre');
+var Palettes = sequelize.import('models/Palette');
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 

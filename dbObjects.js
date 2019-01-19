@@ -21,6 +21,8 @@ var Games = sequelize.import('models/Game');
 var Genres = sequelize.import('models/GameGenre');
 var Subscriptions = sequelize.import('models/Subscription');
 
+var Palettes = sequelize.import('models/Palette');
+
 Subscriptions.belongsTo(Games, {as: 'Game', foreignKey: 'game_id'});
 Subscriptions.belongsTo(Users, {as: 'User', foreignKey: 'user_id'});
 
