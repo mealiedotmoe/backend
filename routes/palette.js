@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Canvas = require('canvas');
 
+var jwt = require('jsonwebtoken');
+const {Users, Palettes} = require('../dbObjects');
+const {JWTSecret} = require('../config');
+
 const canvasWidth = 550;
 const canvasHeight = 650;
 
@@ -20,8 +24,102 @@ const colorNames = [
     'Birthday'
 ];
 
+
+async function getUser(req) {
+    if (!req.headers.authorization) {
+        return false;
+    }
+    const token = req.headers.authorization.split(' ')[1];
+
+    return await jwt.verify(token, JWTSecret, (err, decoded) =>{
+        if(err) { return false; }
+        const userId = decoded.sub;
+        return Users.findById(userId).then(user => {
+            return user;
+        }).catch(err => { return false; })
+    })
+}
+
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Why are you hitting this route?' });
+});
+
+/* GET all palettes */
+router.get('/me/', async function(req, res, next) {
+    var user = await getUser(req);
+    if (!user ) { return res.status(403).send('You must be logged in to an account use this feature').end(); }
+    Palettes.find({
+        where: {
+            user_id: user.id
+        }
+    }).then(myPalettes => {
+        res.status(200).send(myPalettes);
+    }).catch(err => {
+        res.status(500).end()
+    })
+});
+
+/* POST to create new faqinfo */
+router.post('/me/', async function(req, res, next) {
+    var user = await getUser(req);
+    if (!user) { return res.status(401).send('You must be logged in to an account to use this feature').end(); }
+    Palettes.create({
+        palette_name: req.body.palleteName,
+        clover: req.body.cloverColor,
+        member: req.body.memberColor,
+        active: req.body.activeColor,
+        regular: req.body.regularColor,
+        contributor: req.body.contributorColor,
+        addicted: req.body.addictedColor,
+        insomniac: req.body.insomniacColor,
+        nolifer: req.body.noliferColor,
+        birthday: req.body.birthdayColor,
+    }).then(newPallete => {
+        newPallete.setUser(user);
+        res.status(201).send(newPallete);
+    });
+});
+
+router.get('/me/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user) { return res.status(401).send('You must be logged in to an account to use this feature').end(); }
+    Palettes.findById(req.params.id).then(palette => {
+        if (! palette) {
+            res.status(500).send("Can't Find Palette");
+        }
+        if (!palette.user_id === user.id) {
+            res.status(500).send("Can't Find Palette");
+        }
+        res.status(200).send(palette);
+    })
+});
+
+router.put('/me/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user) { return res.status(403).send('You must be logged in to an account use this feature').end(); }
+    Palettes.find({
+        where: {
+            user_id: user.id,
+            id: req.params.id,
+        }
+    }).then(myPalette => {
+        myPalette.update({
+            palette_name: req.body.palleteName,
+            clover: req.body.cloverColor,
+            member: req.body.memberColor,
+            active: req.body.activeColor,
+            regular: req.body.regularColor,
+            contributor: req.body.contributorColor,
+            addicted: req.body.addictedColor,
+            insomniac: req.body.insomniacColor,
+            nolifer: req.body.noliferColor,
+            birthday: req.body.birthdayColor,
+        }).then(updatedPallete => {
+            res.status(200).send(updatedPallete);
+        });
+    }).catch(err => {
+        res.status(500).end()
+    })
 });
 
 const wrapText = function(ctx, text) {
