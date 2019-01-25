@@ -48,7 +48,7 @@ router.get('/', function(req, res, next) {
 router.get('/me/', async function(req, res, next) {
     var user = await getUser(req);
     if (!user ) { return res.status(403).send('You must be logged in to an account use this feature').end(); }
-    Palettes.find({
+    Palettes.findAll({
         where: {
             user_id: user.discord_id
         }
