@@ -50,7 +50,7 @@ router.get('/me/', async function(req, res, next) {
     if (!user ) { return res.status(403).send('You must be logged in to an account use this feature').end(); }
     Palettes.find({
         where: {
-            user_id: user.id
+            user_id: user.discord_id
         }
     }).then(myPalettes => {
         res.status(200).send(myPalettes);
