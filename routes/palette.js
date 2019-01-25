@@ -64,7 +64,7 @@ router.post('/me/', async function(req, res, next) {
     var user = await getUser(req);
     if (!user) { return res.status(401).send('You must be logged in to an account to use this feature').end(); }
     Palettes.create({
-        palette_name: req.body.palleteName,
+        palette_name: req.body.paletteName,
         clover: req.body.cloverColor,
         member: req.body.memberColor,
         active: req.body.activeColor,
