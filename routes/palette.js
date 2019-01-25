@@ -99,7 +99,7 @@ router.put('/me/:id', async function(req, res, next){
     if (!user) { return res.status(403).send('You must be logged in to an account use this feature').end(); }
     Palettes.find({
         where: {
-            user_id: user.id,
+            user_id: user.discord_id,
             id: req.params.id,
         }
     }).then(myPalette => {
@@ -120,6 +120,28 @@ router.put('/me/:id', async function(req, res, next){
     }).catch(err => {
         res.status(500).end()
     })
+});
+
+router.delete('/me/:id', async function(req, res, next){
+    var user = await getUser(req);
+    if (!user ) { return res.status(401).send('You must be logged in to an account use this feature').end(); }
+    Palettes.findById(req.params.id).then(palette => {
+        if (! palette) {
+            res.status(500).send("Can't Find palette");
+        }
+        if (! palette.user_id !== user.discord_id) {
+            res.status(403).send("You can't delete this palette");
+        }
+        palette.destroy().then(() => {
+            res.status(200).end();
+        }).catch(err => {
+            console.log(err);
+            res.status(500).end()
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    });
 });
 
 const wrapText = function(ctx, text) {
