@@ -37,5 +37,5 @@ Votes.belongsTo(Users, {as: 'User', foreignKey: 'userId'});
 FaqInfo.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 Events.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 Markdown.belongsTo(Users, {as: 'User', foreignKey: 'author'});
-
+Palettes.belongsTo(Users, {as: 'User', foreignKey: 'user_id'})
 module.exports = {Users, Questions, Choices, Votes, FaqInfo, Markdown, Events, Games, Genres, Subscriptions, Palettes};
