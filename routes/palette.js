@@ -129,7 +129,7 @@ router.delete('/me/:id', async function(req, res, next){
         if (! palette) {
             res.status(500).send("Can't Find palette");
         }
-        if (! palette.user_id !== user.discord_id) {
+        if (! palette.user_id != user.discord_id) {
             res.status(403).send("You can't delete this palette");
         }
         palette.destroy().then(() => {
