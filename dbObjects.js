@@ -23,6 +23,9 @@ var Subscriptions = sequelize.import('models/Subscription');
 
 var Palettes = sequelize.import('models/Palette');
 
+var Channels = sequelize.import('models/Channel');
+var Messages = sequelize.import('models/Message');
+
 Subscriptions.belongsTo(Games, {as: 'Game', foreignKey: 'game_id'});
 Subscriptions.belongsTo(Users, {as: 'User', foreignKey: 'user_id'});
 
@@ -37,5 +40,8 @@ Votes.belongsTo(Users, {as: 'User', foreignKey: 'userId'});
 FaqInfo.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 Events.belongsTo(Users, {as: 'User', foreignKey: 'author'});
 Markdown.belongsTo(Users, {as: 'User', foreignKey: 'author'});
-Palettes.belongsTo(Users, {as: 'User', foreignKey: 'user_id'})
+Palettes.belongsTo(Users, {as: 'User', foreignKey: 'user_id'});
+
+Messages.belongsTo(Channels, {as: 'Message', foreignKey: 'channel_id'});
+
 module.exports = {Users, Questions, Choices, Votes, FaqInfo, Markdown, Events, Games, Genres, Subscriptions, Palettes};
