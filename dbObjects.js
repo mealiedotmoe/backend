@@ -44,4 +44,4 @@ Palettes.belongsTo(Users, {as: 'User', foreignKey: 'user_id'});
 
 Messages.belongsTo(Channels, {as: 'Message', foreignKey: 'channel_id'});
 
-module.exports = {Users, Questions, Choices, Votes, FaqInfo, Markdown, Events, Games, Genres, Subscriptions, Palettes};
+module.exports = {Users, Questions, Choices, Votes, FaqInfo, Markdown, Events, Games, Genres, Subscriptions, Palettes, Messages, Channels};
