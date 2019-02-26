@@ -40,7 +40,6 @@ router.post('/', async function(req, res, next) {
         snowflake: req.body.snowflake,
         users: req.body.users,
     }).then(newChannels => {
-        newChannels.setUser(user);
         res.status(201).send(newChannels);
     });
 });
