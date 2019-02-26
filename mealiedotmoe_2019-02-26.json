@@ -1,0 +1,515 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2019-02-26T07:36:10.461Z",
+	"__export_source": "insomnia.desktop.app:v6.3.2",
+	"resources": [
+		{
+			"_id": "wrk_72855dc328a041a3aa1f18f8aeb1155b",
+			"created": 1548394377815,
+			"description": "",
+			"modified": 1548394377815,
+			"name": "mealiedotmoe",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_beb3ae71ab8d4a3a8537d4f7bc5835d7",
+			"color": null,
+			"created": 1548394377831,
+			"data": {},
+			"isPrivate": false,
+			"metaSortKey": 1548394377831,
+			"modified": 1548394377831,
+			"name": "New Environment",
+			"parentId": "wrk_72855dc328a041a3aa1f18f8aeb1155b",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_165677af8f6b44d3a35dbb7bbdb45dd7",
+			"cookies": [],
+			"created": 1548394377835,
+			"modified": 1548394377835,
+			"name": "Default Jar",
+			"parentId": "wrk_72855dc328a041a3aa1f18f8aeb1155b",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_76454fc01a48423d87ca9f0e24c41ba9",
+			"created": 1548394625710,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1548394625710,
+			"modified": 1548394625710,
+			"name": "Palettes",
+			"parentId": "wrk_72855dc328a041a3aa1f18f8aeb1155b",
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_df658cdded6e4f948c677685982a66ea",
+			"created": 1551150887719,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1551150887719,
+			"modified": 1551150887719,
+			"name": "Archive",
+			"parentId": "wrk_72855dc328a041a3aa1f18f8aeb1155b",
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_4f44a0d7b50c4121a359b94384aec308",
+			"authentication": {},
+			"body": {},
+			"created": 1548394405709,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_7a546ebfd2294fa8b54ee6f6899eb6e2",
+					"name": "authorization",
+					"value": "Bearer "
+				},
+				{
+					"id": "pair_74323d76292a40fc92a90df36013f129",
+					"name": "cache-control",
+					"value": "no-cache"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1548394405709,
+			"method": "GET",
+			"modified": 1551151655219,
+			"name": "Get User",
+			"parameters": [],
+			"parentId": "wrk_72855dc328a041a3aa1f18f8aeb1155b",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/users/me",
+			"_type": "request"
+		},
+		{
+			"_id": "req_373655ee1756495cb04c798a481f5858",
+			"authentication": {},
+			"body": {},
+			"created": 1550822178717,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_7171071c763a4722abc0d735eb12982d",
+					"name": "authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjQ1NDYxNTkxNDA5Mjk1MzgiLCJleHAiOjE1NTE0NDQyMTAsImF2YXRhclVSTCI6Imh0dHBzOi8vY2RuLmRpc2NvcmRhcHAuY29tL2F2YXRhcnMvMTY0NTQ2MTU5MTQwOTI5NTM4L2RmZTdlNWZkZGVmZmVkZjc5MThkODE0NmRkZmJlOTg4LnBuZyIsInVzZXJuYW1lIjoiZGFzaHdhdiIsImlzQWRtaW4iOiJ0cnVlIiwiaWF0IjoxNTUwODIxNDA5fQ.LCuIIfu0NFIYO03gwFCTC31GvT2rq7SFPFjF8sGgTYg"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1550822178717,
+			"method": "GET",
+			"modified": 1550822255301,
+			"name": "test",
+			"parameters": [],
+			"parentId": "wrk_72855dc328a041a3aa1f18f8aeb1155b",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/bot/colors/471474730428530697",
+			"_type": "request"
+		},
+		{
+			"_id": "env_b3a5395179da4867a529b36c33d34895",
+			"color": null,
+			"created": 1548397613913,
+			"data": {},
+			"isPrivate": false,
+			"metaSortKey": 1548397613913,
+			"modified": 1548397618823,
+			"name": "New Environment",
+			"parentId": "env_beb3ae71ab8d4a3a8537d4f7bc5835d7",
+			"_type": "environment"
+		},
+		{
+			"_id": "req_0615857b236a4a6db48724ff33137fdf",
+			"authentication": {},
+			"body": {},
+			"created": 1548394610734,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer "
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1548394610734,
+			"method": "GET",
+			"modified": 1548397766848,
+			"name": "Get User Palettes",
+			"parameters": [],
+			"parentId": "fld_76454fc01a48423d87ca9f0e24c41ba9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/palette/me/",
+			"_type": "request"
+		},
+		{
+			"_id": "req_0a73a731dcbe43ad9ddf5d5be7db6090",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"paletteName\": \"test2\",\n\t\"cloverColor\": \"#FFFFFF\",\n\t\"memberColor\": \"#FFFFFF\",\n\t\"activeColor\": \"#FsFFFF\",\n\t\"regularColor\": \"#FFFFFF\",\n\t\"contributorColor\": \"#FFFFFF\",\n\t\"addictedColor\": \"#FFFFFF\",\n\t\"insomniacColor\": \"#FFFFFF\",\n\t\"noliferColor\": \"#FFFFFF\",\n\t\"birthdayColor\": \"#FFFFFF\"\n}"
+			},
+			"created": 1548394690018,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer "
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				},
+				{
+					"id": "pair_68a275b20886487a944a1ccec6ed2064",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1548394508221.5,
+			"method": "POST",
+			"modified": 1548397770716,
+			"name": "Create New Palette",
+			"parameters": [],
+			"parentId": "fld_76454fc01a48423d87ca9f0e24c41ba9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/palette/me",
+			"_type": "request"
+		},
+		{
+			"_id": "req_97f7e262fba2432ba8435b104744e39f",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"paletteName\": \"test\",\n\t\"cloverColor\": \"#aaaaaa\",\n\t\"memberColor\": \"#FssFFF\",\n\t\"activeColor\": \"#FFFFFF\",\n\t\"regularColor\": \"#FFFFFF\",\n\t\"contributorColor\": \"#FFFFFF\",\n\t\"addictedColor\": \"#FFFFFF\",\n\t\"insomniacColor\": \"#FFFFFF\",\n\t\"noliferColor\": \"#FFFFFF\",\n\t\"birthdayColor\": \"#FFFaaaF\"\n}"
+			},
+			"created": 1548396044269,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer "
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				},
+				{
+					"id": "pair_68a275b20886487a944a1ccec6ed2064",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1548394456965.25,
+			"method": "PUT",
+			"modified": 1548397776889,
+			"name": "Edit Palette",
+			"parameters": [],
+			"parentId": "fld_76454fc01a48423d87ca9f0e24c41ba9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/palette/me/3",
+			"_type": "request"
+		},
+		{
+			"_id": "req_ddd266f4cd004a948b745abb296a1400",
+			"authentication": {},
+			"body": {},
+			"created": 1548396257680,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer "
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1548394431337.125,
+			"method": "DELETE",
+			"modified": 1548397779816,
+			"name": "Delete Palette",
+			"parameters": [],
+			"parentId": "fld_76454fc01a48423d87ca9f0e24c41ba9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/palette/me/4",
+			"_type": "request"
+		},
+		{
+			"_id": "req_406099db8032412f8b7378f23d00a266",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"colorValues\": [\n\t\t\"#FFFFFF\",\n\t\t\"#FFFFFF\",\n\t\t\"#FFFFFF\",\n\t\t\"#FFFFFF\",\n\t\t\"#FFFFFF\",\n\t\t\"#FFFFFF\",\n\t\t\"#FFFFFF\",\n\t\t\"#FFFFFF\",\n\t\t\"#FFFFFF\"\n\t]\n}"
+			},
+			"created": 1548397399707,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer "
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				},
+				{
+					"id": "pair_68a275b20886487a944a1ccec6ed2064",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1548394431287.125,
+			"method": "POST",
+			"modified": 1550822195117,
+			"name": "Create Palette Image",
+			"parameters": [],
+			"parentId": "fld_76454fc01a48423d87ca9f0e24c41ba9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/bot/colors/471474730428530697",
+			"_type": "request"
+		},
+		{
+			"_id": "req_ca2668debb1b41d48d93cc41e22fe136",
+			"authentication": {},
+			"body": {},
+			"created": 1551152575515,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjQ1NDYxNTkxNDA5Mjk1MzgiLCJleHAiOjE1NTE0NDQyMTAsImF2YXRhclVSTCI6Imh0dHBzOi8vY2RuLmRpc2NvcmRhcHAuY29tL2F2YXRhcnMvMTY0NTQ2MTU5MTQwOTI5NTM4L2RmZTdlNWZkZGVmZmVkZjc5MThkODE0NmRkZmJlOTg4LnBuZyIsInVzZXJuYW1lIjoiZGFzaHdhdiIsImlzQWRtaW4iOiJ0cnVlIiwiaWF0IjoxNTUwODIxNDA5fQ.LCuIIfu0NFIYO03gwFCTC31GvT2rq7SFPFjF8sGgTYg"
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1551150899455,
+			"method": "GET",
+			"modified": 1551154819740,
+			"name": "Get Archives",
+			"parameters": [],
+			"parentId": "fld_df658cdded6e4f948c677685982a66ea",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/archive/",
+			"_type": "request"
+		},
+		{
+			"_id": "req_7e1b64c1d2e64b3083410b81f25fb362",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"channelName\": \"TestChannel\",\n\t\"createdDate\": 1547973486390,\n\t\"snowflake\": \"446066541851705364\",\n\t\"users\": {\n\t\t\"users\": [\n\t\t\t{\n\t\t\t\t\"color\": \"#000000\",\n\t\t\t\t\"id\": \"426968025884000259\",\n\t\t\t\t\"name\": \"Ikari\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"color\": \"#000000\",\n\t\t\t\t\"id\": \"530680063075680257\",\n\t\t\t\t\"name\": \"archiver\"\n    }\n\t\t]\n\t}\n\t\n}"
+			},
+			"created": 1551154213248,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjQ1NDYxNTkxNDA5Mjk1MzgiLCJleHAiOjE1NTE0NDQyMTAsImF2YXRhclVSTCI6Imh0dHBzOi8vY2RuLmRpc2NvcmRhcHAuY29tL2F2YXRhcnMvMTY0NTQ2MTU5MTQwOTI5NTM4L2RmZTdlNWZkZGVmZmVkZjc5MThkODE0NmRkZmJlOTg4LnBuZyIsInVzZXJuYW1lIjoiZGFzaHdhdiIsImlzQWRtaW4iOiJ0cnVlIiwiaWF0IjoxNTUwODIxNDA5fQ.LCuIIfu0NFIYO03gwFCTC31GvT2rq7SFPFjF8sGgTYg"
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				},
+				{
+					"id": "pair_35fca36495b948d7b1739c5433814ca7",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1551089264316.625,
+			"method": "POST",
+			"modified": 1551154904649,
+			"name": "Add Channel",
+			"parameters": [],
+			"parentId": "fld_df658cdded6e4f948c677685982a66ea",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/archive/",
+			"_type": "request"
+		},
+		{
+			"_id": "req_59e7fbab619b4a4489f246b776c48403",
+			"authentication": {},
+			"body": {},
+			"created": 1551154828512,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjQ1NDYxNTkxNDA5Mjk1MzgiLCJleHAiOjE1NTE0NDQyMTAsImF2YXRhclVSTCI6Imh0dHBzOi8vY2RuLmRpc2NvcmRhcHAuY29tL2F2YXRhcnMvMTY0NTQ2MTU5MTQwOTI5NTM4L2RmZTdlNWZkZGVmZmVkZjc5MThkODE0NmRkZmJlOTg4LnBuZyIsInVzZXJuYW1lIjoiZGFzaHdhdiIsImlzQWRtaW4iOiJ0cnVlIiwiaWF0IjoxNTUwODIxNDA5fQ.LCuIIfu0NFIYO03gwFCTC31GvT2rq7SFPFjF8sGgTYg"
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1551027629178.25,
+			"method": "GET",
+			"modified": 1551166535841,
+			"name": "Get First 50 Messages",
+			"parameters": [],
+			"parentId": "fld_df658cdded6e4f948c677685982a66ea",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/archive/446066541851705364/messages",
+			"_type": "request"
+		},
+		{
+			"_id": "req_f0a77acc777547d681647fb1f9dc6b68",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"messages\": [\n\t\t{\n\t\t\t\"author\": {\n\t\t\t\t\"id\": 426968025884000259,\n\t\t\t\t\"username\": \"dashwav\"\n\t\t\t},\n\t\t\t\"id\": \"126968025884000265\",\n\t\t\t\"timestamp\": 1547981735,\n\t\t\t\"content\": \"Awesome, could you add a fsdfasew field into the message object? Specifically mentions and pinned\",\n\t\t\t\"attachments\": [\n        {\n          \"filename\": \"0h75ab_by_the_lm7-db2sja2.jpg\",\n          \"filesize\": 2004691,\n          \"url\": \"https://res.cloudinary.com/dvlkurfdd/image/upload/v1547981732/zndswc4n1d92j5jravyt.jpg\",\n          \"isImage\": true,\n          \"height\": 980,\n          \"width\": 2000\n        }\n      ],\n\t\t\t\"channel\": {\n\t\t\t\t\"id\": 426968025884000259\n\t\t\t}\n\t\t\t\n\t\t},\n\t\t\t{\n\t\t\t\"author\": {\n\t\t\t\t\"id\": 426968025884000259,\n\t\t\t\t\"username\": \"dashwav\"\n\t\t\t},\n\t\t\t\"id\": \"426968025884000246\",\n\t\t\t\"timestamp\": 1547981735,\n\t\t\t\"content\": \"Awesome, could you add a fsdfasew field into the message object? Specifically mentions and pinned\",\n\t\t\t\"attachments\": [\n        {\n          \"filename\": \"0h75ab_by_the_lm7-db2sja2.jpg\",\n          \"filesize\": 2004691,\n          \"url\": \"https://res.cloudinary.com/dvlkurfdd/image/upload/v1547981732/zndswc4n1d92j5jravyt.jpg\",\n          \"isImage\": true,\n          \"height\": 980,\n          \"width\": 2000\n        }\n      ],\n\t\t\t\"channel\": {\n\t\t\t\t\"id\": 426968025884000259\n\t\t\t}\n\t\t\t\n\t\t}\n\t\t\n\t]\n\t\n}"
+			},
+			"created": 1551157289898,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjQ1NDYxNTkxNDA5Mjk1MzgiLCJleHAiOjE1NTE0NDQyMTAsImF2YXRhclVSTCI6Imh0dHBzOi8vY2RuLmRpc2NvcmRhcHAuY29tL2F2YXRhcnMvMTY0NTQ2MTU5MTQwOTI5NTM4L2RmZTdlNWZkZGVmZmVkZjc5MThkODE0NmRkZmJlOTg4LnBuZyIsInVzZXJuYW1lIjoiZGFzaHdhdiIsImlzQWRtaW4iOiJ0cnVlIiwiaWF0IjoxNTUwODIxNDA5fQ.LCuIIfu0NFIYO03gwFCTC31GvT2rq7SFPFjF8sGgTYg"
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				},
+				{
+					"id": "pair_35fca36495b948d7b1739c5433814ca7",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1551027629128.25,
+			"method": "POST",
+			"modified": 1551166544842,
+			"name": "Add  messages",
+			"parameters": [],
+			"parentId": "fld_df658cdded6e4f948c677685982a66ea",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/archive/446066541851705364/messages",
+			"_type": "request"
+		},
+		{
+			"_id": "req_2b975502d1a14714bea93b42aae427e6",
+			"authentication": {},
+			"body": {},
+			"created": 1551158345541,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_78ba605e09504bc39b40bfa113e03e0c",
+					"name": "authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjQ1NDYxNTkxNDA5Mjk1MzgiLCJleHAiOjE1NTE0NDQyMTAsImF2YXRhclVSTCI6Imh0dHBzOi8vY2RuLmRpc2NvcmRhcHAuY29tL2F2YXRhcnMvMTY0NTQ2MTU5MTQwOTI5NTM4L2RmZTdlNWZkZGVmZmVkZjc5MThkODE0NmRkZmJlOTg4LnBuZyIsInVzZXJuYW1lIjoiZGFzaHdhdiIsImlzQWRtaW4iOiJ0cnVlIiwiaWF0IjoxNTUwODIxNDA5fQ.LCuIIfu0NFIYO03gwFCTC31GvT2rq7SFPFjF8sGgTYg"
+				},
+				{
+					"id": "pair_11f46da377c04a138caa194eb7db1f3e",
+					"name": "cache-control",
+					"value": "no-cache"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1551027629078.25,
+			"method": "DELETE",
+			"modified": 1551166554442,
+			"name": "DELETE ARCHIVE",
+			"parameters": [],
+			"parentId": "fld_df658cdded6e4f948c677685982a66ea",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://www.mealie.moe/api/v1/archive/446066541851705364",
+			"_type": "request"
+		}
+	]
+}
