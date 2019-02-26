@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('palette', {
+module.exports = (sequelize, DataTypes) => sequelize.define('message', {
   // This is going to be a big model for ease of use.
   // Author Info
   author_id: DataTypes.STRING,
