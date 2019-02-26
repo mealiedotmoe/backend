@@ -99,7 +99,7 @@ router.post('/:id/messages', async function(req, res, next) {
         if (! channel) {
             res.status(500).send("Can't Find channel");
         }
-        req.body.messages.map(message => {
+        var allMessages = req.body.messages.map(message => {
             Messages.create({
                 author_id: message.author.id,
                 author_name: message.author.username,
@@ -111,6 +111,9 @@ router.post('/:id/messages', async function(req, res, next) {
                     attachments: message.attachments,
                 }
             })
+        });
+        Promise.all(allMessages).then(allMessages => {
+            res.status(200).send(allMessages);
         })
     }).catch(err => {
         console.log(err);
