@@ -100,7 +100,7 @@ router.post('/:id/messages', async function(req, res, next) {
             res.status(500).send("Can't Find channel");
         }
         var allMessages = req.body.messages.map(message => {
-            Messages.create({
+            return Messages.create({
                 author_id: message.author.id,
                 author_name: message.author.username,
                 snowflake: message.id,
