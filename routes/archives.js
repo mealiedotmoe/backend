@@ -54,7 +54,9 @@ router.get('/:id/messages', function(req, res, next){
                 where: {
                     channel_id: channelInfo.snowflake
                 },
-                order: 'snowflake ASC',
+                order: [
+                    'snowflake', 'ASC'
+                ],
                 offset: req.query.offset,
                 limit: 50
             });
@@ -63,11 +65,16 @@ router.get('/:id/messages', function(req, res, next){
                 where: {
                     channel_id: channelInfo.snowflake
                 },
-                order: 'snowflake ASC',
+                order: [
+                    'snowflake', 'ASC'
+                ],
                 limit: 50
             });
         }
-        res.status(200).send(channelInfo);
+        res.status(200).send({
+            "channel": channelInfo,
+            "messages": channelMessages
+        });
     })
 });
 
