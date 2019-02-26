@@ -26,6 +26,7 @@ router.get('/', async function(req, res, next) {
     Channels.all().then(async allChannels => {
         res.status(200).send({'Channels': allChannels});
     }).catch(err => {
+        console.log(err);
         res.status(500).end()
     })
 });
@@ -74,7 +75,10 @@ router.put('/:id', async function(req, res, next){
             users: req.body.users,
         }).then(updatedchannel => {
             res.status(200).send(updatedchannel);
-        }).catch(err => { res.status(500).end()});
+        }).catch(err => {
+            console.log(err);
+            res.status(500).end()
+        });
     });
 });
 
