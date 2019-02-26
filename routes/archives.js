@@ -45,7 +45,10 @@ router.post('/', async function(req, res, next) {
 });
 
 router.get('/:id/messages', function(req, res, next){
-    Channels.findById(req.params.id).then(channelInfo => {
+    Channels.find({
+        where: {
+            "snowflake": req.params.id
+        }}).then(channelInfo => {
         if (! channelInfo) {
             res.status(500).send("Can't Find channel");
         }
@@ -74,7 +77,10 @@ router.get('/:id/messages', function(req, res, next){
 router.put('/:id', async function(req, res, next){
     let user = await getUser(req);
     if (!user || !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
-    Channels.findById(req.params.id).then(channelInfo => {
+    Channels.find({
+        where: {
+            "snowflake": req.params.id
+        }}).then(channelInfo => {
         if (! channelInfo) {
             res.status(500).send("Can't Find Info");
         }
@@ -95,7 +101,10 @@ router.put('/:id', async function(req, res, next){
 router.post('/:id/messages', async function(req, res, next) {
     var user = await getUser(req);
     if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
-    Channels.findById(req.params.id).then(channel => {
+    Channels.find({
+        where: {
+            "snowflake": req.params.id
+        }}).then(channel => {
         if (! channel) {
             res.status(500).send("Can't Find channel");
         }
@@ -124,7 +133,10 @@ router.post('/:id/messages', async function(req, res, next) {
 router.delete('/:id', async function(req, res, next){
     var user = await getUser(req);
     if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
-    Channels.findById(req.params.id).then(channel => {
+    Channels.find({
+        where: {
+            "snowflake": req.params.id
+        }}).then(channel => {
         if (! channel) {
             res.status(500).send("Can't Find channel");
         }
