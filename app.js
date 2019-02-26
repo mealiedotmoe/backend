@@ -22,6 +22,8 @@ var eventsRouter = require('./routes/events');
 var gamesRouter = require('./routes/games');
 var paletteRouter = require('./routes/palette');
 
+var archiveRouter = require('./routes/archives');
+
 var app = express();
 app.use(cors());
 app.options('*', cors());
@@ -50,6 +52,7 @@ app.use('/games', gamesRouter);
 app.use('/bot', authCheckMiddleware);
 app.use('/bot', botRouter);
 app.use('/palette', paletteRouter);
+app.use('/archive', archiveRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
