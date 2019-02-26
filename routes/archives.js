@@ -44,18 +44,29 @@ router.post('/', async function(req, res, next) {
     });
 });
 
-router.get('/:id', function(req, res, next){
+router.get('/:id/messages', function(req, res, next){
     Channels.findById(req.params.id).then(channelInfo => {
         if (! channelInfo) {
             res.status(500).send("Can't Find channel");
         }
-        Users.find({
-            where: {
-                channel_id: channelInfo.snowflake
-            },
-            order: 'snowflake ASC',
-            limit: 50
-        })
+        if (req.query.offset) {
+            var channelMessages = Messages.find({
+                where: {
+                    channel_id: channelInfo.snowflake
+                },
+                order: 'snowflake ASC',
+                offset: req.query.offset,
+                limit: 50
+            });
+        } else {
+            var channelMessages = Messages.find({
+                where: {
+                    channel_id: channelInfo.snowflake
+                },
+                order: 'snowflake ASC',
+                limit: 50
+            });
+        }
         res.status(200).send(channelInfo);
     })
 });
