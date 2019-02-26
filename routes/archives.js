@@ -53,7 +53,7 @@ router.get('/:id/messages', function(req, res, next){
         if (req.query.offset) {
             offset = req.query.offset;
         }
-        var channelMessages = Messages.findAll({
+        Messages.findAll({
             where: {
                 channel_id: channelInfo.snowflake
             },
@@ -65,7 +65,7 @@ router.get('/:id/messages', function(req, res, next){
         }).then(messages => {
             res.status(200).send({
                 "channel": channelInfo,
-                "messages": channelMessages
+                "messages": messages
             });
         });  
     })
