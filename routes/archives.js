@@ -67,7 +67,7 @@ router.get('/:id/messages', function(req, res, next){
                 },
                 order: [[
                     'snowflake', 'ASC'
-                ],
+                ]],
                 limit: 50
             });
         }
