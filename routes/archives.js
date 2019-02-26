@@ -49,32 +49,25 @@ router.get('/:id/messages', function(req, res, next){
         if (! channelInfo) {
             res.status(500).send("Can't Find channel");
         }
+        var offset = 0
         if (req.query.offset) {
-            var channelMessages = await Messages.findAll({
-                where: {
-                    channel_id: channelInfo.snowflake
-                },
-                order: [[
-                    'snowflake', 'ASC'
-                ]],
-                offset: req.query.offset,
-                limit: 50
-            });
-        } else {
-            var channelMessages = await Messages.findAll({
-                where: {
-                    channel_id: channelInfo.snowflake
-                },
-                order: [[
-                    'snowflake', 'ASC'
-                ]],
-                limit: 50
-            });
+            offset = req.query.offset;
         }
-        res.status(200).send({
-            "channel": channelInfo,
-            "messages": channelMessages
-        });
+        var channelMessages = Messages.findAll({
+            where: {
+                channel_id: channelInfo.snowflake
+            },
+            order: [[
+                'snowflake', 'ASC'
+            ]],
+            offset: offset,
+            limit: 50
+        }).then(messages => {
+            res.status(200).send({
+                "channel": channelInfo,
+                "messages": channelMessages
+            });
+        });  
     })
 });
 
