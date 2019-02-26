@@ -50,7 +50,7 @@ router.get('/:id/messages', function(req, res, next){
             res.status(500).send("Can't Find channel");
         }
         if (req.query.offset) {
-            var channelMessages = Messages.find({
+            var channelMessages = Messages.findAll({
                 where: {
                     channel_id: channelInfo.snowflake
                 },
@@ -61,7 +61,7 @@ router.get('/:id/messages', function(req, res, next){
                 limit: 50
             });
         } else {
-            var channelMessages = Messages.find({
+            var channelMessages = Messages.findAll({
                 where: {
                     channel_id: channelInfo.snowflake
                 },
