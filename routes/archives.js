@@ -118,6 +118,10 @@ router.post('/:id/messages', async function(req, res, next) {
                 content: {
                     text: message.content,
                     attachments: message.attachments,
+                    attributes: {
+                        is_pinned: message.pinned,
+                        mentions: message.mentions
+                    }
                 }
             })
         });
