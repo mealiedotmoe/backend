@@ -61,7 +61,7 @@ router.get('/:id/messages', function(req, res, next){
                 channel_id: channelInfo.snowflake
             },
             order: [[
-                'snowflake', 'ASC'
+                'snowflake', 'DESC'
             ]],
             offset: offset,
             limit: 50
