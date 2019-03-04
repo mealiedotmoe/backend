@@ -22,7 +22,7 @@ async function getUser(req) {
 
 router.get('/', async function(req, res, next) {
     var user = await getUser(req);
-    if (!user || !user.admin) { return res.status(401).send('You must be logged in to an admin account use this feature').end(); }
+    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Channels.all().then(async allChannels => {
         res.status(200).send({'Channels': allChannels});
     }).catch(err => {
@@ -45,6 +45,8 @@ router.post('/', async function(req, res, next) {
 });
 
 router.get('/:id/messages', function(req, res, next){
+    var user = await getUser(req);
+    if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Channels.find({
         where: {
             "snowflake": req.params.id
