@@ -54,6 +54,8 @@ app.use('/bot', botRouter);
 app.use('/palette', paletteRouter);
 app.use('/archive', archiveRouter);
 
+app.use(express.limit('2mb'));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
