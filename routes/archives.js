@@ -44,7 +44,7 @@ router.post('/', async function(req, res, next) {
     });
 });
 
-router.get('/:id/messages', function(req, res, next){
+router.get('/:id/messages', async function(req, res, next){
     var user = await getUser(req);
     if (!user) { return res.status(401).send('You must be logged in to use this feature').end(); }
     Channels.find({
