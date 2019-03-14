@@ -1,5 +1,4 @@
-export const
-  UserList = `
+const GetUserList = `
   query ($userName: String!) {
     User(id: $userName) {
       id
@@ -33,3 +32,5 @@ export const
     }
   }
   `
+
+export {GetUserList}
