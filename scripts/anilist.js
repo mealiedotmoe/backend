@@ -11,4 +11,6 @@ var allUsers = Users.all({
   }
 });
 
-console.log(allUsers);
+allUsers.forEach(user => {
+  console.log(user);
+});
