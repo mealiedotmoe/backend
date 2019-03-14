@@ -14,8 +14,11 @@ Users.all({
     return;
   }
   
-  allUsers.forEach(user => {
-    console.log(user.anilist);
+  var justUsernames = allUsers.map(user => {
+    var username = user.anilist.substr(24, user.anilist.length -1);
+    return username;
   });
+
+  console.log(justUsernames);
 })
 
