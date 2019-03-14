@@ -1,6 +1,6 @@
 const GetUserList = `
   query ($userName: String!) {
-    User(id: $userName) {
+    User(name: $userName) {
       id
       name
       avatar {
@@ -32,5 +32,6 @@ const GetUserList = `
     }
   }
   `
+  
 
-module.exports = GetUserList;
+module.exports = {GetUserList};
