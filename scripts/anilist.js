@@ -1,6 +1,7 @@
 const {Users} = require('../dbObjects');
 const {GetUserList} = require('./queries/GetUserList');
 const Sequelize = require('sequelize');
+const fetch = require("fetch");
 
 const Op = Sequelize.Op;
 
