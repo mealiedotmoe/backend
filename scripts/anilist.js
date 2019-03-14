@@ -26,6 +26,11 @@ Users.all({
 
   console.log(justUsernames);
 
+
+  getList(justUsernames[0]).then(list => {
+    console.log(list);
+  })
+
   var allLists = justUsernames.map(username => {
     getList(username).then(list => {
       return list
@@ -72,6 +77,7 @@ async function getList(username) {
   const response = await fetch(url, options);
 
   console.log(response);
+  console.log(response.headers.get('X-RateLimit-Remaining'));
   const json = await handleResponse(response);
   return json.data;
 };
