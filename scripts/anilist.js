@@ -70,10 +70,16 @@ async function getList(username) {
   }
   // Make the HTTP Api request
   const response = await fetch(url, options);
-  const json = await this.handleResponse(response);
+  const json = await handleResponse(response);
+  return json.data;
+};
+
+async function handleResponse(response) {
   remaining_requests = response.headers.get('X-RateLimit-Remaining');
   request_reset = response.headers.get('X-RateLimit-Reset');
-  return json.data;
+      return response.json().then(function (json) {
+          return response.ok ? json : Promise.reject(json);
+      });
 }
 
 function sleep(ms) {
