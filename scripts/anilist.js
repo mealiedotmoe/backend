@@ -49,7 +49,7 @@ async function getList(username) {
   var query = GetUserList;
   // Define our query variables and values that will be used in the query request
   var variables = {
-      username: username
+      userName: username
   };
   // Define the config we'll need for our Api request
   var url = 'https://graphql.anilist.co',
