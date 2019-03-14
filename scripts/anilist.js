@@ -3,18 +3,19 @@ const Sequelize = require('sequelize');
 
 const Op = Sequelize.Op;
 
-var allUsers = await Users.all({
+Users.all({
   where: {
     anilist: {
       [Op.ne]: null
     }
   }
-});
+}).then(allUsers => {
+  if (!allUsers) {
+    return;
+  }
+  
+  allUsers.forEach(user => {
+    console.log(user);
+  });
+})
 
-if (!allUsers) {
-  return;
-}
-
-allUsers.forEach(user => {
-  console.log(user);
-});
