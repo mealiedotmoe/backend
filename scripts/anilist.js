@@ -71,6 +71,7 @@ async function getList(username) {
   // Make the HTTP Api request
   const response = await fetch(url, options);
   const json = await handleResponse(response);
+  console.log(response);
   return json.data;
 };
 
