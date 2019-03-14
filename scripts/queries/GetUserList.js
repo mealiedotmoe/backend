@@ -33,4 +33,4 @@ const GetUserList = `
   }
   `
 
-export {GetUserList}
+module.exports = GetUserList;
