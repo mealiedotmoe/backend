@@ -26,12 +26,6 @@ Users.all({
 
   console.log(justUsernames);
 
-
-  getList(justUsernames[0]).then(list => {
-    console.log(list);
-  })
-  return;
-
   var allLists = justUsernames.map(username => {
     getList(username).then(list => {
       return list
@@ -76,10 +70,6 @@ async function getList(username) {
   }
   // Make the HTTP Api request
   const response = await fetch(url, options);
-
-  console.log(response.ok);
-  console.log(response.headers.get('X-RateLimit-Reset'));
-  console.log(response.body);
   const json = await handleResponse(response);
   return json.data;
 };
