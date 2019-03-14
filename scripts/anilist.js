@@ -30,6 +30,7 @@ Users.all({
   getList(justUsernames[0]).then(list => {
     console.log(list);
   })
+  return;
 
   var allLists = justUsernames.map(username => {
     getList(username).then(list => {
