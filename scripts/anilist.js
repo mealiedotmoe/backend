@@ -15,7 +15,7 @@ Users.all({
   }
   
   allUsers.forEach(user => {
-    console.log(user);
+    console.log(user.anilist);
   });
 })
 
