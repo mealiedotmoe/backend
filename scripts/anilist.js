@@ -8,4 +8,4 @@ var allUsers = Users.all({
   }
 });
 
-console.log(allUsers)
+console.log(allUsers);
