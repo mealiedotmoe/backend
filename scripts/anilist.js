@@ -1,4 +1,5 @@
 const {Users} = require('../dbObjects');
+const Op = Sequelize.Op;
 
 var allUsers = Users.all({
   where: {
