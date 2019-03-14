@@ -76,8 +76,9 @@ async function getList(username) {
   // Make the HTTP Api request
   const response = await fetch(url, options);
 
-  console.log(response);
-  console.log(response.headers.get('X-RateLimit-Remaining'));
+  console.log(response.ok);
+  console.log(response.headers.get('X-RateLimit-Reset'));
+  console.log(response.body);
   const json = await handleResponse(response);
   return json.data;
 };
