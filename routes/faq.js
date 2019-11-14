@@ -21,8 +21,6 @@ async function getUser(req) {
 
 /* GET all faqinfos */
 router.get('/', async function(req, res, next) {
-    var user = await getUser(req);
-    if (!user && !user.admin) { return res.status(403).send('You must be logged in to an admin account use this feature').end(); }
     FaqInfo.all().then(allFaqInfo => {
         res.status(200).send(allFaqInfo);
     }).catch(err => {
