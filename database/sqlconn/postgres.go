@@ -36,7 +36,7 @@ func (l *logSQL) AfterQuery(ctx context.Context, e *pg.QueryEvent) error {
 	if err != nil {
 		panic(err)
 	}
-	log.Println(query)
+	log.Println(string(query))
 	return nil
 }
 

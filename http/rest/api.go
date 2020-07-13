@@ -13,6 +13,7 @@ import (
 
 // API provides application resources and handlers.
 type API struct {
+	Auth *AuthResource
 	User *UserResource
 }
 
@@ -31,11 +32,13 @@ func NewAPI(db *pg.DB) (*API, error) {
 		Scopes:      []string{"identify", "guilds"},
 	}
 
-	// Auth routes
+	// Auth/User routes
 	userStore := user.NewUserStore(db)
-	userApi := NewUserResource(userStore, config)
+	authApi := NewAuthResource(userStore, config)
+	userApi := NewUserResource(userStore)
 
 	api := &API{
+		Auth: authApi,
 		User: userApi,
 	}
 	return api, nil
@@ -44,7 +47,8 @@ func NewAPI(db *pg.DB) (*API, error) {
 // Router provides application routes.
 func (a *API) Router() *chi.Mux {
 	r := chi.NewRouter()
-	r.Mount("/auth", a.User.Router())
+	r.Mount("/auth", a.Auth.Router())
+	r.With(VerifyAuthToken).Mount("/user", a.User.Router())
 	return r
 }
 

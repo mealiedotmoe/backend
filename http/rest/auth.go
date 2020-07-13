@@ -16,28 +16,28 @@ import (
 	"time"
 )
 
-// UserResource implements user management handler.
-type UserResource struct {
+// AuthResource implements user management handler.
+type AuthResource struct {
 	Users   user.UserStore
 	Discord *oauth2.Config
 }
 
 // NewUserResource creates and returns a profile resource.
-func NewUserResource(store user.UserStore, discord *oauth2.Config) *UserResource {
-	return &UserResource{
+func NewAuthResource(store user.UserStore, discord *oauth2.Config) *AuthResource {
+	return &AuthResource{
 		Users:   store,
 		Discord: discord,
 	}
 }
 
-func (rs *UserResource) Router() *chi.Mux {
+func (rs *AuthResource) Router() *chi.Mux {
 	r := chi.NewRouter()
 	r.Get("/login", rs.BeginAuth)
 	r.Get("/callback", rs.AuthCallback)
 	return r
 }
 
-func (rs *UserResource) BeginAuth(w http.ResponseWriter, r *http.Request) {
+func (rs *AuthResource) BeginAuth(w http.ResponseWriter, r *http.Request) {
 	// Init values for redirect URL
 	state, err := GenerateRandomString(32)
 	if err != nil {
@@ -60,7 +60,7 @@ type discordUserResponse struct {
 	PremiumType   int    `json:"premium_type"`
 }
 
-func (rs *UserResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
+func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 	log := logging.NewLogger()
 	code, ok := r.URL.Query()["code"]
 	if !ok {
@@ -107,7 +107,7 @@ func (rs *UserResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (rs *UserResource) updateOrCreatUser(discordUser *discordUserResponse, token *oauth2.Token) (*user.User, error) {
+func (rs *AuthResource) updateOrCreatUser(discordUser *discordUserResponse, token *oauth2.Token) (*user.User, error) {
 	log := logging.NewLogger()
 	foundUser, err := rs.Users.Get(discordUser.Id)
 	if err != nil {
@@ -117,6 +117,8 @@ func (rs *UserResource) updateOrCreatUser(discordUser *discordUserResponse, toke
 				DiscordId:    discordUser.Id,
 				DiscordToken: token.AccessToken,
 				Admin:        false,
+				Experience: 0,
+				Level: 0,
 			}
 			err := rs.Users.Create(*newUser)
 			if err != nil {
