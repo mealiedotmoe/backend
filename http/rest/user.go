@@ -18,7 +18,7 @@ type UserResource struct {
 // NewUserResource creates and returns a profile resource.
 func NewUserResource(store user.UserStore) *UserResource {
 	return &UserResource{
-		Users:   store,
+		Users: store,
 	}
 }
 

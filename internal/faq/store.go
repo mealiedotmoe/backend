@@ -3,7 +3,6 @@ package faq
 import (
 	"github.com/go-pg/pg/v10"
 	"github.com/mealiedotmoe/backend/logging"
-	"github.com/sirupsen/logrus"
 )
 
 type pgStore struct {
@@ -18,7 +17,7 @@ func NewFaqStore(db *pg.DB) FaqStore {
 
 func (s *pgStore) Get(faqId int) (*Faq, error) {
 	u := Faq{ID: faqId}
-	err := s.db.Model(&u).Where("discord_id = ?", faqId).Select()
+	err := s.db.Model(&u).Where("id = ?", faqId).Select()
 	return &u, err
 }
 
@@ -28,18 +27,18 @@ func (s *pgStore) GetAll() ([]*Faq, error) {
 	return u, err
 }
 
-func (s *pgStore) Create(faq Faq) error {
+func (s *pgStore) Create(faq *Faq) error {
 	logger := logging.NewLogger()
 	logger.Error(faq)
-	_, err := s.db.Model(&faq).Insert()
+	_, err := s.db.Model(faq).Insert()
 	if err != nil {
-		logrus.Error(err)
+		logger.Error(err)
 	}
 	return err
 }
 
-func (s *pgStore) Update(faq Faq) error {
-	err := s.db.Update(&faq)
+func (s *pgStore) Update(faq *Faq) error {
+	err := s.db.Update(faq)
 	return err
 }
 

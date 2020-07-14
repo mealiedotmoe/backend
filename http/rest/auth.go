@@ -117,8 +117,8 @@ func (rs *AuthResource) updateOrCreatUser(discordUser *discordUserResponse, toke
 				DiscordId:    discordUser.Id,
 				DiscordToken: token.AccessToken,
 				Admin:        false,
-				Experience: 0,
-				Level: 0,
+				Experience:   0,
+				Level:        0,
 			}
 			err := rs.Users.Create(*newUser)
 			if err != nil {

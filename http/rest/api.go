@@ -3,6 +3,7 @@ package rest
 import (
 	"github.com/go-chi/chi"
 	"github.com/go-pg/pg/v10"
+	"github.com/mealiedotmoe/backend/internal/faq"
 	"github.com/mealiedotmoe/backend/internal/user"
 	"github.com/mealiedotmoe/backend/logging"
 	"github.com/sirupsen/logrus"
@@ -15,6 +16,7 @@ import (
 type API struct {
 	Auth *AuthResource
 	User *UserResource
+	Faq  *FaqResource
 }
 
 // NewAPI configures and returns application API.
@@ -37,9 +39,13 @@ func NewAPI(db *pg.DB) (*API, error) {
 	authApi := NewAuthResource(userStore, config)
 	userApi := NewUserResource(userStore)
 
+	faqStore := faq.NewFaqStore(db)
+	faqApi := NewFaqResource(faqStore)
+
 	api := &API{
 		Auth: authApi,
 		User: userApi,
+		Faq:  faqApi,
 	}
 	return api, nil
 }
@@ -49,6 +55,7 @@ func (a *API) Router() *chi.Mux {
 	r := chi.NewRouter()
 	r.Mount("/auth", a.Auth.Router())
 	r.With(VerifyAuthToken).Mount("/user", a.User.Router())
+	r.Mount("/faq", a.Faq.Router())
 	return r
 }
 

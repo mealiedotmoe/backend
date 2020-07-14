@@ -2,6 +2,7 @@ package rest
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
@@ -9,8 +10,12 @@ import (
 	"strings"
 )
 
-func extractToken(ctx context.Context) *jwt.Token {
-	return ctx.Value("jwt-token").(*jwt.Token)
+func extractToken(ctx context.Context) (*jwt.Token, error) {
+	token, ok := ctx.Value("jwt-token").(*jwt.Token)
+	if !ok {
+		return nil, errors.New("Invalid Token Provided")
+	}
+	return token, nil
 }
 
 func VerifyAuthToken(next http.Handler) http.Handler {
@@ -39,7 +44,11 @@ func VerifyAuthToken(next http.Handler) http.Handler {
 
 func CheckAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		token := extractToken(r.Context())
+		token, err := extractToken(r.Context())
+		if err != nil {
+			http.Error(w, http.StatusText(403), 403)
+			return
+		}
 		isAdmin, ok := token.Claims.(jwt.MapClaims)["isAdmin"].(bool)
 		if !ok || !isAdmin {
 			http.Error(w, http.StatusText(403), 403)
