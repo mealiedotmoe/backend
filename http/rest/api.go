@@ -5,6 +5,7 @@ import (
 	"github.com/go-pg/pg/v10"
 	"github.com/mealiedotmoe/backend/internal/faq"
 	"github.com/mealiedotmoe/backend/internal/info"
+	"github.com/mealiedotmoe/backend/internal/palette"
 	"github.com/mealiedotmoe/backend/internal/user"
 	"github.com/mealiedotmoe/backend/logging"
 	"github.com/sirupsen/logrus"
@@ -19,6 +20,7 @@ type API struct {
 	User *UserResource
 	Faq  *FaqResource
 	Info *InfoResource
+	Palette *PaletteResource
 }
 
 // NewAPI configures and returns application API.
@@ -47,11 +49,15 @@ func NewAPI(db *pg.DB) (*API, error) {
 	infoStore := info.NewInfoStore(db)
 	infoApi := NewInfoResource(infoStore)
 
+	paletteStore := palette.NewPaletteStore(db)
+	paletteApi := NewPaletteResource(paletteStore)
+
 	api := &API{
 		Auth: authApi,
 		User: userApi,
 		Faq:  faqApi,
 		Info: infoApi,
+		Palette: paletteApi,
 	}
 	return api, nil
 }
@@ -63,6 +69,7 @@ func (a *API) Router() *chi.Mux {
 	r.With(VerifyAuthToken).Mount("/user", a.User.Router())
 	r.Mount("/faq", a.Faq.Router())
 	r.Mount("/info", a.Info.Router())
+	r.With(VerifyAuthToken).Mount("/palette/me", a.Palette.Router())
 	return r
 }
 

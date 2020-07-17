@@ -18,28 +18,28 @@ func NewPaletteStore(db *pg.DB) PaletteStore {
 
 func (s *pgStore) Get(paletteId int) (*Palette, error) {
 	u := Palette{ID: paletteId}
-	err := s.db.Model(&u).Where("discord_id = ?", paletteId).Select()
+	err := s.db.Model(&u).Where("id = ?", paletteId).Select()
 	return &u, err
 }
 
-func (s *pgStore) GetAll() ([]*Palette, error) {
+func (s *pgStore) GetByUser(paletteId string) ([]*Palette, error) {
 	u := []*Palette{}
-	err := s.db.Model(&u).Select()
+	err := s.db.Model(&u).Where("user_id = ?", paletteId).Select()
 	return u, err
 }
 
-func (s *pgStore) Create(palette Palette) error {
+func (s *pgStore) Create(palette *Palette) error {
 	logger := logging.NewLogger()
 	logger.Error(palette)
-	_, err := s.db.Model(&palette).Insert()
+	_, err := s.db.Model(palette).Insert()
 	if err != nil {
 		logrus.Error(err)
 	}
 	return err
 }
 
-func (s *pgStore) Update(palette Palette) error {
-	err := s.db.Update(&palette)
+func (s *pgStore) Update(palette *Palette) error {
+	err := s.db.Update(palette)
 	return err
 }
 

@@ -15,14 +15,16 @@ type Palette struct {
 	Insomniac   string
 	Nolifer     string
 	Birthday    string
-	CreatedAt   time.Time
+	// TODO: Fix column name
+	CreatedAt time.Time `json:"created_at" pg:"createdAt"`
+	UpdatedAt time.Time `json:"updated_at" pg:"updatedAt"`
 }
 
 // PaletteStore defines database operations for palette's.
 type PaletteStore interface {
 	Get(paletteId int) (*Palette, error)
-	GetAll() ([]*Palette, error)
-	Create(palette Palette) error
-	Update(palette Palette) error
+	GetByUser(userId string) ([]*Palette, error)
+	Create(palette *Palette) error
+	Update(palette *Palette) error
 	Delete(paletteId int) error
 }
