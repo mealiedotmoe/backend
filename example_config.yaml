@@ -1,0 +1,12 @@
+# Discord Settings
+discord_client_id: ""
+discord_client_secret: ""
+discord_callback_url: ""
+
+# Mealie Settings
+mealie_callback: "http://localhost:8080/callback"
+jwt_secret: "ThisShouldBeMoreSecureInProd"
+
+# Dev Settings
+db_debug: true
+log_level: debug
