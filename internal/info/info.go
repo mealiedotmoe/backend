@@ -5,11 +5,11 @@ import "time"
 type Info struct {
 	// TODO: Fix table name
 	tableName struct{} `pg:"markdowns"`
-	Title    string    `json:"title"`
-	Slug     string    `json:"slug" pg:",pk"`
-	Author   string    `json:"author"`
-	LastEdit string `json:"last_edit"`
-	Content  string    `json:"content"`
+	Title     string   `json:"title"`
+	Slug      string   `json:"slug" pg:",pk"`
+	Author    string   `json:"author"`
+	LastEdit  string   `json:"last_edit"`
+	Content   string   `json:"content"`
 	// TODO: Fix column name
 	CreatedAt time.Time `json:"created_at" pg:"createdAt"`
 	UpdatedAt time.Time `json:"updated_at" pg:"updatedAt"`

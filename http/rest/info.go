@@ -69,7 +69,7 @@ func (rs *InfoResource) CreateInfo(w http.ResponseWriter, r *http.Request) {
 		Author:    authorId,
 		LastEdit:  authorId,
 		Content:   infoRequest.Content,
-		Slug: infoRequest.Slug,
+		Slug:      infoRequest.Slug,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}

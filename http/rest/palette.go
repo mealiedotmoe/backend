@@ -48,16 +48,16 @@ func (rs *PaletteResource) GetPalette(w http.ResponseWriter, r *http.Request) {
 }
 
 type PaletteRequest struct {
-	Name string `json:"paletteName"`
-	CloverColor string `json:"cloverColor"`
-	MemberColor string `json:"memberColor"`
-	ActiveColor string `json:"activeColor"`
-	RegularColor string `json:"regularColor"`
+	Name             string `json:"paletteName"`
+	CloverColor      string `json:"cloverColor"`
+	MemberColor      string `json:"memberColor"`
+	ActiveColor      string `json:"activeColor"`
+	RegularColor     string `json:"regularColor"`
 	ContributorColor string `json:"contributorColor"`
-	AddictedColor string `json:"addictedColor"`
-	InsomniacColor string `json:"insomniacColor"`
-	NoliferColor string `json:"noliferColor"`
-	BirthdayColor string `json:"birthdayColor"`
+	AddictedColor    string `json:"addictedColor"`
+	InsomniacColor   string `json:"insomniacColor"`
+	NoliferColor     string `json:"noliferColor"`
+	BirthdayColor    string `json:"birthdayColor"`
 }
 
 func (rs *PaletteResource) CreatePalette(w http.ResponseWriter, r *http.Request) {
@@ -78,19 +78,19 @@ func (rs *PaletteResource) CreatePalette(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	newPalette := &palette.Palette{
-		UserId: authorId,
+		UserId:      authorId,
 		PaletteName: paletteRequest.Name,
-		Clover: paletteRequest.CloverColor,
-		Member: paletteRequest.MemberColor,
-		Active: paletteRequest.ActiveColor,
-		Regular: paletteRequest.RegularColor,
+		Clover:      paletteRequest.CloverColor,
+		Member:      paletteRequest.MemberColor,
+		Active:      paletteRequest.ActiveColor,
+		Regular:     paletteRequest.RegularColor,
 		Contributor: paletteRequest.ContributorColor,
-		Addicted: paletteRequest.AddictedColor,
-		Insomniac: paletteRequest.InsomniacColor,
-		Nolifer: paletteRequest.NoliferColor,
-		Birthday: paletteRequest.BirthdayColor,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		Addicted:    paletteRequest.AddictedColor,
+		Insomniac:   paletteRequest.InsomniacColor,
+		Nolifer:     paletteRequest.NoliferColor,
+		Birthday:    paletteRequest.BirthdayColor,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
 	}
 	err = rs.Palettes.Create(newPalette)
 	if err != nil {
@@ -137,7 +137,6 @@ func (rs *PaletteResource) UpdatePalette(w http.ResponseWriter, r *http.Request)
 		http.Error(w, http.StatusText(422), 422)
 		return
 	}
-
 
 	foundPalette.PaletteName = paletteRequest.Name
 	foundPalette.Clover = paletteRequest.CloverColor

@@ -16,10 +16,10 @@ import (
 
 // API provides application resources and handlers.
 type API struct {
-	Auth *AuthResource
-	User *UserResource
-	Faq  *FaqResource
-	Info *InfoResource
+	Auth    *AuthResource
+	User    *UserResource
+	Faq     *FaqResource
+	Info    *InfoResource
 	Palette *PaletteResource
 }
 
@@ -53,10 +53,10 @@ func NewAPI(db *pg.DB) (*API, error) {
 	paletteApi := NewPaletteResource(paletteStore)
 
 	api := &API{
-		Auth: authApi,
-		User: userApi,
-		Faq:  faqApi,
-		Info: infoApi,
+		Auth:    authApi,
+		User:    userApi,
+		Faq:     faqApi,
+		Info:    infoApi,
 		Palette: paletteApi,
 	}
 	return api, nil
