@@ -13,7 +13,7 @@ import (
 func extractToken(ctx context.Context) (*jwt.Token, error) {
 	token, ok := ctx.Value("jwt-token").(*jwt.Token)
 	if !ok {
-		return nil, errors.New("Invalid Token Provided")
+		return nil, errors.New("invalid token provided")
 	}
 	return token, nil
 }
@@ -28,7 +28,7 @@ func VerifyAuthToken(next http.Handler) http.Handler {
 		tokenString := strings.Split(bearer, " ")
 		token, err := jwt.Parse(tokenString[1], func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("Unexpected signing method %v", token.Header["alg"])
+				return nil, fmt.Errorf("unexpected signing method %v", token.Header["alg"])
 			}
 			return []byte(viper.GetString("jwt_secret")), nil
 		})
@@ -46,11 +46,13 @@ func CheckAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		token, err := extractToken(r.Context())
 		if err != nil {
+			fmt.Println(fmt.Errorf("error extracting token"))
 			http.Error(w, http.StatusText(403), 403)
 			return
 		}
 		isAdmin, ok := token.Claims.(jwt.MapClaims)["isAdmin"].(bool)
 		if !ok || !isAdmin {
+			fmt.Println(fmt.Errorf("user is not an admin"))
 			http.Error(w, http.StatusText(403), 403)
 			return
 		}

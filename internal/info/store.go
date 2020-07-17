@@ -28,18 +28,18 @@ func (s *pgStore) GetAll() ([]*Info, error) {
 	return u, err
 }
 
-func (s *pgStore) Create(info Info) error {
+func (s *pgStore) Create(info *Info) error {
 	logger := logging.NewLogger()
 	logger.Error(info)
-	_, err := s.db.Model(&info).Insert()
+	_, err := s.db.Model(info).Insert()
 	if err != nil {
 		logrus.Error(err)
 	}
 	return err
 }
 
-func (s *pgStore) Update(info Info) error {
-	err := s.db.Update(&info)
+func (s *pgStore) Update(info *Info) error {
+	err := s.db.Update(info)
 	return err
 }
 
