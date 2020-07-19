@@ -7,7 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	"github.com/go-pg/pg/v9"
+	"github.com/go-pg/pg/v10"
 	"github.com/mealiedotmoe/backend/internal/user"
 	"github.com/mealiedotmoe/backend/logging"
 	"github.com/spf13/viper"

@@ -9,7 +9,6 @@ require (
 	github.com/go-chi/render v1.0.1
 	github.com/go-pg/migrations/v8 v8.0.0-alpha.0
 	github.com/go-pg/pg/v10 v10.0.0-beta.5
-	github.com/go-pg/pg/v9 v9.1.6
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/sirupsen/logrus v1.2.0
 	github.com/spf13/cobra v1.0.0
