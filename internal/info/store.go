@@ -16,19 +16,19 @@ func NewInfoStore(db *pg.DB) InfoStore {
 	}
 }
 
-func (s *pgStore) Get(slug string) (*Info, error) {
-	u := Info{Slug: slug}
+func (s *pgStore) Get(slug string) (*InfoPage, error) {
+	u := InfoPage{Slug: slug}
 	err := s.db.Model(&u).Where("slug = ?", slug).Select()
 	return &u, err
 }
 
-func (s *pgStore) GetAll() ([]*Info, error) {
-	u := []*Info{}
+func (s *pgStore) GetAll() ([]*InfoPage, error) {
+	u := []*InfoPage{}
 	err := s.db.Model(&u).Select()
 	return u, err
 }
 
-func (s *pgStore) Create(info *Info) error {
+func (s *pgStore) Create(info *InfoPage) error {
 	logger := logging.NewLogger()
 	logger.Error(info)
 	_, err := s.db.Model(info).Insert()
@@ -38,13 +38,13 @@ func (s *pgStore) Create(info *Info) error {
 	return err
 }
 
-func (s *pgStore) Update(info *Info) error {
+func (s *pgStore) Update(info *InfoPage) error {
 	err := s.db.Update(info)
 	return err
 }
 
 func (s *pgStore) Delete(slug string) error {
-	u := Info{Slug: slug}
+	u := InfoPage{Slug: slug}
 	err := s.db.Delete(&u)
 	return err
 }

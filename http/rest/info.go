@@ -25,14 +25,14 @@ func NewInfoResource(store info.InfoStore) *InfoResource {
 
 func (rs *InfoResource) Router() *chi.Mux {
 	r := chi.NewRouter()
-	r.Get("/", rs.GetAllInfos)
-	r.With(VerifyAuthToken, CheckAdmin).Post("/", rs.CreateInfo)
-	r.With(VerifyAuthToken, CheckAdmin).Put("/{infoSlug}", rs.UpdateInfo)
-	r.Get("/{infoSlug}", rs.GetInfo)
+	r.Get("/", rs.GetAllInfoPages)
+	r.With(VerifyAuthToken, CheckAdmin).Post("/", rs.CreateInfoPage)
+	r.With(VerifyAuthToken, CheckAdmin).Put("/{infoSlug}", rs.UpdateInfoPage)
+	r.Get("/{infoSlug}", rs.GetInfoPage)
 	return r
 }
 
-func (rs *InfoResource) GetInfo(w http.ResponseWriter, r *http.Request) {
+func (rs *InfoResource) GetInfoPage(w http.ResponseWriter, r *http.Request) {
 	infoSlug := chi.URLParam(r, "infoSlug")
 	foundInfo, err := rs.Infos.Get(infoSlug)
 	if err != nil {
@@ -41,14 +41,14 @@ func (rs *InfoResource) GetInfo(w http.ResponseWriter, r *http.Request) {
 	render.Respond(w, r, foundInfo)
 }
 
-type InfoRequest struct {
+type InfoPageRequest struct {
 	Title   string `json:"infoTitle"`
 	Slug    string `json:"infoSlug"`
 	Content string `json:"infoContent"`
 }
 
-func (rs *InfoResource) CreateInfo(w http.ResponseWriter, r *http.Request) {
-	infoRequest := &InfoRequest{}
+func (rs *InfoResource) CreateInfoPage(w http.ResponseWriter, r *http.Request) {
+	infoRequest := &InfoPageRequest{}
 	err := json.NewDecoder(r.Body).Decode(infoRequest)
 	if err != nil {
 		http.Error(w, http.StatusText(422), 422)
@@ -64,7 +64,7 @@ func (rs *InfoResource) CreateInfo(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
-	newInfo := &info.Info{
+	newInfo := &info.InfoPage{
 		Title:     infoRequest.Title,
 		Author:    authorId,
 		LastEdit:  authorId,
@@ -86,14 +86,14 @@ func (rs *InfoResource) CreateInfo(w http.ResponseWriter, r *http.Request) {
 	render.Respond(w, r, newInfo)
 }
 
-func (rs *InfoResource) UpdateInfo(w http.ResponseWriter, r *http.Request) {
+func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 	infoSlug := chi.URLParam(r, "infoSlug")
 	foundInfo, err := rs.Infos.Get(infoSlug)
 	if err != nil {
 		panic(err)
 	}
 
-	infoRequest := &InfoRequest{}
+	infoRequest := &InfoPageRequest{}
 	err = json.NewDecoder(r.Body).Decode(infoRequest)
 	if err != nil {
 		http.Error(w, http.StatusText(422), 422)
@@ -121,7 +121,7 @@ func (rs *InfoResource) UpdateInfo(w http.ResponseWriter, r *http.Request) {
 	render.Respond(w, r, foundInfo)
 }
 
-func (rs *InfoResource) GetAllInfos(w http.ResponseWriter, r *http.Request) {
+func (rs *InfoResource) GetAllInfoPages(w http.ResponseWriter, r *http.Request) {
 	foundInfos, err := rs.Infos.GetAll()
 	if err != nil {
 		panic(err)
