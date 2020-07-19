@@ -6,11 +6,11 @@ import (
 
 func init() {
 	up := []string{
-		"ALTER TABLE faqinfos RENAME TO faqs;",
+		"ALTER TABLE palettes RENAME COLUMN palette_name TO name;",
 	}
 
 	down := []string{
-		"ALTER TABLE faqs RENAME TO faqinfos;",
+		"ALTER TABLE palettes RENAME COLUMN name TO palette_name;",
 	}
 
 	_ = migrations.Register(func(db migrations.DB) error {
