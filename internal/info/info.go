@@ -3,11 +3,11 @@ package info
 import "time"
 
 type InfoPage struct {
-	Title     string   `json:"title"`
-	Slug      string   `json:"slug" pg:",pk"`
-	Author    string   `json:"author"`
-	LastEdit  string   `json:"last_edit"`
-	Content   string   `json:"content"`
+	Title     string    `json:"title"`
+	Slug      string    `json:"slug" pg:",pk"`
+	Author    string    `json:"author"`
+	LastEdit  string    `json:"last_edit"`
+	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
