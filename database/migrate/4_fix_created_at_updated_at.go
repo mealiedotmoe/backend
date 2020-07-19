@@ -151,99 +151,97 @@ RENAME COLUMN "updatedAt" to updated_at;
 
 const downgenres = `
 ALTER TABLE genres
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE genres RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE genres RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downchoices = `
 ALTER TABLE choices
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE choices RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE choices RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downgames = `
 ALTER TABLE games
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE games RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE games RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downvotes = `
 ALTER TABLE votes
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE votes RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE votes RENAME COLUMN updated_at TO "updatedAt";
 `
 const downchannels = `
 ALTER TABLE channels
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt",
-ADD created_at timestamp not null;
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE channels RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE channels RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downfaqs = `
 ALTER TABLE faqs
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE faqs RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE faqs RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downinfoPages = `
 ALTER TABLE info_pages
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE info_pages RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE info_pages RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downsubscriptions = `
 ALTER TABLE subscriptions
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt",
-ADD created_at timestamp not null;
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE subscriptions RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE subscriptions RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downevents = `
 ALTER TABLE events
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE events RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE events RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downquestions = `
 ALTER TABLE questions
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE questions RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE questions RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downmessages = `
 ALTER TABLE messages
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE messages RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE messages RENAME COLUMN updated_at TO "updatedAt";
 `
 
 const downpalettes = `
 ALTER TABLE palettes
-ALTER COLUMN created_at TYPE timestamp not null,
-ALTER COLUMN updated_at TYPE timestamp not null,
-RENAME COLUMN created_at TO "createdAt",
-RENAME COLUMN updated_at TO "updatedAt";
+ALTER COLUMN created_at DROP DEFAULT,
+ALTER COLUMN updated_at DROP DEFAULT;
+ALTER TABLE messages RENAME COLUMN created_at TO "createdAt";
+ALTER TABLE messages RENAME COLUMN updated_at TO "updatedAt";
 `
 
 func init() {
@@ -274,7 +272,6 @@ func init() {
 		downevents,
 		downquestions,
 		downmessages,
-		downpalettes,
 	}
 
 	_ = migrations.Register(func(db migrations.DB) error {

@@ -641,10 +641,20 @@ func init() {
 	}
 
 	down := []string{
-		`DROP SCHEMA public CASCADE;
-		CREATE SCHEMA public;
-		GRANT ALL ON SCHEMA public TO postgres;
-		GRANT ALL ON SCHEMA public TO public;`,
+		`DROP TABLE genres CASCADE`,
+		`DROP TABLE choices CASCADE`,
+		`DROP TABLE games CASCADE`,
+		`DROP TABLE votes CASCADE`,
+		`DROP TABLE channels CASCADE`,
+		`DROP TABLE subscriptions CASCADE`,
+		`DROP TABLE faqinfos CASCADE`,
+		`DROP TABLE markdowns CASCADE`,
+		`DROP TABLE events CASCADE`,
+		`DROP TABLE messages CASCADE`,
+		`DROP TABLE questions CASCADE`,
+		`DROP TABLE users CASCADE`,
+		`DROP TABLE palettes CASCADE`,
+
 	}
 
 	_ = migrations.Register(func(db migrations.DB) error {
