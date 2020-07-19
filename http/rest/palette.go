@@ -42,7 +42,12 @@ func (rs *PaletteResource) GetPalette(w http.ResponseWriter, r *http.Request) {
 	}
 	foundPalette, err := rs.Palettes.Get(paletteId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundPalette)
 }
@@ -113,7 +118,12 @@ func (rs *PaletteResource) UpdatePalette(w http.ResponseWriter, r *http.Request)
 	}
 	foundPalette, err := rs.Palettes.Get(paletteId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	token, err := extractToken(r.Context())
 	if err != nil {
@@ -151,7 +161,8 @@ func (rs *PaletteResource) UpdatePalette(w http.ResponseWriter, r *http.Request)
 	foundPalette.UpdatedAt = time.Now()
 	err = rs.Palettes.Update(foundPalette)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundPalette)
 }
@@ -164,7 +175,12 @@ func (rs *PaletteResource) DeletePalette(w http.ResponseWriter, r *http.Request)
 	}
 	foundPalette, err := rs.Palettes.Get(paletteId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	token, err := extractToken(r.Context())
 	if err != nil {
@@ -184,7 +200,8 @@ func (rs *PaletteResource) DeletePalette(w http.ResponseWriter, r *http.Request)
 
 	err = rs.Palettes.Delete(foundPalette.ID)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundPalette)
 }
@@ -202,7 +219,12 @@ func (rs *PaletteResource) GetAllUserPalettes(w http.ResponseWriter, r *http.Req
 	}
 	foundPalettes, err := rs.Palettes.GetByUser(authorId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundPalettes)
 }
