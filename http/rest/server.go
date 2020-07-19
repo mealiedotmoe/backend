@@ -50,7 +50,7 @@ func New(enableCORS bool) (*chi.Mux, error) {
 	}
 
 	r.Group(func(r chi.Router) {
-		r.Mount("/api/v1", appAPI.Router())
+		r.Mount("/api/v2", appAPI.Router())
 	})
 
 	r.Get("/status", func(w http.ResponseWriter, r *http.Request) {
