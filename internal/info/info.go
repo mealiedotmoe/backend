@@ -3,15 +3,13 @@ package info
 import "time"
 
 type InfoPage struct {
-	// TODO: Fix table name
 	Title     string   `json:"title"`
 	Slug      string   `json:"slug" pg:",pk"`
 	Author    string   `json:"author"`
 	LastEdit  string   `json:"last_edit"`
 	Content   string   `json:"content"`
-	// TODO: Fix column name
-	CreatedAt time.Time `json:"created_at" pg:"createdAt"`
-	UpdatedAt time.Time `json:"updated_at" pg:"updatedAt"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // InfoStore defines database operations for InfoPage posts.
