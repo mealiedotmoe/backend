@@ -15,9 +15,8 @@ type Palette struct {
 	Insomniac   string
 	Nolifer     string
 	Birthday    string
-	// TODO: Fix column name
-	CreatedAt time.Time `json:"created_at" pg:"createdAt"`
-	UpdatedAt time.Time `json:"updated_at" pg:"updatedAt"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // PaletteStore defines database operations for palette's.
