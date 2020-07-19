@@ -5,6 +5,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
+	"github.com/go-pg/pg/v10"
 	"github.com/mealiedotmoe/backend/internal/faq"
 	"net/http"
 	"strconv"
@@ -40,14 +41,19 @@ func (rs *FaqResource) GetFaq(w http.ResponseWriter, r *http.Request) {
 	}
 	foundFaq, err := rs.Faqs.Get(faqId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundFaq)
 }
 
 type FaqRequest struct {
-	Title   string `json:"faqTitle"`
-	Content string `json:"faqContent"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
 }
 
 func (rs *FaqResource) CreateFaq(w http.ResponseWriter, r *http.Request) {
@@ -77,7 +83,8 @@ func (rs *FaqResource) CreateFaq(w http.ResponseWriter, r *http.Request) {
 	}
 	err = rs.Faqs.Create(newFaq)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, newFaq)
 }
@@ -90,7 +97,12 @@ func (rs *FaqResource) UpdateFaq(w http.ResponseWriter, r *http.Request) {
 	}
 	foundFaq, err := rs.Faqs.Get(faqId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 
 	faqRequest := &FaqRequest{}
@@ -124,7 +136,12 @@ func (rs *FaqResource) UpdateFaq(w http.ResponseWriter, r *http.Request) {
 func (rs *FaqResource) GetAllFaqs(w http.ResponseWriter, r *http.Request) {
 	foundFaqs, err := rs.Faqs.GetAll()
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundFaqs)
 }

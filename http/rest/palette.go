@@ -42,22 +42,27 @@ func (rs *PaletteResource) GetPalette(w http.ResponseWriter, r *http.Request) {
 	}
 	foundPalette, err := rs.Palettes.Get(paletteId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundPalette)
 }
 
 type PaletteRequest struct {
-	Name             string `json:"paletteName"`
-	CloverColor      string `json:"cloverColor"`
-	MemberColor      string `json:"memberColor"`
-	ActiveColor      string `json:"activeColor"`
-	RegularColor     string `json:"regularColor"`
-	ContributorColor string `json:"contributorColor"`
-	AddictedColor    string `json:"addictedColor"`
-	InsomniacColor   string `json:"insomniacColor"`
-	NoliferColor     string `json:"noliferColor"`
-	BirthdayColor    string `json:"birthdayColor"`
+	Name        string `json:"name"`
+	Clover      string `json:"clover"`
+	Member      string `json:"member"`
+	Active      string `json:"active"`
+	Regular     string `json:"regular"`
+	Contributor string `json:"contributor"`
+	Addicted    string `json:"addicted"`
+	Insomniac   string `json:"insomniac"`
+	Nolifer     string `json:"nolifer"`
+	Birthday    string `json:"birthday"`
 }
 
 func (rs *PaletteResource) CreatePalette(w http.ResponseWriter, r *http.Request) {
@@ -79,16 +84,16 @@ func (rs *PaletteResource) CreatePalette(w http.ResponseWriter, r *http.Request)
 	}
 	newPalette := &palette.Palette{
 		UserId:      authorId,
-		PaletteName: paletteRequest.Name,
-		Clover:      paletteRequest.CloverColor,
-		Member:      paletteRequest.MemberColor,
-		Active:      paletteRequest.ActiveColor,
-		Regular:     paletteRequest.RegularColor,
-		Contributor: paletteRequest.ContributorColor,
-		Addicted:    paletteRequest.AddictedColor,
-		Insomniac:   paletteRequest.InsomniacColor,
-		Nolifer:     paletteRequest.NoliferColor,
-		Birthday:    paletteRequest.BirthdayColor,
+		Name:        paletteRequest.Name,
+		Clover:      paletteRequest.Clover,
+		Member:      paletteRequest.Member,
+		Active:      paletteRequest.Active,
+		Regular:     paletteRequest.Regular,
+		Contributor: paletteRequest.Contributor,
+		Addicted:    paletteRequest.Addicted,
+		Insomniac:   paletteRequest.Insomniac,
+		Nolifer:     paletteRequest.Nolifer,
+		Birthday:    paletteRequest.Birthday,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 	}
@@ -113,7 +118,12 @@ func (rs *PaletteResource) UpdatePalette(w http.ResponseWriter, r *http.Request)
 	}
 	foundPalette, err := rs.Palettes.Get(paletteId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	token, err := extractToken(r.Context())
 	if err != nil {
@@ -138,20 +148,21 @@ func (rs *PaletteResource) UpdatePalette(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	foundPalette.PaletteName = paletteRequest.Name
-	foundPalette.Clover = paletteRequest.CloverColor
-	foundPalette.Member = paletteRequest.MemberColor
-	foundPalette.Active = paletteRequest.ActiveColor
-	foundPalette.Regular = paletteRequest.RegularColor
-	foundPalette.Contributor = paletteRequest.ContributorColor
-	foundPalette.Addicted = paletteRequest.AddictedColor
-	foundPalette.Insomniac = paletteRequest.InsomniacColor
-	foundPalette.Nolifer = paletteRequest.NoliferColor
-	foundPalette.Birthday = paletteRequest.BirthdayColor
+	foundPalette.Name = paletteRequest.Name
+	foundPalette.Clover = paletteRequest.Clover
+	foundPalette.Member = paletteRequest.Member
+	foundPalette.Active = paletteRequest.Active
+	foundPalette.Regular = paletteRequest.Regular
+	foundPalette.Contributor = paletteRequest.Contributor
+	foundPalette.Addicted = paletteRequest.Addicted
+	foundPalette.Insomniac = paletteRequest.Insomniac
+	foundPalette.Nolifer = paletteRequest.Nolifer
+	foundPalette.Birthday = paletteRequest.Birthday
 	foundPalette.UpdatedAt = time.Now()
 	err = rs.Palettes.Update(foundPalette)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundPalette)
 }
@@ -164,7 +175,12 @@ func (rs *PaletteResource) DeletePalette(w http.ResponseWriter, r *http.Request)
 	}
 	foundPalette, err := rs.Palettes.Get(paletteId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	token, err := extractToken(r.Context())
 	if err != nil {
@@ -184,7 +200,8 @@ func (rs *PaletteResource) DeletePalette(w http.ResponseWriter, r *http.Request)
 
 	err = rs.Palettes.Delete(foundPalette.ID)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundPalette)
 }
@@ -202,7 +219,12 @@ func (rs *PaletteResource) GetAllUserPalettes(w http.ResponseWriter, r *http.Req
 	}
 	foundPalettes, err := rs.Palettes.GetByUser(authorId)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundPalettes)
 }

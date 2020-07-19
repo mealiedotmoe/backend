@@ -36,15 +36,20 @@ func (rs *InfoResource) GetInfoPage(w http.ResponseWriter, r *http.Request) {
 	infoSlug := chi.URLParam(r, "infoSlug")
 	foundInfo, err := rs.Infos.Get(infoSlug)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundInfo)
 }
 
 type InfoPageRequest struct {
-	Title   string `json:"infoTitle"`
-	Slug    string `json:"infoSlug"`
-	Content string `json:"infoContent"`
+	Title   string `json:"title"`
+	Slug    string `json:"slug"`
+	Content string `json:"content"`
 }
 
 func (rs *InfoResource) CreateInfoPage(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +95,12 @@ func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 	infoSlug := chi.URLParam(r, "infoSlug")
 	foundInfo, err := rs.Infos.Get(infoSlug)
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 
 	infoRequest := &InfoPageRequest{}
@@ -116,7 +126,8 @@ func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 	foundInfo.UpdatedAt = time.Now()
 	err = rs.Infos.Update(foundInfo)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundInfo)
 }
@@ -124,7 +135,12 @@ func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 func (rs *InfoResource) GetAllInfoPages(w http.ResponseWriter, r *http.Request) {
 	foundInfos, err := rs.Infos.GetAll()
 	if err != nil {
-		panic(err)
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundInfos)
 }
