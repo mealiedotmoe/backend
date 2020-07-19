@@ -33,7 +33,7 @@ Run migrations
 
 `./backend migrate init`
 
-`./backend migrate`
+`./backend migrate up`
 
 Serve
 
