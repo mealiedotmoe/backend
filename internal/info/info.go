@@ -2,9 +2,8 @@ package info
 
 import "time"
 
-type Info struct {
+type InfoPage struct {
 	// TODO: Fix table name
-	tableName struct{} `pg:"markdowns"`
 	Title     string   `json:"title"`
 	Slug      string   `json:"slug" pg:",pk"`
 	Author    string   `json:"author"`
@@ -15,11 +14,11 @@ type Info struct {
 	UpdatedAt time.Time `json:"updated_at" pg:"updatedAt"`
 }
 
-// InfoStore defines database operations for Info posts.
+// InfoStore defines database operations for InfoPage posts.
 type InfoStore interface {
-	Get(slug string) (*Info, error)
-	GetAll() ([]*Info, error)
-	Create(info *Info) error
-	Update(info *Info) error
+	Get(slug string) (*InfoPage, error)
+	GetAll() ([]*InfoPage, error)
+	Create(info *InfoPage) error
+	Update(info *InfoPage) error
 	Delete(slug string) error
 }
