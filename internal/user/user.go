@@ -8,9 +8,6 @@ type User struct {
 	Birthday     time.Time `json:"birthday"`
 	Anilist      string    `json:"anilist"`
 	Waifu        string    `json:"waifu"`
-	DiscordToken string    `json:"discord_token" pg:",use_zero"`
-	Experience   int       `json:"experience" pg:",use_zero"`
-	Level        int       `json:"level" pg:",use_zero"`
 	Admin        bool      `json:"admin" pg:",use_zero"`
 }
 

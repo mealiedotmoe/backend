@@ -115,10 +115,7 @@ func (rs *AuthResource) updateOrCreatUser(discordUser *discordUserResponse, toke
 			newUser := &user.User{
 				Username:     discordUser.Username,
 				DiscordId:    discordUser.Id,
-				DiscordToken: token.AccessToken,
 				Admin:        false,
-				Experience:   0,
-				Level:        0,
 			}
 			err := rs.Users.Create(*newUser)
 			if err != nil {
@@ -132,7 +129,6 @@ func (rs *AuthResource) updateOrCreatUser(discordUser *discordUserResponse, toke
 		}
 	}
 	foundUser.Username = discordUser.Username
-	foundUser.DiscordToken = token.AccessToken
 	err = rs.Users.Update(*foundUser)
 	if err != nil {
 		log.Debugf("Error updating user %s - %s", foundUser.DiscordId, err)

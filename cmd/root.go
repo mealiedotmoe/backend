@@ -76,7 +76,7 @@ func initConfig() {
 	viper.SetDefault("database_url", "postgresql://mealie:password@localhost:5432/mealiedb?sslmode=disable")
 
 	// Discord Defaults
-	viper.SetDefault("discord_callback_url", "http://localhost:8810/api/v1/auth/callback")
+	viper.SetDefault("discord_callback_url", "http://localhost:8810/api/v2/auth/callback")
 
 	viper.SetEnvPrefix("mealie")
 	viper.AutomaticEnv() // read in environment variables that match
