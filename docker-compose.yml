@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: mealie
-      POSTGRES_PASSWORD: mealie-password
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: mealiedb
     volumes:
       - mealie-db-volume:/var/lib/postgresql/data
@@ -16,7 +16,7 @@ services:
     ports:
       - "8810:8810"
     environment:
-      - MEALIE_DATABASE_URL=postgresql://mealie:mealie-password@host.docker.internal:5432/mealiedb?sslmode=disable
+      - MEALIE_DATABASE_URL=postgresql://mealie:password@postgres-db:5432/mealiedb?sslmode=disable
       - MEALIE_PORT=0.0.0.0:8810
     volumes:
       - "./:/etc/mealiebackend"
