@@ -22,6 +22,7 @@ var serveCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if runMigrations {
+			migrate.Migrate([]string{"init"})
 			migrate.Migrate([]string{"up"})
 		}
 
