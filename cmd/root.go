@@ -77,6 +77,8 @@ func initConfig() {
 
 	// Discord Defaults
 	viper.SetDefault("discord_callback_url", "http://localhost:8810/api/v2/auth/callback")
+	viper.SetDefault("discord_join_url", "https://discord.gg/anime")
+	viper.SetDefault("discord_id", "148606162810568704")
 
 	viper.SetEnvPrefix("mealie")
 	viper.AutomaticEnv() // read in environment variables that match
