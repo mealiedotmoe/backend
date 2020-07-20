@@ -38,7 +38,7 @@ FROM gcr.io/distroless/static:latest
 COPY --from=builder /usr/src/app/backend /usr/local/bin/backend
 
 # Copy .version file
-COPY --from=builder /usr/src/app/.version /usr/local/bin/.version
+COPY --from=builder /usr/src/app/.version /app/.version
 
 WORKDIR /app
 
