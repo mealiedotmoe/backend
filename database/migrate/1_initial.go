@@ -654,7 +654,6 @@ func init() {
 		`DROP TABLE questions CASCADE`,
 		`DROP TABLE users CASCADE`,
 		`DROP TABLE palettes CASCADE`,
-
 	}
 
 	_ = migrations.Register(func(db migrations.DB) error {

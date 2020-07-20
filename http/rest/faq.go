@@ -54,6 +54,8 @@ func (rs *FaqResource) GetFaq(w http.ResponseWriter, r *http.Request) {
 type FaqRequest struct {
 	Title   string `json:"title"`
 	Content string `json:"content"`
+	Tag     string `json:"tag"`
+	Color   string `json:"color"`
 }
 
 func (rs *FaqResource) CreateFaq(w http.ResponseWriter, r *http.Request) {
@@ -78,6 +80,8 @@ func (rs *FaqResource) CreateFaq(w http.ResponseWriter, r *http.Request) {
 		Author:    authorId,
 		LastEdit:  authorId,
 		Content:   faqRequest.Content,
+		Tag:       faqRequest.Tag,
+		Color:     faqRequest.Color,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -122,8 +126,10 @@ func (rs *FaqResource) UpdateFaq(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	foundFaq.Content = faqRequest.Content
 	foundFaq.Title = faqRequest.Title
+	foundFaq.Content = faqRequest.Content
+	foundFaq.Tag = faqRequest.Tag
+	foundFaq.Color = faqRequest.Color
 	foundFaq.LastEdit = authorId
 	foundFaq.UpdatedAt = time.Now()
 	err = rs.Faqs.Update(foundFaq)

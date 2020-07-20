@@ -8,6 +8,8 @@ type Faq struct {
 	Author    string    `json:"author"`
 	LastEdit  string    `json:"last_edit"`
 	Content   string    `json:"content"`
+	Tag       string    `json:"tag"`
+	Color     string    `json:"color"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
