@@ -11,7 +11,7 @@ var reset bool
 var migrateCmd = &cobra.Command{
 	Use:   "migrate",
 	Short: "use go-pg migration tool",
-	Long:  `migrate uses go-pg migration tool under the hood supporting the same commands and an additional reset command`,
+	Long:  `migrate uses go-pg migration tool under the hood`,
 	Run: func(cmd *cobra.Command, args []string) {
 		migrate.Migrate(args)
 	},

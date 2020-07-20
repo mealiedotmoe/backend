@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	"github.com/mealiedotmoe/backend/database/migrate"
 	"github.com/mealiedotmoe/backend/http/rest"
 	"github.com/spf13/cobra"
 	"log"
@@ -12,11 +13,18 @@ import (
 	"os/signal"
 )
 
+var runMigrations bool
+
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "Serve the REST API",
 	Run: func(cmd *cobra.Command, args []string) {
+
+		if runMigrations {
+			migrate.Migrate([]string{"up"})
+		}
+
 		// REST API
 		server, err := rest.NewServer()
 		if err != nil {
@@ -46,4 +54,6 @@ func init() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	serveCmd.Flags().BoolVar(&runMigrations, "migrate", false, "run migrations before startup")
 }
