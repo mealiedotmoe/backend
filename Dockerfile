@@ -38,4 +38,4 @@ COPY --from=builder /usr/src/app/backend /usr/local/bin/backend
 
 WORKDIR /app
 
-ENTRYPOINT ["/usr/local/bin/backend"]
+ENTRYPOINT ["/usr/local/bin/backend", "serve"]
