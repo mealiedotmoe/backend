@@ -3,12 +3,12 @@ package user
 import "time"
 
 type User struct {
-	Username     string    `json:"username" pg:",use_zero"`
-	DiscordId    string    `json:"discord_id" pg:",pk,use_zero"`
-	Birthday     time.Time `json:"birthday"`
-	Anilist      string    `json:"anilist"`
-	Waifu        string    `json:"waifu"`
-	Admin        bool      `json:"admin" pg:",use_zero"`
+	Username  string    `json:"username" pg:",use_zero"`
+	DiscordId string    `json:"discord_id" pg:",pk,use_zero"`
+	Birthday  time.Time `json:"birthday"`
+	Anilist   string    `json:"anilist"`
+	Waifu     string    `json:"waifu"`
+	Admin     bool      `json:"admin" pg:",use_zero"`
 }
 
 // UserStore defines database operations for a user.

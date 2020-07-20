@@ -4,27 +4,25 @@ import (
 	"github.com/go-pg/migrations/v8"
 )
 
-const cleanup = `
-ALTER TABLE USERS
-DROP COLUMN discord_token,
-DROP COLUMN experience,
-DROP COLUMN level;
+const addTags = `
+ALTER TABLE faqs
+ADD COLUMN IF NOT EXISTS tag TEXT,
+ADD COLUMN IF NOT EXISTS color TEXT;
 `
 
-const clutter = `
-ALTER TABLE USERS
-ADD COLUMN discord_token character varying(255),
-ADD COLUMN experience integer DEFAULT 0 NOT NULL,
-ADD COLUMN level integer DEFAULT 0 NOT NULL;
+const remTags = `
+ALTER TABLE faqs
+DROP COLUMN tag,
+DROP COLUMN color;
 `
 
 func init() {
 	up := []string{
-		cleanup,
+		addTags,
 	}
 
 	down := []string{
-		clutter,
+		remTags,
 	}
 
 	_ = migrations.Register(func(db migrations.DB) error {

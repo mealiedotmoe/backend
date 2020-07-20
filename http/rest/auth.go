@@ -113,9 +113,9 @@ func (rs *AuthResource) updateOrCreatUser(discordUser *discordUserResponse, toke
 	if err != nil {
 		if err.Error() == pg.ErrNoRows.Error() {
 			newUser := &user.User{
-				Username:     discordUser.Username,
-				DiscordId:    discordUser.Id,
-				Admin:        false,
+				Username:  discordUser.Username,
+				DiscordId: discordUser.Id,
+				Admin:     false,
 			}
 			err := rs.Users.Create(*newUser)
 			if err != nil {
