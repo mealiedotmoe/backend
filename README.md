@@ -1,8 +1,15 @@
 # Backend API for mealie.moe
 
-How to set up environment:
+How to set up a dev environment:
 
-## Download and install Postgres 11
+## Docker
+
+If you have docker installed on your system, you can simply run `docker-compose up` to get a working instance of the
+latest stable docker image running and listening on `localhost:8810`
+
+## Manual (recommended for development)
+
+### Download and install Postgres 11
 
 `brew install postgresql`
 https://formulae.brew.sh/formula/postgresql
@@ -14,12 +21,12 @@ CREATE USER mealie WITH PASSWORD 'password';
 GRANT ALL PRIVILEGES ON DATABASE mealiedb TO mealie;
 ```
 
-## Download and install Go
+### Download and install Go
 
 `brew install Go`
 https://formulae.brew.sh/formula/go
 
-## Clone and Run
+### Clone and Run
 
 After cloning the repository, copy the example config and insert your own values
 
