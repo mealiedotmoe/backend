@@ -104,7 +104,8 @@ func (rs *PaletteResource) CreatePalette(w http.ResponseWriter, r *http.Request)
 			http.Error(w, http.StatusText(409), 409)
 			return
 		} else {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 	}
 	render.Respond(w, r, newPalette)
