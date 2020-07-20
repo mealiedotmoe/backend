@@ -60,6 +60,14 @@ type discordUserResponse struct {
 	PremiumType   int    `json:"premium_type"`
 }
 
+type discordGuild struct {
+	Id string `json:"id"`
+	Name string `json:"name"`
+	Icon string `json:"icon"`
+	Owner bool `json:"owner"`
+	Permissions int `json:"permissions"`
+}
+
 func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 	log := logging.NewLogger()
 	code, ok := r.URL.Query()["code"]
@@ -84,7 +92,6 @@ func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: look into non-defer closing https://www.joeshaw.org/dont-defer-close-on-writable-files/
 	defer response.Body.Close()
 	discordUser := &discordUserResponse{}
 	err = json.NewDecoder(response.Body).Decode(discordUser)
@@ -92,6 +99,37 @@ func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 		log.Debug("Error decoding body")
 		log.Debug(err)
 		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	// Get list of user's guilds
+	guildResponse, err := rs.Discord.Client(r.Context(), token).Get("https://discordapp.com/api/users/@me/guilds")
+	if err != nil {
+		log.Debug("Error getting current User's guilds")
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+	if guildResponse.StatusCode != http.StatusOK {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	// Parse guild response
+	guilds := []discordGuild{}
+	err = json.NewDecoder(guildResponse.Body).Decode(&guilds)
+	if err != nil {
+		log.Errorf("Error decoding guild response: %s", err)
+	}
+	// Check if in guild, redirect otherwise
+	var inGuild bool
+	for _, guild := range guilds {
+		if guild.Id == viper.GetString("discord_id") {
+			inGuild = true
+		}
+	}
+	if !inGuild {
+		log.Infof("User %s is not in guild, redirecting to login", discordUser.Id)
+		http.Redirect(w, r, viper.GetString("discord_join_url"), http.StatusFound)
 		return
 	}
 
