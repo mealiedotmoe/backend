@@ -19,5 +19,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: dashwav/mealiebackend
+          tags: stable
           tag_with_ref: true
           push: ${{ startsWith(github.ref, 'refs/tags/') }}

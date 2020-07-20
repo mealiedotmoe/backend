@@ -11,7 +11,7 @@ services:
     volumes:
       - mealie-db-volume:/var/lib/postgresql/data
   backend:
-    image: dashwav/mealiebackend:v2.0.3
+    image: dashwav/mealiebackend:stable
     command: ["/usr/local/bin/backend", "serve", "--migrate"]
     ports:
       - "8810:8810"
