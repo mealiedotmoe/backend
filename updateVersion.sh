@@ -1,2 +1,3 @@
 #!/bin/sh
-echo -n "$GITHUB_REF-$GITHUB_SHA" > './.version'
+version=${GITHUB_REF#refs/tags/}
+echo -n "$version-$GITHUB_SHA" > './.version'
