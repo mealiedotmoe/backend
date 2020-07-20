@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  postgres-db:
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: mealie
+      POSTGRES_PASSWORD: mealie-password
+      POSTGRES_DB: mealiedb
+    volumes:
+      - mealie-db-volume:/var/lib/postgresql/data
+  backend:
+    image: dashwav/mealiebackend:v2.0.3
+    command: ["/usr/local/bin/backend", "serve", "--migrate"]
+    ports:
+      - "8810:8810"
+    environment:
+      - MEALIE_DATABASE_URL=postgresql://mealie:mealie-password@host.docker.internal:5432/mealiedb?sslmode=disable
+      - MEALIE_PORT=0.0.0.0:8810
+    volumes:
+      - "./:/etc/mealiebackend"
+    depends_on:
+      - postgres-db
+
+volumes:
+  mealie-db-volume:
