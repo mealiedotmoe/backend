@@ -34,7 +34,11 @@ RUN GIT_TERMINAL_PROMPT=1 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflag
 ############################
 FROM gcr.io/distroless/static:latest
 
+# Copy our static executable
 COPY --from=builder /usr/src/app/backend /usr/local/bin/backend
+
+# Copy .version file
+COPY --from=builder /usr/src/app/.version /usr/src/app/.version
 
 WORKDIR /app
 
