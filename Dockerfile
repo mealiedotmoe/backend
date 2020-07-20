@@ -38,7 +38,7 @@ FROM gcr.io/distroless/static:latest
 COPY --from=builder /usr/src/app/backend /usr/local/bin/backend
 
 # Copy .version file
-COPY --from=builder /usr/src/app/.version /etc/mealiebackend/.version
+COPY --from=builder /usr/src/app/.version /usr/local/bin/.version
 
 WORKDIR /app
 
