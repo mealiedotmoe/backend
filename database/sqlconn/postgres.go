@@ -3,11 +3,14 @@ package sqlconn
 import (
 	"context"
 	"github.com/go-pg/pg/v10"
+	"github.com/mealiedotmoe/backend/logging"
 	"github.com/spf13/viper"
 	"log"
+	"time"
 )
 
 func DBConn() (*pg.DB, error) {
+	logs := logging.NewLogger()
 	opts, err := pg.ParseURL(viper.GetString("database_url"))
 	if err != nil {
 		return nil, err
@@ -15,6 +18,11 @@ func DBConn() (*pg.DB, error) {
 
 	db := pg.Connect(opts)
 	if err := checkConn(db); err != nil {
+		err := retry(logs, time.Second * 5, time.Second * 60, func() error {
+			db = pg.Connect(opts)
+			err = checkConn(db)
+			return err
+		})
 		return nil, err
 	}
 
