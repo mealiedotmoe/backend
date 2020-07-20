@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/render"
 	"github.com/go-pg/pg/v10"
 	"github.com/mealiedotmoe/backend/internal/faq"
+	"github.com/mealiedotmoe/backend/logging"
 	"net/http"
 	"strconv"
 	"time"
@@ -94,8 +95,10 @@ func (rs *FaqResource) CreateFaq(w http.ResponseWriter, r *http.Request) {
 }
 
 func (rs *FaqResource) UpdateFaq(w http.ResponseWriter, r *http.Request) {
+	logger := logging.NewLogger()
 	faqId, err := strconv.Atoi(chi.URLParam(r, "faqId"))
 	if err != nil {
+		logger.Errorf("Error getting faqId param: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
@@ -105,6 +108,7 @@ func (rs *FaqResource) UpdateFaq(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, http.StatusText(404), 404)
 			return
 		}
+		logger.Errorf("Error finding faq: %v - %s", faqId, err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
@@ -112,16 +116,19 @@ func (rs *FaqResource) UpdateFaq(w http.ResponseWriter, r *http.Request) {
 	faqRequest := &FaqRequest{}
 	err = json.NewDecoder(r.Body).Decode(faqRequest)
 	if err != nil {
+		logger.Errorf("Invalid body passed in: %s", err)
 		http.Error(w, http.StatusText(422), 422)
 		return
 	}
 	token, err := extractToken(r.Context())
 	if err != nil {
+		logger.Errorf("Error extracting token: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 	authorId, ok := token.Claims.(jwt.MapClaims)["sub"].(string)
 	if !ok {
+		logger.Errorf("Error retrieving authorId: %s", err)
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
@@ -134,7 +141,9 @@ func (rs *FaqResource) UpdateFaq(w http.ResponseWriter, r *http.Request) {
 	foundFaq.UpdatedAt = time.Now()
 	err = rs.Faqs.Update(foundFaq)
 	if err != nil {
-		panic(err)
+		logger.Errorf("Error saving faq: %s", err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	render.Respond(w, r, foundFaq)
 }

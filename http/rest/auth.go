@@ -70,14 +70,17 @@ func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 	token, err := rs.Discord.Exchange(r.Context(), code[0])
 	if err != nil {
 		log.Debug("Error exchanging code for token")
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	response, err := rs.Discord.Client(r.Context(), token).Get("https://discordapp.com/api/users/@me")
 	if err != nil {
 		log.Debug("Error getting current User")
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 	if response.StatusCode != http.StatusOK {
+		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 
@@ -88,18 +91,21 @@ func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Debug("Error decoding body")
 		log.Debug(err)
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 
 	updatedUser, err := rs.updateOrCreatUser(discordUser, token)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 
 	newJWT, err := createNewToken(updatedUser)
 	if err != nil {
 		log.Debugf("Error generating new token: %s", err)
-		panic(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 
 	mealieCallback := viper.GetString("mealie_callback") + "?token=" + newJWT
