@@ -18,12 +18,14 @@ func DBConn() (*pg.DB, error) {
 
 	db := pg.Connect(opts)
 	if err := checkConn(db); err != nil {
-		err := retry(logs, time.Second * 5, time.Second * 60, func() error {
+		connErr := retry(logs, time.Second * 5, time.Second * 60, func() error {
 			db = pg.Connect(opts)
 			err = checkConn(db)
 			return err
 		})
-		return nil, err
+		if connErr != nil {
+			return nil, connErr
+		}
 	}
 
 	if viper.GetBool("db_debug") {
