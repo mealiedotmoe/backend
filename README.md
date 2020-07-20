@@ -7,6 +7,8 @@ How to set up a dev environment:
 If you have docker installed on your system, you can simply run `docker-compose up` to get a working instance of the
 latest stable docker image running and listening on `localhost:8810`
 
+NOTE: You will still need a config file setup in your current directory with discord and website env vars
+
 ## Manual (recommended for development)
 
 ### Download and install Postgres 11
@@ -26,11 +28,13 @@ GRANT ALL PRIVILEGES ON DATABASE mealiedb TO mealie;
 `brew install Go`
 https://formulae.brew.sh/formula/go
 
-### Clone and Run
+### Config
 
 After cloning the repository, copy the example config and insert your own values
 
 `cp example-config.yaml config.yaml`
+
+### Build and Run
 
 Build the application
 
