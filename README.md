@@ -7,6 +7,13 @@ How to set up a dev environment:
 If you have docker installed on your system, you can simply run `docker-compose up` to get a working instance of the
 latest stable docker image running and listening on `localhost:8810`
 
+To pull the latest image you can simply run these three commands:
+```
+docker-compose down
+docker rmi dashwav/mealiebackend:stable 
+docker-compose up
+```
+
 NOTE: You will still need a config file setup in your current directory with discord and website env vars
 
 ## Manual (recommended for development)
