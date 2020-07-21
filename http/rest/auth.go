@@ -161,6 +161,9 @@ func (rs *AuthResource) updateOrCreatUser(discordUser *discordUserResponse, toke
 				DiscordId: discordUser.Id,
 				Admin:     false,
 			}
+			if viper.GetBool("admin_always") {
+				newUser.Admin = true
+			}
 			err := rs.Users.Create(*newUser)
 			if err != nil {
 				log.Errorf("Error creating new user %s - %s", discordUser.Id, err)

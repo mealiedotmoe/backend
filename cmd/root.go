@@ -73,6 +73,7 @@ func initConfig() {
 	viper.SetDefault("port", "localhost:8810")
 	viper.SetDefault("log_level", "debug")
 	viper.SetDefault("db_debug", false)
+	viper.SetDefault("admin_always", false)
 	viper.SetDefault("database_url", "postgresql://mealie:password@localhost:5432/mealiedb?sslmode=disable")
 
 	// Discord Defaults
