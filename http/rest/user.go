@@ -42,7 +42,7 @@ func (rs *UserResource) GetCurrentUser(w http.ResponseWriter, r *http.Request) {
 	}
 	foundUser, err := rs.Users.Get(userId)
 	if err != nil {
-		logger.Error("Error finding user (id: %v): %s", userId, err)
+		logger.Errorf("Error finding user (id: %v): %s", userId, err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
@@ -58,7 +58,7 @@ func (rs *UserResource) GetUser(w http.ResponseWriter, r *http.Request) {
 	}
 	foundUser, err := rs.Users.Get(userId)
 	if err != nil {
-		logger.Error("Error finding user (id: %v): %s", userId, err)
+		logger.Errorf("Error finding user (id: %v): %s", userId, err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
@@ -69,7 +69,7 @@ func (rs *UserResource) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	logger := logging.NewLogger()
 	foundUsers, err := rs.Users.GetAll()
 	if err != nil {
-		logger.Error("Error finding users: %s", err)
+		logger.Errorf("Error finding users: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
