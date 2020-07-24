@@ -146,7 +146,22 @@ func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mealieCallback := viper.GetString("mealie_callback") + "?token=" + newJWT
+	// Create cookie for session
+	seshCookie := http.Cookie{
+		Name:     "session-jwt",
+		Value:    newJWT,
+		Expires:  time.Now().Add(time.Hour * 24 * 7),
+		HttpOnly: true,
+	}
+	if viper.GetBool("dev") {
+		seshCookie.Domain = "localhost"
+	} else {
+		// If it is running in prod, we need to create the cookie with secure enabled
+		seshCookie.Secure = true
+		seshCookie.Domain = "mealie.moe"
+	}
+	http.SetCookie(w, &seshCookie)
+	mealieCallback := viper.GetString("mealie_callback")
 	http.Redirect(w, r, mealieCallback, http.StatusFound)
 	return
 }

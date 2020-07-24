@@ -7,7 +7,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
 	"net/http"
-	"strings"
 )
 
 func extractToken(ctx context.Context) (*jwt.Token, error) {
@@ -20,13 +19,16 @@ func extractToken(ctx context.Context) (*jwt.Token, error) {
 
 func VerifyAuthToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		bearer := r.Header.Get("Authorization")
-		if bearer == "" {
+		tokenString, err := r.Cookie("session-jwt")
+		if err != nil {
 			http.Error(w, http.StatusText(401), 401)
 			return
 		}
-		tokenString := strings.Split(bearer, " ")
-		token, err := jwt.Parse(tokenString[1], func(token *jwt.Token) (interface{}, error) {
+		if tokenString.Value == "" {
+			http.Error(w, http.StatusText(401), 401)
+			return
+		}
+		token, err := jwt.Parse(tokenString.Value, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method %v", token.Header["alg"])
 			}
