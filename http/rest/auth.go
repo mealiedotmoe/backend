@@ -152,7 +152,7 @@ func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 		Value:    newJWT,
 		Expires:  time.Now().Add(time.Hour * 24 * 7),
 		HttpOnly: true,
-		Path: 	  "/"
+		Path: 	  "/",
 	}
 	if viper.GetBool("dev") {
 		seshCookie.Domain = "localhost"
