@@ -13,7 +13,7 @@ var cfgFile string
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "mealie-backend",
+	Use:   "backend",
 	Short: "Backend API for mealie.moe",
 }
 
@@ -74,6 +74,7 @@ func initConfig() {
 	viper.SetDefault("log_level", "debug")
 	viper.SetDefault("db_debug", false)
 	viper.SetDefault("admin_always", false)
+	viper.SetDefault("dev", false)
 	viper.SetDefault("database_url", "postgresql://mealie:password@localhost:5432/mealiedb?sslmode=disable")
 
 	// Discord Defaults

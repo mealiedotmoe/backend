@@ -57,4 +57,7 @@ Serve
 
 `./backend serve`
 
+## Authentication
+The backend will add a token `session-jwt` to the redirection response from /auth/login.
+If you grab the token out of the browser, you can add it to insomnia for authentication on all routes
 
