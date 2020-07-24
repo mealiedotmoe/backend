@@ -19,6 +19,7 @@ services:
       - MEALIE_DATABASE_URL=postgresql://mealie:password@postgres-db:5432/mealiedb?sslmode=disable
       - MEALIE_PORT=0.0.0.0:8810
       - MEALIE_ADMIN_ALWAYS=true
+      - MEALIE_DEV=true
     volumes:
       - "./:/etc/mealiebackend"
     depends_on:
