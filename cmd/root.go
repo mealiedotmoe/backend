@@ -75,6 +75,7 @@ func initConfig() {
 	viper.SetDefault("db_debug", false)
 	viper.SetDefault("admin_always", false)
 	viper.SetDefault("dev", false)
+	viper.SetDefault("enable_cors", true)
 	viper.SetDefault("database_url", "postgresql://mealie:password@localhost:5432/mealiedb?sslmode=disable")
 
 	// Discord Defaults
