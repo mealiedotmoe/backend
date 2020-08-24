@@ -25,9 +25,9 @@ func NewUserResource(store user.UserStore) *UserResource {
 
 func (rs *UserResource) Router() *chi.Mux {
 	r := chi.NewRouter()
-	r.Get("/me", rs.GetCurrentUser)
+	r.With(VerifyAuthToken).Get("/me", rs.GetCurrentUser)
 	r.Get("/{userId}", rs.GetUser)
-	r.With(CheckAdmin).Get("/", rs.GetAllUsers)
+	r.With(VerifyAuthToken, CheckAdmin).Get("/", rs.GetAllUsers)
 	return r
 }
 

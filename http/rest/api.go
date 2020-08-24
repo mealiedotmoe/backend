@@ -66,7 +66,7 @@ func NewAPI(db *pg.DB) (*API, error) {
 func (a *API) Router() *chi.Mux {
 	r := chi.NewRouter()
 	r.Mount("/auth", a.Auth.Router())
-	r.With(VerifyAuthToken).Mount("/user", a.User.Router())
+	r.Mount("/user", a.User.Router())
 	r.Mount("/faq", a.Faq.Router())
 	r.Mount("/info", a.Info.Router())
 	r.With(VerifyAuthToken).Mount("/palette/me", a.Palette.Router())
