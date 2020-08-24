@@ -12,6 +12,8 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
 	"github.com/spf13/viper"
+	"github.com/unrolled/secure"
+
 )
 
 // Server provides an http.Server.
@@ -48,6 +50,9 @@ func New(enableCORS bool) (*chi.Mux, error) {
 	if enableCORS {
 		r.Use(corsConfig().Handler)
 	}
+
+	// Various security headers
+	r.Use(secureMiddleware.Handler)
 
 	r.Group(func(r chi.Router) {
 		r.Mount("/api/v2", appAPI.Router())
@@ -111,7 +116,6 @@ func (srv *Server) Start() {
 
 func corsConfig() *cors.Cors {
 	if viper.GetBool("dev") {
-		println("test")
 		// Basic CORS
 		// for more ideas, see: https://developer.github.com/v3/#cross-origin-resource-sharing
 		return cors.New(cors.Options{
@@ -138,3 +142,18 @@ func corsConfig() *cors.Cors {
 		MaxAge:           86400, // Maximum value not ignored by any of major browsers
 	})
 }
+
+// secureOptions is the set of parameters we are using to initialize the unrolled/secure library
+var secureOptions = secure.Options{
+	IsDevelopment:        !viper.GetBool("dev"),
+	BrowserXssFilter:     true,
+	FrameDeny:            true,
+	SSLRedirect:          true,
+	STSIncludeSubdomains: false,
+	STSSeconds:           3600,
+	STSPreload:           true,
+}
+
+// secureMiddleware is the configuration we are using for the unrolled/secure library
+var secureMiddleware = secure.New(secureOptions)
+
