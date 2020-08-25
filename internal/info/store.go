@@ -22,9 +22,14 @@ func (s *pgStore) Get(slug string) (*InfoPage, error) {
 	return &u, err
 }
 
-func (s *pgStore) GetAll() ([]*InfoPage, error) {
+func (s *pgStore) GetAll(includeHidden bool) ([]*InfoPage, error) {
 	u := []*InfoPage{}
-	err := s.db.Model(&u).Select()
+	var err error
+	if includeHidden {
+		err = s.db.Model(&u).Select()
+	} else {
+		err = s.db.Model(&u).Where("hidden = false").Select()
+	}
 	return u, err
 }
 

@@ -8,6 +8,7 @@ type InfoPage struct {
 	Author    string    `json:"author"`
 	LastEdit  string    `json:"last_edit"`
 	Content   string    `json:"content"`
+	Hidden	  bool `json:"hidden"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -15,7 +16,7 @@ type InfoPage struct {
 // InfoStore defines database operations for InfoPage posts.
 type InfoStore interface {
 	Get(slug string) (*InfoPage, error)
-	GetAll() ([]*InfoPage, error)
+	GetAll(includeHidden bool) ([]*InfoPage, error)
 	Create(info *InfoPage) error
 	Update(info *InfoPage) error
 	Delete(slug string) error

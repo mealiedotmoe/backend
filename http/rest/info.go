@@ -26,6 +26,7 @@ func NewInfoResource(store info.InfoStore) *InfoResource {
 func (rs *InfoResource) Router() *chi.Mux {
 	r := chi.NewRouter()
 	r.Get("/", rs.GetAllInfoPages)
+	r.With(VerifyAuthToken, CheckAdmin).Get("/all", rs.GetAllInfoPagesAdmin)
 	r.With(VerifyAuthToken, CheckAdmin).Post("/", rs.CreateInfoPage)
 	r.With(VerifyAuthToken, CheckAdmin).Put("/{infoSlug}", rs.UpdateInfoPage)
 	r.Get("/{infoSlug}", rs.GetInfoPage)
@@ -75,6 +76,7 @@ func (rs *InfoResource) CreateInfoPage(w http.ResponseWriter, r *http.Request) {
 		LastEdit:  authorId,
 		Content:   infoRequest.Content,
 		Slug:      infoRequest.Slug,
+		Hidden: false,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -134,7 +136,20 @@ func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (rs *InfoResource) GetAllInfoPages(w http.ResponseWriter, r *http.Request) {
-	foundInfos, err := rs.Infos.GetAll()
+	foundInfos, err := rs.Infos.GetAll(false)
+	if err != nil {
+		if err.Error() == pg.ErrNoRows.Error() {
+			http.Error(w, http.StatusText(404), 404)
+			return
+		}
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+	render.Respond(w, r, foundInfos)
+}
+
+func (rs *InfoResource) GetAllInfoPagesAdmin(w http.ResponseWriter, r *http.Request) {
+	foundInfos, err := rs.Infos.GetAll(true)
 	if err != nil {
 		if err.Error() == pg.ErrNoRows.Error() {
 			http.Error(w, http.StatusText(404), 404)
