@@ -8,7 +8,7 @@ type InfoPage struct {
 	Author    string    `json:"author"`
 	LastEdit  string    `json:"last_edit"`
 	Content   string    `json:"content"`
-	Hidden    bool      `json:"hidden"`
+	Hidden    bool      `json:"hidden" pg:",use_zero"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
