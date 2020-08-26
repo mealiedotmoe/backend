@@ -61,11 +61,11 @@ type discordUserResponse struct {
 }
 
 type discordGuild struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
-	Icon string `json:"icon"`
-	Owner bool `json:"owner"`
-	Permissions int `json:"permissions"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	Icon        string `json:"icon"`
+	Owner       bool   `json:"owner"`
+	Permissions int    `json:"permissions"`
 }
 
 func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
@@ -152,7 +152,7 @@ func (rs *AuthResource) AuthCallback(w http.ResponseWriter, r *http.Request) {
 		Value:    newJWT,
 		Expires:  time.Now().Add(time.Hour * 24 * 7),
 		HttpOnly: true,
-		Path: 	  "/",
+		Path:     "/",
 	}
 	if viper.GetBool("dev") {
 		seshCookie.Domain = "localhost"

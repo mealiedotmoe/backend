@@ -81,7 +81,7 @@ func (rs *InfoResource) CreateInfoPage(w http.ResponseWriter, r *http.Request) {
 		LastEdit:  authorId,
 		Content:   infoRequest.Content,
 		Slug:      infoRequest.Slug,
-		Hidden: false,
+		Hidden:    false,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}

@@ -13,7 +13,6 @@ import (
 	"github.com/go-chi/render"
 	"github.com/spf13/viper"
 	"github.com/unrolled/secure"
-
 )
 
 // Server provides an http.Server.
@@ -156,4 +155,3 @@ var secureOptions = secure.Options{
 
 // secureMiddleware is the configuration we are using for the unrolled/secure library
 var secureMiddleware = secure.New(secureOptions)
-

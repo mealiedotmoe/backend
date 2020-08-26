@@ -1,4 +1,5 @@
 package sqlconn
+
 import (
 	"errors"
 	"github.com/sirupsen/logrus"

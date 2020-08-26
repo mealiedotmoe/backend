@@ -1,7 +1,7 @@
 package migrate
 
 import (
-"github.com/go-pg/migrations/v8"
+	"github.com/go-pg/migrations/v8"
 )
 
 func init() {
