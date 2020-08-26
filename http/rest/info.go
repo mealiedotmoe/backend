@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/render"
 	"github.com/go-pg/pg/v10"
 	"github.com/mealiedotmoe/backend/internal/info"
+	"github.com/mealiedotmoe/backend/logging"
 	"net/http"
 	"time"
 )
@@ -54,19 +55,23 @@ type InfoPageRequest struct {
 }
 
 func (rs *InfoResource) CreateInfoPage(w http.ResponseWriter, r *http.Request) {
+	log := logging.NewLogger()
 	infoRequest := &InfoPageRequest{}
 	err := json.NewDecoder(r.Body).Decode(infoRequest)
 	if err != nil {
+		log.Errorf("error decoding json: %s", err)
 		http.Error(w, http.StatusText(422), 422)
 		return
 	}
 	token, err := extractToken(r.Context())
 	if err != nil {
+		log.Errorf("error extracting token: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 	authorId, ok := token.Claims.(jwt.MapClaims)["sub"].(string)
 	if !ok {
+		log.Errorf("error extracting id from token: %s", err)
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
@@ -84,9 +89,11 @@ func (rs *InfoResource) CreateInfoPage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		pgErr, ok := err.(pg.Error)
 		if ok && pgErr.IntegrityViolation() {
+			log.Errorf("error creating info page: %s", err)
 			http.Error(w, http.StatusText(409), 409)
 			return
 		} else {
+			log.Errorf("error creating info page: %s", err)
 			http.Error(w, http.StatusText(500), 500)
 			return
 		}
@@ -95,6 +102,7 @@ func (rs *InfoResource) CreateInfoPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
+	log := logging.NewLogger()
 	infoSlug := chi.URLParam(r, "infoSlug")
 	foundInfo, err := rs.Infos.Get(infoSlug)
 	if err != nil {
@@ -102,6 +110,7 @@ func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, http.StatusText(404), 404)
 			return
 		}
+		log.Errorf("error finding info page: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
@@ -109,16 +118,19 @@ func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 	infoRequest := &InfoPageRequest{}
 	err = json.NewDecoder(r.Body).Decode(infoRequest)
 	if err != nil {
+		log.Errorf("error decoding json: %s", err)
 		http.Error(w, http.StatusText(422), 422)
 		return
 	}
 	token, err := extractToken(r.Context())
 	if err != nil {
+		log.Errorf("error extracting token: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 	authorId, ok := token.Claims.(jwt.MapClaims)["sub"].(string)
 	if !ok {
+		log.Errorf("error extracting user id from token: %s", err)
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
@@ -129,6 +141,7 @@ func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 	foundInfo.UpdatedAt = time.Now()
 	err = rs.Infos.Update(foundInfo)
 	if err != nil {
+		log.Errorf("error updating info page: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
@@ -136,12 +149,14 @@ func (rs *InfoResource) UpdateInfoPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (rs *InfoResource) GetAllInfoPages(w http.ResponseWriter, r *http.Request) {
+	log := logging.NewLogger()
 	foundInfos, err := rs.Infos.GetAll(false)
 	if err != nil {
 		if err.Error() == pg.ErrNoRows.Error() {
 			http.Error(w, http.StatusText(404), 404)
 			return
 		}
+		log.Errorf("error finding info page: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
@@ -149,12 +164,14 @@ func (rs *InfoResource) GetAllInfoPages(w http.ResponseWriter, r *http.Request) 
 }
 
 func (rs *InfoResource) GetAllInfoPagesAdmin(w http.ResponseWriter, r *http.Request) {
+	log := logging.NewLogger()
 	foundInfos, err := rs.Infos.GetAll(true)
 	if err != nil {
 		if err.Error() == pg.ErrNoRows.Error() {
 			http.Error(w, http.StatusText(404), 404)
 			return
 		}
+		log.Errorf("error finding info page: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}

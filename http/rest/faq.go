@@ -60,19 +60,23 @@ type FaqRequest struct {
 }
 
 func (rs *FaqResource) CreateFaq(w http.ResponseWriter, r *http.Request) {
+	log := logging.NewLogger()
 	faqRequest := &FaqRequest{}
 	err := json.NewDecoder(r.Body).Decode(faqRequest)
 	if err != nil {
+		log.Errorf("error decoding json: %s", err)
 		http.Error(w, http.StatusText(422), 422)
 		return
 	}
 	token, err := extractToken(r.Context())
 	if err != nil {
+		log.Errorf("error extracting token: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 	authorId, ok := token.Claims.(jwt.MapClaims)["sub"].(string)
 	if !ok {
+		log.Errorf("error extract authorId from token: %s", err)
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
@@ -88,6 +92,7 @@ func (rs *FaqResource) CreateFaq(w http.ResponseWriter, r *http.Request) {
 	}
 	err = rs.Faqs.Create(newFaq)
 	if err != nil {
+		log.Errorf("error creating faq: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
@@ -149,12 +154,14 @@ func (rs *FaqResource) UpdateFaq(w http.ResponseWriter, r *http.Request) {
 }
 
 func (rs *FaqResource) GetAllFaqs(w http.ResponseWriter, r *http.Request) {
+	log := logging.NewLogger()
 	foundFaqs, err := rs.Faqs.GetAll()
 	if err != nil {
 		if err.Error() == pg.ErrNoRows.Error() {
 			http.Error(w, http.StatusText(404), 404)
 			return
 		}
+		log.Errorf("error retrieving faqs: %s", err)
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
