@@ -43,15 +43,15 @@ func New(enableCORS bool) (*chi.Mux, error) {
 	r.Use(middleware.Timeout(15 * time.Second))
 
 	r.Use(logging.NewStructuredLogger(logger))
+
+	// Various security headers
+	r.Use(secureMiddleware.Handler)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
 	// use CORS middleware if client is not served by this api, e.g. from other domain or CDN
 	if enableCORS {
 		r.Use(corsConfig().Handler)
 	}
-
-	// Various security headers
-	r.Use(secureMiddleware.Handler)
 
 	r.Group(func(r chi.Router) {
 		r.Mount("/api/v2", appAPI.Router())
@@ -151,6 +151,7 @@ var secureOptions = secure.Options{
 	STSIncludeSubdomains: false,
 	STSSeconds:           3600,
 	STSPreload:           true,
+	HostsProxyHeaders:    []string{"X-Forwarded-Host"},
 	SSLProxyHeaders:      map[string]string{"X-Forwarded-Proto": "https"},
 }
 
