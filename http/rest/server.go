@@ -144,7 +144,7 @@ func corsConfig() *cors.Cors {
 
 // secureOptions is the set of parameters we are using to initialize the unrolled/secure library
 var secureOptions = secure.Options{
-	IsDevelopment:        !viper.GetBool("dev"),
+	IsDevelopment:        viper.GetBool("dev"),
 	BrowserXssFilter:     true,
 	FrameDeny:            true,
 	SSLRedirect:          true,
