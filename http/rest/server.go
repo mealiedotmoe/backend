@@ -151,6 +151,7 @@ var secureOptions = secure.Options{
 	STSIncludeSubdomains: false,
 	STSSeconds:           3600,
 	STSPreload:           true,
+	SSLProxyHeaders:      map[string]string{"X-Forwarded-Proto": "https"},
 }
 
 // secureMiddleware is the configuration we are using for the unrolled/secure library
