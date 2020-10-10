@@ -150,7 +150,7 @@ var secureOptions = secure.Options{
 	SSLRedirect:          true,
 	STSIncludeSubdomains: false,
 	STSSeconds:           3600,
-	STSPreload:           true,
+	STSPreload:           false,
 	HostsProxyHeaders:    []string{"X-Forwarded-Host"},
 	SSLProxyHeaders:      map[string]string{"X-Forwarded-Proto": "https"},
 }
