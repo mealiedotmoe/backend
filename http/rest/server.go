@@ -149,7 +149,7 @@ var secureOptions = secure.Options{
 	FrameDeny:            true,
 	SSLRedirect:          true,
 	STSIncludeSubdomains: false,
-	STSSeconds:           3600,
+	STSSeconds:           31536000,
 	STSPreload:           false,
 	HostsProxyHeaders:    []string{"X-Forwarded-Host"},
 	SSLProxyHeaders:      map[string]string{"X-Forwarded-Proto": "https"},
